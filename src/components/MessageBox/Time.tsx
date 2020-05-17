@@ -1,35 +1,45 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { DateTime } from 'luxon';
 
-const useParseDate = (date: DateTime) => {
-    const parse = useCallback(() => {
-        const difference = date.diffNow('minute').minutes;
+const useParseDate = (dateISO: string) => {
+    const dateTime = useMemo(() => DateTime.fromISO(dateISO).setLocale('en-US'), [dateISO]);
 
-        if (date.hasSame(DateTime.local(), 'day')) {
-            return [date.toRelative(), difference] as const;
+    const parseDate = useCallback((): [string | null, number] => {
+        const diff = dateTime.diffNow('minute').minutes;
+        const suggestedInterval = (diff > -1) ? 1000 : 60 * 1000;
+
+        if (dateTime.hasSame(DateTime.local(), 'day')) {
+            return [dateTime.toRelative(), suggestedInterval];
         }
-        if (date.diffNow('day').days > -2) {
+        if (dateTime.diffNow('day').days > -2) {
             return [
-                `${date.toRelativeCalendar()}, ${date.toLocaleString(DateTime.TIME_SIMPLE)}`,
-                difference,
-            ] as const;
+                `${dateTime.toRelativeCalendar()}, ${dateTime.toLocaleString(DateTime.TIME_SIMPLE)}`,
+                suggestedInterval,
+            ];
         }
 
-        return [date.toLocaleString(DateTime.DATETIME_MED), difference] as const;
-    }, [date]);
+        return [dateTime.toLocaleString(DateTime.DATETIME_MED), suggestedInterval];
+    }, [dateTime]);
 
-    const [parsedDate, setParsedDate] = useState(parse()[0]);
+    const [[parsed, interval], setDateState] = useState(parseDate);
 
     useEffect(() => {
-        const [parsed, diff] = parse();
-        const interval = (diff < 1) ? 1000 : 60 * 1000;
+        const handleTick = () => {
+            const newState = parseDate();
+            const [newParsed, newInterval] = newState;
 
-        const tick = () => setParsedDate(parsed);
-        const id = setInterval(tick, interval);
-        return () => clearInterval(id);
-    }, [parse]);
+            if (newParsed !== parsed || newInterval !== interval) {
+                setDateState(newState);
+            }
+        };
 
-    return parsedDate;
+        const fn = () => window.requestAnimationFrame(handleTick);
+        const timeoutID = setTimeout(fn, interval);
+
+        return () => clearTimeout(timeoutID);
+    }, [parseDate, interval, parsed]);
+
+    return [parsed, dateTime] as const;
 };
 
 type ITimeProps = React.DetailedHTMLProps<React.TimeHTMLAttributes<HTMLElement>, HTMLElement> & {
@@ -37,8 +47,7 @@ type ITimeProps = React.DetailedHTMLProps<React.TimeHTMLAttributes<HTMLElement>,
 };
 
 const Time: React.FC<ITimeProps> = ({ time, ...rest }) => {
-    const date = DateTime.fromISO(time).setLocale('en-US');
-    const parsedDate = useParseDate(date);
+    const [parsedDate, date] = useParseDate(time);
 
     return (
         <time
