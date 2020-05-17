@@ -1,0 +1,40 @@
+.root {
+    display: flex;
+    flex-direction: row;
+    margin: 16px 0;
+}
+
+/* .container {
+    display: flex;
+} */
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background-color: grey;
+    margin-right: 16px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.firstRow {
+    display: flex;
+    margin-bottom: 4px;
+}
+
+.nickname {
+    font-weight: 500;
+    margin-right: 8px;
+    color: hsl(204, 70%, 53%);
+}
+
+.createdAt {
+    color: grey;
+}
+
+.content {
+    color: hsl(210, 3%, 87%);
+}

@@ -1,0 +1,27 @@
+module.exports = {
+    extends: ['react-app', 'eslint-config-airbnb-typescript'],
+    parserOptions: {
+        project: './tsconfig.json',
+        ecmaVersion: 2020,
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module',
+    },
+    rules: {
+        '@typescript-eslint/indent': ['warn', 4, { SwitchCase: 1 }],
+        'arrow-body-style': 0,
+        'linebreak-style': ['warn', 'windows'],
+        'no-alert': 0,
+        'no-console': 0,
+        'no-param-reassign': ['warn', { 'props': false }],
+        'no-tabs': 0,
+        'no-multiple-empty-lines': ['warn', { max: 3, maxEOF: 1, maxBOF: 0 }],
+        'object-curly-newline': ['warn', { 'consistent': true }],
+        'react/jsx-curly-newline': 0,
+        'react/jsx-indent': ['warn', 4],
+        'react/jsx-indent-props': ['warn', 4],
+        'react/jsx-props-no-spreading': 0,
+        'react/jsx-one-expression-per-line': 0,
+        'react/no-children-prop': 0,
+        'react/prop-types': 0,
+    },
+};

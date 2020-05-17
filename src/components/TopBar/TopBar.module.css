@@ -1,0 +1,10 @@
+.root {
+    height: 72px;
+    width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    background: #2f3136;
+}
