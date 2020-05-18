@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { DateTime } from 'luxon';
+import useIsMounted from '../../hooks/useIsMounted';
 
 const useParseDate = (dateISO: string) => {
     const dateTime = useMemo(() => DateTime.fromISO(dateISO).setLocale('en-US'), [dateISO]);
-
+    const isMounted = useIsMounted();
     const parseDate = useCallback((): [string | null, number] => {
         const diff = dateTime.diffNow('minute').minutes;
         const suggestedInterval = (diff > -1) ? 1000 : 60 * 1000;
@@ -25,19 +26,15 @@ const useParseDate = (dateISO: string) => {
 
     useEffect(() => {
         const handleTick = () => {
+            if (!isMounted()) return;
             const newState = parseDate();
-            const [newParsed, newInterval] = newState;
+            setDateState(newState);
 
-            if (newParsed !== parsed || newInterval !== interval) {
-                setDateState(newState);
-            }
+            const fn = () => window.requestAnimationFrame(handleTick);
+            setTimeout(fn, interval);
         };
-
-        const fn = () => window.requestAnimationFrame(handleTick);
-        const timeoutID = setTimeout(fn, interval);
-
-        return () => clearTimeout(timeoutID);
-    }, [parseDate, interval, parsed]);
+        handleTick();
+    }, [isMounted, parseDate, interval]);
 
     return [parsed, dateTime] as const;
 };
