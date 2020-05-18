@@ -109,6 +109,12 @@ const MessageBox = () => {
         });
     };
 
+    const saveScrollPosition = ({ currentTarget: target }: React.UIEvent<HTMLDivElement>) => {
+        const topEdge = target.scrollHeight - target.scrollTop;
+        const bottomEdge = topEdge - target.clientHeight;
+        lastDistanceFromBottom.current = { topEdge, bottomEdge };
+    };
+
     // Save info about last displayed messages
     useEffect(() => {
         if (!msgs) return;
@@ -122,7 +128,10 @@ const MessageBox = () => {
     // Scroll to bottom on component init
     const hasMessages = (msgs?.length || 0) > 0;
     useLayoutEffect(() => {
-        if (hasMessages) scrollToBottom('auto');
+        if (hasMessages) {
+            saveScrollPosition({ currentTarget: messageBoxRef.current } as any);
+            scrollToBottom('auto');
+        }
     }, [hasMessages]);
 
     // Handle scroll position when new messages
@@ -148,12 +157,6 @@ const MessageBox = () => {
             }
         }
     }, [msgs]);
-
-    const saveScrollPosition = ({ currentTarget: target }: React.UIEvent<HTMLDivElement>) => {
-        const topEdge = target.scrollHeight - target.scrollTop;
-        const bottomEdge = topEdge - target.clientHeight;
-        lastDistanceFromBottom.current = { topEdge, bottomEdge };
-    };
 
     const handleLoadMoreMsgs = () => {
         if (!msgs) return;
