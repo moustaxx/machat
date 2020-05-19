@@ -5,10 +5,12 @@ import React, {
     useLayoutEffect,
 } from 'react';
 import { gql, useQuery } from '@apollo/client';
+import InView from 'react-intersection-observer';
 
 import useIsMounted from '../../hooks/useIsMounted';
 import Message from './Message';
 import MessageInput from './MessageInput';
+import MessageSkeleton from './MessageSkeleton';
 
 import styles from './MessageBox.module.css';
 
@@ -29,7 +31,7 @@ type TGetMessagesVariables = {
 const getMessages = gql`
     query MessageBox_getMessages($beforeCursor: timestamptz) {
         messages(
-            limit: 10
+            limit: 20
             order_by: { created_at: desc }
             where: {
                 conversation_id: { _eq: "b6a9e90f-a668-463c-ae48-32221002116c" }
@@ -188,13 +190,13 @@ const MessageBox = () => {
             onScroll={saveScrollPosition}
         >
             <div className={styles.messagesWrapper}>
-                <button
-                    type="button"
-                    disabled={isNoMore}
-                    onClick={handleLoadMoreMsgs}
-                >
-                    get more
-                </button>
+                {!isNoMore && (
+                    <InView as="div" onChange={(inView) => inView && handleLoadMoreMsgs()}>
+                        <MessageSkeleton />
+                        <MessageSkeleton />
+                        <MessageSkeleton />
+                    </InView>
+                )}
                 {msgs?.map((it) => (
                     <Message
                         key={it.id}

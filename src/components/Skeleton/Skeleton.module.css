@@ -1,0 +1,24 @@
+@keyframes opacityAnimation {
+    0% {
+        opacity: .25
+    }
+    100% {
+        opacity: 1
+    }
+}
+
+.animate {
+    animation-name: opacityAnimation;
+    animation-delay: 1000ms;
+    animation-duration: 1s;
+    animation-direction: alternate;
+    animation-timing-function: steps(20,end);
+    animation-iteration-count: infinite;
+    opacity: .25;
+    background-color: hsla(0, 0%, 67%, 0.09);
+}
+
+.text {
+    height: 1em;
+    border-radius: 8px;
+}
