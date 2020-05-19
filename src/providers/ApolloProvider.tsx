@@ -24,6 +24,8 @@ const client = new ApolloClient({
             uri: 'ws://machat-server.herokuapp.com/v1/graphql',
             options: {
                 reconnect: true,
+                lazy: true,
+                reconnectionAttempts: 5,
             },
         }),
         new HttpLink({
