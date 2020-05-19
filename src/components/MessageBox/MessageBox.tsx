@@ -4,64 +4,21 @@ import React, {
     useEffect,
     useLayoutEffect,
 } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import InView from 'react-intersection-observer';
+
+import styles from './MessageBox.module.css';
+import {
+    getMessages,
+    subGetMessages,
+    TGetMessagesVariables,
+    TGetMessages,
+} from './MessageBox.graphql';
 
 import useIsMounted from '../../hooks/useIsMounted';
 import Message from './Message';
 import MessageInput from './MessageInput';
 import MessageSkeleton from './MessageSkeleton';
-
-import styles from './MessageBox.module.css';
-
-type TMessage = {
-    id: string;
-    nickname: string;
-    content: string;
-    created_at: string;
-};
-
-type TGetMessages = {
-    messages: TMessage[]
-};
-type TGetMessagesVariables = {
-    beforeCursor?: string;
-};
-
-const getMessages = gql`
-    query MessageBox_getMessages($beforeCursor: timestamptz) {
-        messages(
-            limit: 20
-            order_by: { created_at: desc }
-            where: {
-                conversation_id: { _eq: "b6a9e90f-a668-463c-ae48-32221002116c" }
-                created_at: { _lt: $beforeCursor }
-            }
-        ) {
-            id
-            nickname
-            content
-            created_at
-        }
-    }
-`;
-
-const subGetMessages = gql`
-    subscription MessageBox_subscribeToMessages {
-        messages(
-            limit: 1
-            order_by: { created_at: desc }
-            where: {
-                conversation_id: { _eq: "b6a9e90f-a668-463c-ae48-32221002116c" }
-            }
-        ) {
-            id
-            nickname
-            content
-            created_at
-        }
-    }
-`;
 
 const MessageBox = () => {
     const {
