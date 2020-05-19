@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { DateTime } from 'luxon';
-import useIsMounted from '../../hooks/useIsMounted';
+
+import useIsMounted from '../../../../hooks/useIsMounted';
 
 const useParseDate = (dateISO: string) => {
     const dateTime = useMemo(() => DateTime.fromISO(dateISO).setLocale('en-US'), [dateISO]);
@@ -39,21 +40,4 @@ const useParseDate = (dateISO: string) => {
     return [parsed, dateTime] as const;
 };
 
-type ITimeProps = React.DetailedHTMLProps<React.TimeHTMLAttributes<HTMLElement>, HTMLElement> & {
-    time: string;
-};
-
-const Time: React.FC<ITimeProps> = ({ time, ...rest }) => {
-    const [parsedDate, date] = useParseDate(time);
-
-    return (
-        <time
-            {...rest}
-            title={date.toLocaleString(DateTime.DATETIME_MED)}
-            dateTime={time}
-            children={parsedDate}
-        />
-    );
-};
-
-export default Time;
+export default useParseDate;

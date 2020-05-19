@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './Message.module.css';
-import Time from './Time';
+import Time from './Time/Time';
 
 interface IMessageProps {
     nickname: string;

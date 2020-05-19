@@ -16,9 +16,9 @@ import {
 } from './MessageBox.graphql';
 
 import useIsMounted from '../../hooks/useIsMounted';
-import Message from './Message';
-import MessageInput from './MessageInput';
-import MessageSkeleton from './MessageSkeleton';
+import Message from './Message/Message';
+import MessageInput from './MessageInput/MessageInput';
+import MessageSkeleton from './Message/MessageSkeleton';
 
 const MessageBox = () => {
     const {
