@@ -178,8 +178,8 @@ const MessageBox = () => {
         });
     };
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Oh no... {error.message}</p>;
+    if (loading) return <div className={styles.loading}>Loading...</div>;
+    if (error) return <div className={styles.loading}>Oh no... {error.message}</div>;
 
     return (
         <div
