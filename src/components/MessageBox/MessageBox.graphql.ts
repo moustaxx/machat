@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 export const getMessages = gql`
     query MessageBox_getMessages($beforeCursor: timestamptz) {
         messages(
-            limit: 20
+            limit: 30
             order_by: { created_at: desc }
             where: {
                 conversation_id: { _eq: "b6a9e90f-a668-463c-ae48-32221002116c" }

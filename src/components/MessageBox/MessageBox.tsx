@@ -30,7 +30,7 @@ const MessageBox = () => {
     } = useQuery<TGetMessages, TGetMessagesVariables>(getMessages);
 
     const isMounted = useIsMounted();
-    const [isNoMore, setIsNoMore] = useState(false);
+    const [isNoMore, setIsNoMore] = useState<boolean | null>(null);
 
     const messageBoxRef = useRef<HTMLDivElement | null>(null);
     const bottomHelper = useRef<HTMLDivElement | null>(null);
@@ -90,6 +90,7 @@ const MessageBox = () => {
         if (hasMessages) {
             saveScrollPosition({ currentTarget: messageBoxRef.current } as any);
             scrollToBottom('auto');
+            setIsNoMore(false);
         }
     }, [hasMessages]);
 
@@ -147,8 +148,13 @@ const MessageBox = () => {
             onScroll={saveScrollPosition}
         >
             <div className={styles.messagesWrapper}>
-                {!isNoMore && (
-                    <InView as="div" onChange={(inView) => inView && handleLoadMoreMsgs()}>
+                {hasMessages && isNoMore === false && (
+                    <InView
+                        as="div"
+                        root={messageBoxRef.current}
+                        rootMargin="400px"
+                        onChange={(inView) => inView && handleLoadMoreMsgs()}
+                    >
                         <MessageSkeleton />
                         <MessageSkeleton />
                         <MessageSkeleton />
