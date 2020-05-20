@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import styles from './Message.module.css';
-import Skeleton from '../../Skeleton/Skeleton';
+import Skeleton from '../Skeleton';
 
 const MessageSkeleton = () => {
     return (

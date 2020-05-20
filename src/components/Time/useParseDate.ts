@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { DateTime } from 'luxon';
 
-import useIsMounted from '../../../../hooks/useIsMounted';
+import useIsMounted from '../../hooks/useIsMounted';
 
 const useParseDate = (dateISO: string) => {
     const dateTime = useMemo(() => DateTime.fromISO(dateISO).setLocale('en-US'), [dateISO]);

@@ -1,7 +1,9 @@
 import React from 'react';
-import TopBar from './TopBar/TopBar';
-import MessageBox from './MessageBox/MessageBox';
-// import LeftSideBar from './LeftSideBar/LeftSideBar';
+
+import TopBar from './TopBar';
+import MessageBox from './MessageBox';
+import LoginScreen from './LoginScreen';
+// import LeftSideBar from './LeftSideBar';
 
 import styles from './App.module.css';
 
