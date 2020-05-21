@@ -6,14 +6,17 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 
 import ApolloProvider from './providers/ApolloProvider';
+import SettingsProvider from './contexts/SettingsContext';
 import App from './components/App';
 
 
 
 ReactDOM.render(
     <BrowserRouter>
-    <ApolloProvider>
-        <App />
+        <ApolloProvider>
+            <SettingsProvider>
+                <App />
+            </SettingsProvider>
         </ApolloProvider>
     </BrowserRouter>,
     document.getElementById('root'),
