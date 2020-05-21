@@ -19,6 +19,8 @@
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-intersection-observer": "^8.26.2",
+        "react-router": "^6.0.0-alpha.5",
+        "react-router-dom": "^6.0.0-alpha.5",
         "react-scripts": "https://gitpkg.now.sh/facebook/create-react-app/packages/react-scripts?master",
         "subscriptions-transport-ws": "^0.9.16",
         "typescript": "~3.9.2"
