@@ -1,4 +1,5 @@
 import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import TopBar from './TopBar';
 import MessageBox from './MessageBox';
@@ -13,7 +14,11 @@ const App = () => {
             {/* <LeftSideBar /> */}
             <div className={styles.container}>
                 <TopBar />
-                <MessageBox />
+                <Routes>
+                    <Route path="/" element={<MessageBox />} />
+                    <Route path="/404" element={<PageNotFound />} />
+                    <Route path="*" element={<Navigate to="/404" replace />} />
+                </Routes>
             </div>
         </div>
     );

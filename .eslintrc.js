@@ -8,8 +8,10 @@ module.exports = {
     },
     rules: {
         '@typescript-eslint/indent': ['warn', 4, { SwitchCase: 1 }],
+        '@typescript-eslint/no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }],
         'arrow-body-style': 0,
         'linebreak-style': ['warn', 'windows'],
+        "jsx-a11y/label-has-associated-control": ['warn', { assert: 'either' }],
         'no-alert': 0,
         'no-console': 0,
         'no-param-reassign': ['warn', { 'props': false }],
