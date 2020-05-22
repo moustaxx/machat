@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { gql, useMutation } from '@apollo/client';
 
 import styles from './MessageInput.module.css';
+import { SettingsContext } from '../../contexts/SettingsContext';
 
 const sendMessageMutation = gql`
     mutation MessageInput_newMessage($content: String! $nickname: String!) {
@@ -26,6 +27,7 @@ const MessageInput = () => {
     const [sendMessage] = useMutation(sendMessageMutation, {
         ignoreResults: true,
     });
+    const { nickname } = useContext(SettingsContext).settings;
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -34,7 +36,7 @@ const MessageInput = () => {
         sendMessage({
             variables: {
                 content: inputRef.current.value,
-                nickname: 'TODO',
+                nickname,
             },
         });
         inputRef.current.value = '';
