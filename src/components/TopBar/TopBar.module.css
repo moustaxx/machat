@@ -9,3 +9,9 @@
     font-size: 1.4rem;
     background: #2f3136;
 }
+
+.link {
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+}
