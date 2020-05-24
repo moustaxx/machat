@@ -3,6 +3,7 @@ import { gql, useMutation } from '@apollo/client';
 
 import styles from './MessageInput.module.css';
 import { SettingsContext } from '../../contexts/SettingsContext';
+import EmojiPicker from '../EmojiPicker';
 
 const sendMessageMutation = gql`
     mutation MessageInput_newMessage($content: String! $nickname: String!) {
@@ -63,6 +64,7 @@ const MessageInput = () => {
                         className={styles.input}
                     />
                 </form>
+                <EmojiPicker />
             </div>
         </div>
     );
