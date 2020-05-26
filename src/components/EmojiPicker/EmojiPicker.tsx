@@ -1,4 +1,5 @@
 import React, { lazy, useState, Suspense, useRef } from 'react';
+import { BaseEmoji } from 'emoji-mart';
 
 import './emoji-mart.css';
 import styles from './EmojiPicker.module.css';
@@ -9,7 +10,11 @@ const Picker = lazy(async () => {
     return { default: module.Picker };
 });
 
-const EmojiPicker = () => {
+type TEmojiPickerProps = {
+    addEmoji: (emoji: BaseEmoji) => void;
+};
+
+const EmojiPicker = ({ addEmoji }: TEmojiPickerProps) => {
     const [isPickerOpen, setPickerStatus] = useState(false);
     const pickerRef = useRef<HTMLDivElement | null>(null);
     const emojiPickerBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -55,6 +60,7 @@ const EmojiPicker = () => {
                             sheetSize={32}
                             exclude={['symbols']}
                             style={{ width: '100%' }}
+                            onSelect={addEmoji}
                         />
                     </Suspense>
                 </div>

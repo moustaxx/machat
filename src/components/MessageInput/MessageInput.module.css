@@ -8,7 +8,6 @@
 
 .content {
     width: 100%;
-    height: 64px;
     border-radius: 8px;
     background-color: hsl(218, 8%, 27%);
     display: flex;
@@ -20,14 +19,16 @@
     height: 100%;
 }
 
-.input {
+.textbox {
     width: 100%;
     height: 100%;
-    padding: 0 16px;
+    padding: 16px 16px;
     box-sizing: border-box;
     font-size: 1rem;
+    font-family: inherit;
     background-color: transparent;
     color: hsl(210, 3%, 87%);
+    resize: none;
     outline: 0;
     border: 0;
 }

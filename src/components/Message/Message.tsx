@@ -1,4 +1,5 @@
 import React from 'react';
+import emoji from 'react-easy-emoji';
 
 import styles from './Message.module.css';
 import Time from '../Time';
@@ -21,7 +22,12 @@ const Message = ({ nickname, content, createdAt }: IMessageProps) => {
                         className={styles.createdAt}
                     />
                 </div>
-                <div className={styles.content}>{content}</div>
+                <div className={styles.content}>{emoji(content, {
+                    baseUrl: 'https://twemoji.maxcdn.com/2/svg/',
+                    ext: '.svg',
+                    size: '',
+                })}
+                </div>
             </div>
         </div>
     );
