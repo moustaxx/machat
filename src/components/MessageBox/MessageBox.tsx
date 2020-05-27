@@ -87,7 +87,7 @@ const MessageBox = () => {
     // Scroll to bottom on component init
     const hasMessages = (msgs?.length || 0) > 0;
     useLayoutEffect(() => {
-        if (hasMessages) {
+        if (hasMessages && messageBoxRef.current) {
             saveScrollPosition({ currentTarget: messageBoxRef.current } as any);
             scrollToBottom('auto');
             setIsNoMore(false);

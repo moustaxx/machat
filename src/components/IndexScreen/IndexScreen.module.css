@@ -1,0 +1,102 @@
+.root {
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.welcome {
+    margin-top: 1em;
+    font-size: 2.4rem;
+}
+
+.btn {
+    width: 100%;
+    max-width: 180px;
+    height: 44px;
+    flex-shrink: 0;
+    margin-top: 8px;
+    background-color: hsl(0, 0%, 100%);
+    outline: 0;
+    border: 0;
+    border-radius: 6px;
+    color: black;
+    font-family: Roboto;
+    font-size: .9rem;
+    font-weight: 500;
+    transition: .2s background-color;
+
+}
+.btn:hover {
+    background-color: hsl(0, 0%, 93%);
+}
+.btn:active {
+    background: hsl(0, 0%, 85%);
+}
+
+.paragraph {
+    color: hsla(0, 0%, 100%, 0.85);
+    max-width: 400px;
+    line-height: 1.8rem;
+    text-align: center;
+}
+
+.logo {
+    height: 150px;
+}
+
+.split {
+    width: 50%;
+    padding: 32px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.splitColorized {
+    background: rgb(99, 99, 206);
+}
+
+.splitsContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.people {
+    max-width: 600px;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 1200px) {
+    .split {
+        width: 100%;
+    }
+    .split:last-child {
+        display: none;
+    }
+}
+
+.textBox {
+    max-width: 300px;
+    width: 100%;
+    height: 44px;
+    padding: 8px;
+    margin: 24px 0;
+    box-sizing: border-box;
+    font-size: 1rem;
+    outline: 0;
+    border: 1px solid hsla(0, 0%, 0%, 0.3);
+    border-radius: 6px;
+    transition: .2s border-color;
+}
+.textBox:focus {
+    border: 1px solid grey;
+}

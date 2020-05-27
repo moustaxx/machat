@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     font-size: 1.4rem;
-    background: #2f3136;
+    background: hsl(223, 7%, 20%);
 }
 
 .link {

@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import TopBar from './TopBar';
+// import TopBar from './TopBar';
 import MessageBox from './MessageBox';
-import LoginScreen from './LoginScreen';
+import IndexScreen from './IndexScreen';
 import PageNotFound from './PageNotFound';
 
 import styles from './App.module.css';
 import { SettingsContext } from '../contexts/SettingsContext';
 
 const protectedRoute = (component: JSX.Element, condition: string | boolean | null) => {
-    return condition ? component : <Navigate to="login" replace />;
+    return condition ? component : <Navigate to="/" replace />;
 };
 
 const App = () => {
@@ -19,11 +19,11 @@ const App = () => {
     return (
         <div className={styles.root}>
             <div className={styles.container}>
-                <TopBar />
+                {/* <TopBar /> */}
                 <Routes>
-                    <Route path="/" element={protectedRoute(<MessageBox />, nickname)} />
+                    <Route path="/" element={<IndexScreen />} />
+                    <Route path="app" element={protectedRoute(<MessageBox />, nickname)} />
                     <Route path="404" element={<PageNotFound />} />
-                    <Route path="login" element={<LoginScreen />} />
                     <Route path="*" element={<Navigate to="/404" replace />} />
                 </Routes>
             </div>
