@@ -143,13 +143,13 @@ const MessageBox = () => {
     if (error) return <div className={styles.loading}>Oh no... {error.message}</div>;
 
     return (
-        <div
-            className={styles.root}
-            ref={messageBoxRef}
-            onScroll={saveScrollPosition}
-        >
+        <div className={styles.root}>
             <TopBar />
-            <div className={styles.container}>
+            <div
+                className={styles.container}
+                ref={messageBoxRef}
+                onScroll={saveScrollPosition}
+            >
                 <div className={styles.messagesWrapper}>
                     {hasMessages && isNoMore === false && (
                         <InView
