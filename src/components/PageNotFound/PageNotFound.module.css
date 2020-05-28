@@ -1,5 +1,14 @@
 .root {
     height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,10 +27,39 @@
 }
 
 .buttonsContainer {
-    display: 'inline';
+    display: inline;
 }
 
 .btn {
-    margin: 0 2px;
-    padding: 8px;
+    height: 44px;
+    flex-shrink: 0;
+    margin: 8px 4px;
+    padding: 0 16px;
+    background-color: hsl(227, 58%, 65%);;
+    outline: 0;
+    border: 0;
+    border-radius: 6px;
+    color: inherit;
+    font-family: Roboto;
+    font-size: .9rem;
+    font-weight: 500;
+    transition: .2s background-color;
+    border: 1px solid grey;
+}
+.btn:hover {
+    background-color: hsl(227, 58%, 60%);
+}
+.btn:active {
+    background: hsl(227, 58%, 55%);
+}
+
+.btn2 {
+    background-color: hsl(0, 0%, 100%);
+    color: black;
+}
+.btn2:hover {
+    background-color: hsl(0, 0%, 93%);
+}
+.btn2:active {
+    background: hsl(0, 0%, 85%);
 }

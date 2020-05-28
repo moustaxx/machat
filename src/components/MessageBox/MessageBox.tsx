@@ -16,6 +16,7 @@ import {
 } from './MessageBox.graphql';
 
 import useIsMounted from '../../hooks/useIsMounted';
+import TopBar from '../TopBar';
 import Message from '../Message';
 import MessageInput from '../MessageInput';
 import MessageSkeleton from '../Message/MessageSkeleton';
@@ -147,30 +148,33 @@ const MessageBox = () => {
             ref={messageBoxRef}
             onScroll={saveScrollPosition}
         >
-            <div className={styles.messagesWrapper}>
-                {hasMessages && isNoMore === false && (
-                    <InView
-                        as="div"
-                        root={messageBoxRef.current}
-                        rootMargin="400px"
-                        onChange={(inView) => inView && handleLoadMoreMsgs()}
-                    >
-                        <MessageSkeleton />
-                        <MessageSkeleton />
-                        <MessageSkeleton />
-                    </InView>
-                )}
-                {msgs?.map((it) => (
-                    <Message
-                        key={it.id}
-                        nickname={it.nickname}
-                        content={it.content}
-                        createdAt={it.created_at}
-                    />
-                ))}
-                <div ref={bottomHelper} />
+            <TopBar />
+            <div className={styles.container}>
+                <div className={styles.messagesWrapper}>
+                    {hasMessages && isNoMore === false && (
+                        <InView
+                            as="div"
+                            root={messageBoxRef.current}
+                            rootMargin="400px"
+                            onChange={(inView) => inView && handleLoadMoreMsgs()}
+                        >
+                            <MessageSkeleton />
+                            <MessageSkeleton />
+                            <MessageSkeleton />
+                        </InView>
+                    )}
+                    {msgs?.map((it) => (
+                        <Message
+                            key={it.id}
+                            nickname={it.nickname}
+                            content={it.content}
+                            createdAt={it.created_at}
+                        />
+                    ))}
+                    <div ref={bottomHelper} />
+                </div>
+                <MessageInput />
             </div>
-            <MessageInput />
         </div>
     );
 };

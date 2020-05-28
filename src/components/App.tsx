@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-// import TopBar from './TopBar';
 import MessageBox from './MessageBox';
 import IndexScreen from './IndexScreen';
 import PageNotFound from './PageNotFound';
@@ -18,15 +17,12 @@ const App = () => {
 
     return (
         <div className={styles.root}>
-            <div className={styles.container}>
-                {/* <TopBar /> */}
-                <Routes>
-                    <Route path="/" element={<IndexScreen />} />
-                    <Route path="app" element={protectedRoute(<MessageBox />, nickname)} />
-                    <Route path="404" element={<PageNotFound />} />
-                    <Route path="*" element={<Navigate to="/404" replace />} />
-                </Routes>
-            </div>
+            <Routes>
+                <Route path="/" element={<IndexScreen />} />
+                <Route path="app" element={protectedRoute(<MessageBox />, nickname)} />
+                <Route path="404" element={<PageNotFound />} />
+                <Route path="*" element={<Navigate to="/404" replace />} />
+            </Routes>
         </div>
     );
 };
