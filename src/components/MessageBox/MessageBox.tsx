@@ -155,7 +155,7 @@ const MessageBox = () => {
                 ref={messageBoxRef}
                 onScroll={saveScrollPosition}
             >
-                {!isComponentReady && loading ? <div className={styles.loading}>Loading...</div> : (
+                {!isComponentReady || loading ? <div className={styles.loading}>Loading...</div> : (
                     <div className={styles.messagesWrapper}>
                         {hasMessages && isNoMore === false && (
                             <InView
