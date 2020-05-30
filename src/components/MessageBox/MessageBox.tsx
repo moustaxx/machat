@@ -26,7 +26,9 @@ const MessageBox = () => {
         error,
         fetchMore,
         subscribeToMore,
-    } = useQuery<TGetMessages, TGetMessagesVariables>(getMessages);
+    } = useQuery<TGetMessages, TGetMessagesVariables>(getMessages, {
+        fetchPolicy: 'network-only',
+    });
 
     const messageBoxRef = useRef<HTMLDivElement | null>(null);
     const bottomHelper = useRef<HTMLDivElement | null>(null);
