@@ -27,9 +27,7 @@ const MessageBox = () => {
         error,
         fetchMore,
         subscribeToMore,
-    } = useQuery<TGetMessages, TGetMessagesVariables>(getMessages, {
-        fetchPolicy: 'network-only',
-    });
+    } = useQuery<TGetMessages, TGetMessagesVariables>(getMessages);
 
     const [isComponentReady, setIsComponentReady] = useState(false);
     const messageBoxRef = useRef<HTMLDivElement | null>(null);

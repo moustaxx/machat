@@ -1,5 +1,6 @@
 import React, { useContext, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useApolloClient } from '@apollo/client';
 import { MdLightbulbOutline, MdPowerSettingsNew } from 'react-icons/md';
 
 import styles from './TopBar.module.css';
@@ -19,6 +20,7 @@ const TopBar = ({
     const [isMenuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
     const dropDownRef = useRef<HTMLButtonElement | null>(null);
+    const client = useApolloClient();
 
     useOnClickOutside(menuRef, (event) => {
         const path = event.composedPath();
@@ -40,6 +42,7 @@ const TopBar = ({
 
     const handleLogout = () => {
         setSettings({ nickname: null });
+        client.clearStore();
     };
 
     return (
