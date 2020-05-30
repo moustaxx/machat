@@ -23,11 +23,11 @@
 .emojiPickerIcon {
     width: 28px;
     height: 28px;
-    fill: hsl(210, 3%, 87%);
+    fill: var(--text-secondary);
     transition: .2s fill;
 }
 .emojiPickerIcon:hover,
 .emojiPickerIcon:focus {
-    fill: hsl(210, 3%, 75%);
+    fill: var(--text-primary);
 }
 

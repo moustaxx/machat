@@ -21,7 +21,7 @@
     height: 44px;
     flex-shrink: 0;
     margin-top: 8px;
-    background-color: hsl(0, 0%, 100%);
+    background-color: var(--secondary-button);
     outline: 0;
     border: 0;
     border-radius: 6px;
@@ -33,14 +33,14 @@
 
 }
 .btn:hover {
-    background-color: hsl(0, 0%, 93%);
+    background-color: var(--secondary-button-hover);
 }
 .btn:active {
-    background: hsl(0, 0%, 85%);
+    background: var(--secondary-button-active);
 }
 
 .paragraph {
-    color: hsla(0, 0%, 100%, 0.85);
+    color: var(--text-secondary);
     max-width: 400px;
     line-height: 1.8rem;
     text-align: center;
@@ -61,7 +61,7 @@
 }
 
 .splitColorized {
-    background: rgb(99, 99, 206);
+    background: var(--welcome-screen-bg);
 }
 
 .splitsContent {
@@ -94,10 +94,10 @@
     box-sizing: border-box;
     font-size: 1rem;
     outline: 0;
-    border: 1px solid hsla(0, 0%, 0%, 0.3);
+    border: 1px solid transparent;
     border-radius: 6px;
     transition: .2s border-color;
 }
 .textBox:focus {
-    border: 1px solid grey;
+    border: 1px solid var(--bg-main);
 }

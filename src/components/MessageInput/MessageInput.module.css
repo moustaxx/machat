@@ -3,13 +3,13 @@
     bottom: 0;
     padding: 8px;
     padding-top: 0;
-    background: hsl(220, 8%, 23%);
+    background: var(--bg-main);
 }
 
 .content {
     width: 100%;
     border-radius: 8px;
-    background-color: hsl(218, 8%, 27%);
+    background-color: var(--bg-light);
     display: flex;
     align-items: center;
 }
@@ -27,13 +27,13 @@
     font-size: 1rem;
     font-family: inherit;
     background-color: transparent;
-    color: hsl(210, 3%, 87%);
+    color: var(--text-primary);
     resize: none;
     outline: 0;
     border: 0;
 }
 
 .icon {
-    fill: rgb(100, 141, 174);
+    fill: var(--text-accent);
     margin-left: 24px;
 }

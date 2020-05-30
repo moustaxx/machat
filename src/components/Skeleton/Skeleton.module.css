@@ -2,8 +2,11 @@
     0% {
         opacity: .25
     }
-    100% {
+    50% {
         opacity: 1
+    }
+    100% {
+        opacity: .25;
     }
 }
 
@@ -15,7 +18,7 @@
     animation-timing-function: steps(20,end);
     animation-iteration-count: infinite;
     opacity: .25;
-    background-color: hsla(0, 0%, 67%, 0.09);
+    background-color: var(--bg-light);
 }
 
 .text {

@@ -14,7 +14,7 @@
 .avatar {
     width: 40px;
     height: 40px;
-    background-color: grey;
+    background-color: var(--bg-light);
     margin-right: 16px;
     border-radius: 100%;
     display: flex;
@@ -32,13 +32,13 @@
 .nickname {
     font-weight: 500;
     margin-right: 8px;
-    color: hsl(204, 70%, 53%);
+    color: var(--text-accent);
 }
 
 .createdAt {
-    color: grey;
+    color: var(--text-disabled);
 }
 
 .content {
-    color: hsl(210, 3%, 87%);
+    color: var(--text-primary);
 }

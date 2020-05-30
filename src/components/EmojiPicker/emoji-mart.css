@@ -10,7 +10,7 @@
     color: #fff;
     border-radius: 5px;
     border: 1px solid hsl(30, 1%, 33%);
-    background-color: hsl(220, 8%, 23%);
+    background-color: var(--bg-main);
 }
 
 .emoji-mart .emoji-mart-emoji {
@@ -19,7 +19,7 @@
 }
 
 .emoji-mart-bar {
-    background-color: hsl(223, 7%, 20%);
+    background-color: var(--bg-dark);
 }
 .emoji-mart-bar:first-child {
     border-bottom-width: 1px;
@@ -99,7 +99,7 @@
     padding: 0 6px;
     position: relative;
     padding: 0;
-    background-color: hsl(223, 7%, 20%);
+    background-color: var(--bg-dark);
     margin: 0;
     padding: 4px 0;
     border-bottom: 1px solid hsl(30, 1%, 33%);
@@ -167,7 +167,7 @@
     width: 100%;
     font-weight: 500;
     padding: 5px 6px;
-    background-color: hsl(220, 8%, 23%);
+    background-color: var(--bg-main);
     color: #fff;
 }
 

@@ -7,7 +7,7 @@
     align-items: center;
 }
 .root:hover {
-    background-color: hsl(223, 7%, 25%);
+    background-color: var(--bg-main);
 }
 
 .root > svg {

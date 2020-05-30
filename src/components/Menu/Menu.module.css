@@ -1,8 +1,8 @@
 .root {
     max-width: 220px;
     width: 100%;
-    background-color: hsl(223, 7%, 20%);
-    border: 1px solid hsl(30, 1%, 33%);
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     overflow: hidden;
     user-select: none;

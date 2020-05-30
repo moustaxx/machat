@@ -31,35 +31,29 @@
 }
 
 .btn {
-    height: 44px;
+    composes: cleanButton from global;
     flex-shrink: 0;
     margin: 8px 4px;
-    padding: 0 16px;
-    background-color: hsl(227, 58%, 65%);;
-    outline: 0;
-    border: 0;
-    border-radius: 6px;
-    color: inherit;
-    font-family: Roboto;
-    font-size: .9rem;
+    padding: 12px 16px;
+    background-color: var(--primary-button);
+    border-radius: 4px;
     font-weight: 500;
     transition: .2s background-color;
-    border: 1px solid grey;
 }
 .btn:hover {
-    background-color: hsl(227, 58%, 60%);
+    background-color: var(--primary-button-hover);
 }
 .btn:active {
-    background: hsl(227, 58%, 55%);
+    background-color: var(--primary-button-active);
 }
 
 .btn2 {
-    background-color: hsl(0, 0%, 100%);
+    background-color: var(--secondary-button);
     color: black;
 }
 .btn2:hover {
-    background-color: hsl(0, 0%, 93%);
+    background-color: var(--secondary-button-hover);
 }
 .btn2:active {
-    background: hsl(0, 0%, 85%);
+    background-color: var(--secondary-button-active);
 }
