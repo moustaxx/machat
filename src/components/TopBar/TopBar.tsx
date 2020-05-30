@@ -38,6 +38,11 @@ const TopBar = ({
 
     const switchDarkMode = () => {
         setDarkMode(!isDarkMode);
+        if (isDarkMode) {
+            document.documentElement.className = 'lightMode';
+        } else {
+            document.documentElement.className = '';
+        }
     };
 
     const handleLogout = () => {
