@@ -14,3 +14,12 @@ body {
     width: 100%;
     height: 100%;
 }
+
+.cleanButton {
+    color: inherit;
+    font: inherit;
+    background: 0;
+    padding: 0;
+    border: 0;
+    text-align: inherit;
+}
