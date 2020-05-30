@@ -15,6 +15,11 @@ export const getMessages = gql`
             content
             created_at
         }
+        messages_aggregate {
+            aggregate {
+                count
+            }
+        }
     }
 `;
 
@@ -43,7 +48,12 @@ export type TMessage = {
 };
 
 export type TGetMessages = {
-    messages: TMessage[]
+    messages: TMessage[];
+    messages_aggregate: {
+        aggregate: {
+            count: number;
+        }
+    }
 };
 
 export type TGetMessagesVariables = {

@@ -1,6 +1,5 @@
 import React, {
     useRef,
-    useState,
     useEffect,
     useLayoutEffect,
 } from 'react';
@@ -15,7 +14,6 @@ import {
     TGetMessages,
 } from './MessageBox.graphql';
 
-import useIsMounted from '../../hooks/useIsMounted';
 import TopBar from '../TopBar';
 import Message from '../Message';
 import MessageInput from '../MessageInput';
@@ -30,15 +28,13 @@ const MessageBox = () => {
         subscribeToMore,
     } = useQuery<TGetMessages, TGetMessagesVariables>(getMessages);
 
-    const isMounted = useIsMounted();
-    const [isNoMore, setIsNoMore] = useState<boolean | null>(null);
-
     const messageBoxRef = useRef<HTMLDivElement | null>(null);
     const bottomHelper = useRef<HTMLDivElement | null>(null);
     const lastDistanceFromBottom = useRef<{ topEdge: number; bottomEdge: number } | null>(null);
     const prevMessageListState = useRef<{ firstMsgID: string, msgCount: number } | null>(null);
 
     const msgs = data?.messages.slice().reverse();
+    const isNoMore = data ? data.messages_aggregate.aggregate.count <= msgs!.length : null;
 
     // Subscribe to new messages
     useEffect(() => {
@@ -53,6 +49,11 @@ const MessageBox = () => {
                 if (msgExists) return prevData;
 
                 return {
+                    messages_aggregate: {
+                        aggregate: {
+                            count: prevData.messages_aggregate.aggregate.count + 1,
+                        },
+                    },
                     messages: [...newData.messages, ...prevData.messages],
                 };
             },
@@ -91,7 +92,6 @@ const MessageBox = () => {
         if (hasMessages && messageBoxRef.current) {
             saveScrollPosition({ currentTarget: messageBoxRef.current } as any);
             scrollToBottom('auto');
-            setIsNoMore(false);
         }
     }, [hasMessages]);
 
@@ -128,11 +128,8 @@ const MessageBox = () => {
             variables: { beforeCursor },
             updateQuery: (prev, { fetchMoreResult }) => {
                 if (!fetchMoreResult) return prev;
-                if (fetchMoreResult.messages.length < 10 && isMounted()) {
-                    setIsNoMore(true);
-                }
-
                 return {
+                    ...prev,
                     messages: [...prev.messages, ...fetchMoreResult.messages],
                 };
             },
