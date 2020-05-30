@@ -1,12 +1,12 @@
 .root {
     height: 72px;
     width: 100%;
-    padding: 0 16px;
+    padding: 0 20px;
     z-index: 2;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    font-size: 1.4rem;
+    justify-content: space-between;
     background: hsl(223, 7%, 20%);
 }
 
@@ -14,4 +14,49 @@
     color: inherit;
     cursor: pointer;
     text-decoration: none;
+    user-select: none;
+    font-size: 1.4rem;
+}
+
+.dropDown {
+    composes: cleanButton from global;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    padding: 8px;
+    user-select: none;
+    border: 1px solid transparent;
+}
+.dropDown:hover {
+    border-color: hsl(30, 1%, 33%);
+}
+.dropDown:focus {
+    border-color: hsl(227, 58%, 60%);
+}
+
+.dropDownArrow {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    background-color: hsl(30, 1%, 33%);
+    margin-right: 8px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.menu {
+    position: absolute;
+    right: 20px;
+    top: 64px;
 }
