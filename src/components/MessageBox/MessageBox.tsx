@@ -2,6 +2,7 @@ import React, {
     useRef,
     useEffect,
     useLayoutEffect,
+    useState,
 } from 'react';
 import { useQuery } from '@apollo/client';
 import InView from 'react-intersection-observer';
@@ -30,6 +31,7 @@ const MessageBox = () => {
         fetchPolicy: 'network-only',
     });
 
+    const [isComponentReady, setIsComponentReady] = useState(false);
     const messageBoxRef = useRef<HTMLDivElement | null>(null);
     const bottomHelper = useRef<HTMLDivElement | null>(null);
     const lastDistanceFromBottom = useRef<{ topEdge: number; bottomEdge: number } | null>(null);
@@ -40,6 +42,8 @@ const MessageBox = () => {
 
     // Subscribe to new messages
     useEffect(() => {
+        if (!isComponentReady) return;
+
         const unsubscribe = subscribeToMore({
             document: subGetMessages,
             updateQuery: (prevData, { subscriptionData: { data: newData } }) => {
@@ -60,8 +64,9 @@ const MessageBox = () => {
                 };
             },
         });
+        // eslint-disable-next-line consistent-return
         return unsubscribe;
-    }, [subscribeToMore]);
+    }, [isComponentReady, subscribeToMore]);
 
     const scrollToBottom = (behavior: 'smooth' | 'auto' = 'smooth') => {
         if (!bottomHelper.current) return;
@@ -80,22 +85,26 @@ const MessageBox = () => {
 
     // Save info about last displayed messages
     useEffect(() => {
-        if (!msgs) return;
+        if (!isComponentReady || !msgs) return;
 
         prevMessageListState.current = {
             firstMsgID: msgs[0].id,
             msgCount: msgs.length,
         };
-    }, [msgs]);
+    }, [isComponentReady, msgs]);
 
     // Scroll to bottom on component init
     const hasMessages = (msgs?.length || 0) > 0;
     useLayoutEffect(() => {
-        if (hasMessages && messageBoxRef.current) {
+        if (isComponentReady && hasMessages && messageBoxRef.current) {
             saveScrollPosition({ currentTarget: messageBoxRef.current } as any);
             scrollToBottom('auto');
         }
-    }, [hasMessages]);
+    }, [isComponentReady, hasMessages]);
+
+    useEffect(() => {
+        setIsComponentReady(true);
+    }, []);
 
     // Handle scroll position when new messages
     useLayoutEffect(() => {
@@ -122,7 +131,7 @@ const MessageBox = () => {
     }, [msgs]);
 
     const handleLoadMoreMsgs = () => {
-        if (!msgs) return;
+        if (!isComponentReady || !msgs) return;
         const beforeCursor = msgs[0].created_at;
 
         // eslint-disable-next-line consistent-return
@@ -138,7 +147,6 @@ const MessageBox = () => {
         });
     };
 
-    if (loading) return <div className={styles.loading}>Loading...</div>;
     if (error) return <div className={styles.loading}>Oh no... {error.message}</div>;
 
     return (
@@ -149,29 +157,31 @@ const MessageBox = () => {
                 ref={messageBoxRef}
                 onScroll={saveScrollPosition}
             >
-                <div className={styles.messagesWrapper}>
-                    {hasMessages && isNoMore === false && (
-                        <InView
-                            as="div"
-                            root={messageBoxRef.current}
-                            rootMargin="400px"
-                            onChange={(inView) => inView && handleLoadMoreMsgs()}
-                        >
-                            <MessageSkeleton />
-                            <MessageSkeleton />
-                            <MessageSkeleton />
-                        </InView>
-                    )}
-                    {msgs?.map((it) => (
-                        <Message
-                            key={it.id}
-                            nickname={it.nickname}
-                            content={it.content}
-                            createdAt={it.created_at}
-                        />
-                    ))}
-                    <div ref={bottomHelper} />
-                </div>
+                {!isComponentReady && loading ? <div className={styles.loading}>Loading...</div> : (
+                    <div className={styles.messagesWrapper}>
+                        {hasMessages && isNoMore === false && (
+                            <InView
+                                as="div"
+                                root={messageBoxRef.current}
+                                rootMargin="400px"
+                                onChange={(inView) => inView && handleLoadMoreMsgs()}
+                            >
+                                <MessageSkeleton />
+                                <MessageSkeleton />
+                                <MessageSkeleton />
+                            </InView>
+                        )}
+                        {msgs?.map((it) => (
+                            <Message
+                                key={it.id}
+                                nickname={it.nickname}
+                                content={it.content}
+                                createdAt={it.created_at}
+                            />
+                        ))}
+                        <div ref={bottomHelper} />
+                    </div>
+                )}
                 <MessageInput />
             </div>
         </div>
