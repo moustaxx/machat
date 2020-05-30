@@ -141,7 +141,7 @@ const MessageBox = () => {
 
     return (
         <div className={styles.root}>
-            <TopBar />
+            <TopBar disableRedirectOnLogoClick />
             <div
                 className={styles.container}
                 ref={messageBoxRef}

@@ -3,10 +3,19 @@ import { Link } from 'react-router-dom';
 
 import styles from './TopBar.module.css';
 
-const TopBar = () => {
+type TProps = {
+    disableRedirectOnLogoClick?: boolean;
+};
+
+const TopBar = ({
+    disableRedirectOnLogoClick = false,
+}: TProps) => {
     return (
         <div className={styles.root}>
-            <Link to="/" className={styles.link}>MaChat</Link>
+            {disableRedirectOnLogoClick
+                ? <span className={styles.link}>MaChat</span>
+                : <Link to="/" className={styles.link}>MaChat</Link>
+            }
         </div>
     );
 };
