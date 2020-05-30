@@ -1,0 +1,29 @@
+.root {
+    width: 35px;
+    display: flex;
+    justify-content: flex-start;
+    background-color: hsla(204, 7%, 85%, 0.1);
+    border: 2px solid transparent;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: border-color .15s linear,background-color .15s linear;
+}
+
+.active {
+    justify-content: flex-end;
+    background-color: hsl(206, 100%, 41%);
+}
+
+.ball {
+    background-color: #fff;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 3px 0 rgba(0,0,0,.2);
+    transition: left .15s linear;
+    border-radius: 57%;
+    width: 45%;
+}
+
+.ball::after {
+    content: "";
+    padding-top: 100%;
+    display: block;
+}

@@ -1,0 +1,22 @@
+.root {
+    composes: cleanButton from global;
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+.root:hover {
+    background-color: hsl(223, 7%, 25%);
+}
+
+.root > svg {
+    width: 22px;
+    height: 22px;
+    margin-right: 16px;
+}
+
+.switch {
+    position: absolute;
+    right: 16px;
+}

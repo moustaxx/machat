@@ -1,0 +1,15 @@
+.root {
+    max-width: 220px;
+    width: 100%;
+    background-color: hsl(223, 7%, 20%);
+    border: 1px solid hsl(30, 1%, 33%);
+    border-radius: 8px;
+    overflow: hidden;
+    user-select: none;
+}
+
+.dropDownContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
