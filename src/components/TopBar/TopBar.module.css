@@ -7,7 +7,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--bg-dark);
+    background-color: var(--bg-dark);
+    box-shadow: var(--shadow-2);
+}
+:global :root.lightMode :local(.root) {
+    background-color: var(--bg-light);
 }
 
 .link {
@@ -53,6 +57,9 @@
     align-items: center;
     text-transform: uppercase;
     flex-shrink: 0;
+}
+:global :root.lightMode :local(.avatar) {
+    background-color: var(--bg-main);
 }
 
 .menu {

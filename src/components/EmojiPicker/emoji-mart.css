@@ -7,10 +7,14 @@
 .emoji-mart {
     font-size: 16px;
     display: inline-block;
-    color: #fff;
-    border-radius: 5px;
-    border: 1px solid hsl(30, 1%, 33%);
+    color: var(--text-primary);
+    border-radius: 4px;
+    box-shadow: var(--shadow-1);
+    border: 1px solid var(--border-color);
     background-color: var(--bg-main);
+}
+:root.lightMode .emoji-mart {
+    background-color: var(--bg-light);
 }
 
 .emoji-mart .emoji-mart-emoji {
@@ -21,6 +25,10 @@
 .emoji-mart-bar {
     background-color: var(--bg-dark);
 }
+:root.lightMode .emoji-mart-bar {
+    background-color: var(--bg-light);
+}
+
 .emoji-mart-bar:first-child {
     border-bottom-width: 1px;
     border-top-left-radius: 5px;
@@ -44,7 +52,7 @@
     position: relative;
     display: block;
     flex: 1 1 auto;
-    color: #858585;
+    color: var(--text-secondary);
     text-align: center;
     padding: 12px 4px;
     overflow: hidden;
@@ -56,9 +64,12 @@
 }
 .emoji-mart-anchor:focus { outline: 0 }
 .emoji-mart-anchor:hover,
-.emoji-mart-anchor:focus,
-.emoji-mart-anchor-selected {
-    color: #bfbfbf
+.emoji-mart-anchor:focus {
+    color: var(--text-primary);
+}
+.emoji-mart-anchor-selected,
+.emoji-mart-anchor-selected:hover {
+    color: var(--primary-button-active);
 }
 
 .emoji-mart-anchor-selected .emoji-mart-anchor-bar {
@@ -69,7 +80,7 @@
     position: absolute;
     bottom: -3px; left: 0;
     width: 100%; height: 3px;
-    background-color: #464646;
+    background-color: var(--primary-button-active);
 }
 
 .emoji-mart-anchors i {
@@ -102,7 +113,10 @@
     background-color: var(--bg-dark);
     margin: 0;
     padding: 4px 0;
-    border-bottom: 1px solid hsl(30, 1%, 33%);
+    border-bottom: 1px solid var(--border-color);
+}
+:root.lightMode .emoji-mart-search {
+    background-color: var(--bg-light);
 }
 
 .emoji-mart-search input {
@@ -111,7 +125,7 @@
     font-size: 16px;
     padding: 5px 25px 6px 10px;
     outline: 0;
-    color: #fff;
+    color: var(--text-primary);
     background-color: inherit;
     border: 0;
 }
@@ -134,7 +148,7 @@
     padding: 2px 5px 1px;
     border: none;
     background: none;
-    fill: #fff;
+    fill: var(--text-primary);
 }
 
 .emoji-mart-category .emoji-mart-emoji span {
@@ -150,7 +164,7 @@
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background-color: #444;
+    background-color: var(--bg-dark);
     border-radius: 100%;
 }
 
@@ -168,7 +182,10 @@
     font-weight: 500;
     padding: 5px 6px;
     background-color: var(--bg-main);
-    color: #fff;
+    color: var(--text-primary);
+}
+:root.lightMode .emoji-mart-category-label span {
+    background-color: var(--bg-light);
 }
 
 .emoji-mart-category-list {
@@ -203,7 +220,7 @@
     font-size: 14px;
     text-align: center;
     padding-top: 70px;
-    color: #858585;
+    color: var(--text-disabled);
 }
 .emoji-mart-no-results-img {
     display: block;
@@ -227,7 +244,7 @@
 .emoji-mart-preview {
     position: relative;
     height: 70px;
-    border-top: 1px solid hsl(30, 1%, 33%);
+    border-top: 1px solid var(--border-color);
 }
 
 .emoji-mart-preview-emoji,
@@ -263,7 +280,7 @@
 
 .emoji-mart-preview-shortname {
     font-size: 12px;
-    color: #888;
+    color: var(--text-secondary);
 }
 .emoji-mart-preview-shortname + .emoji-mart-preview-shortname,
 .emoji-mart-preview-shortname + .emoji-mart-preview-emoticon,
@@ -273,7 +290,7 @@
 
 .emoji-mart-preview-emoticon {
     font-size: 11px;
-    color: #bbb;
+    color: var(--text-disabled);
 }
 
 .emoji-mart-title span {
@@ -286,7 +303,7 @@
 }
 
 .emoji-mart-title-label {
-    color: #999A9C;
+    color: var(--text-secondary);
     font-size: 26px;
     font-weight: 300;
 }
@@ -297,15 +314,15 @@
 .emoji-mart-skin-swatches {
     font-size: 0;
     padding: 2px 0;
-    border: 1px solid hsl(30, 1%, 33%);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
-    background-color: #222;
+    background-color: var(--bg-main);
 }
 
 .emoji-mart-skin-swatches.custom {
     font-size: 0;
     border: none;
-    background-color: #fff;
+    background-color: var(--text-primary);
 }
 
 .emoji-mart-skin-swatches.opened .emoji-mart-skin-swatch {
@@ -345,7 +362,7 @@
     top: 50%; left: 50%;
     width: 4px; height: 4px;
     margin: -2px 0 0 -2px;
-    background-color: #fff;
+    background-color: var(--text-primary);
     border-radius: 100%;
     pointer-events: none;
     opacity: 0;
@@ -378,7 +395,7 @@
 }
 
 .emoji-mart-skin-swatches.custom .emoji-mart-skin-swatch.custom:hover {
-    background-color: #f4f4f4;
+    background-color: var(--text-primary);
     border-radius: 10%;
 }
 
@@ -396,13 +413,13 @@
     display: inline-block;
     vertical-align: middle;
     text-align: left;
-    color: #888;
+    color: var(--text-secondary);
     font-size: 11px;
     padding: 5px 2px;
     width: 95px;
     height: 40px;
     border-radius: 10%;
-    background-color: #fff;
+    background-color: var(--text-primary);
 }
 
 .emoji-mart-skin {

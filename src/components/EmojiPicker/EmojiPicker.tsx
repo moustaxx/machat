@@ -61,6 +61,7 @@ const EmojiPicker = ({ addEmoji }: TEmojiPickerProps) => {
                             exclude={['symbols']}
                             style={{ width: '100%' }}
                             onSelect={addEmoji}
+                            color="#7288da"
                         />
                     </Suspense>
                 </div>

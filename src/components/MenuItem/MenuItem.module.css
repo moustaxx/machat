@@ -5,9 +5,13 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 .root:hover {
-    background-color: var(--bg-main);
+    background-color: var(--bg-light);
+}
+:global :root.lightMode :local(.root:hover) {
+    background-color: var(--bg-dark);
 }
 
 .root > svg {

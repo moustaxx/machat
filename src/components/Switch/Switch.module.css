@@ -2,7 +2,7 @@
     width: 35px;
     display: flex;
     justify-content: flex-start;
-    background-color: var(--bg-light);
+    background-color: var(--bg-main);
     border: 2px solid transparent;
     border-radius: 100px;
     cursor: pointer;

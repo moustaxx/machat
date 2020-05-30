@@ -4,7 +4,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     background: var(--bg-main);
-    color: hsl(0, 0%, 100%);
+    color: var(--text-primary);
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -34,7 +34,40 @@ body {
     --text-disabled: hsla(0, 0%, 100%, 0.50);
     --text-accent: hsl(204, 70%, 50%);
 
+    --text-primary-invert: hsla(0, 0%, 0%, 0.87);
+    --text-secondary-invert: hsla(0, 0%, 0%, 0.38);
+    --text-disabled-invert: hsla(0, 0%, 0%, 0.54);
+
     --border-color: hsl(30, 1%, 33%);
+    --welcome-screen-bg: hsl(246, 32%, 35%);
+    
+    --primary-button: hsl(227, 58%, 65%);
+    --primary-button-hover: hsl(227, 58%, 60%);
+    --primary-button-active: hsl(227, 58%, 55%);
+    
+    --secondary-button: hsl(0, 0%, 100%);
+    --secondary-button-hover: hsl(0, 0%, 93%);
+    --secondary-button-active: hsl(0, 0%, 85%);
+    
+    --shadow-1: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+    --shadow-2: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+}
+
+.lightMode:root {
+    --bg-main: hsl(216, 20%, 95%);
+    --bg-dark: hsl(0, 0%, 90%);
+    --bg-light: hsl(0, 0%, 100%);
+
+    --text-primary: hsla(0, 0%, 0%, 0.87);
+    --text-secondary: hsla(0, 0%, 0%, 0.38);
+    --text-disabled: hsla(0, 0%, 0%, 0.54);
+    --text-accent: hsl(204, 70%, 50%);
+
+    --text-primary-invert: hsl(0, 0%, 100%);
+    --text-secondary-invert: hsla(0, 0%, 100%, 0.70);
+    --text-disabled-invert: hsla(0, 0%, 100%, 0.50);
+
+    --border-color: hsla(0, 14%, 7%, 0.12);
     --welcome-screen-bg: hsl(246, 32%, 35%);
 
     --primary-button: hsl(227, 58%, 65%);

@@ -20,6 +20,9 @@
     opacity: .25;
     background-color: var(--bg-light);
 }
+:global :root.lightMode :local(.animate) {
+    background-color: var(--bg-dark);
+}
 
 .text {
     height: 1em;
