@@ -21,7 +21,7 @@ const client = new ApolloClient({
             );
         },
         new WebSocketLink({
-            uri: 'ws://machat-server.herokuapp.com/v1/graphql',
+            uri: 'wss://machat-server.herokuapp.com/v1/graphql',
             options: {
                 reconnect: true,
                 lazy: true,
