@@ -22,7 +22,7 @@ const IndexScreen = () => {
     const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const nickname = nicknameRef.current?.value;
-        if (!nickname || nickname.length < 4) return;
+        if (!nickname || nickname.length < 4 || nickname.length > 20) return;
         setSettings({ nickname });
         navigate('/app');
     };
