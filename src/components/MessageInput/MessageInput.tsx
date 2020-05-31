@@ -26,6 +26,7 @@ const sendMessageMutation = gql`
 
 const MessageInput = () => {
     const textboxRef = useRef<HTMLTextAreaElement>(null);
+    const placeholderRef = useRef<HTMLDivElement>(null);
     const [sendMessage] = useMutation(sendMessageMutation, {
         ignoreResults: true,
     });
@@ -53,9 +54,16 @@ const MessageInput = () => {
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const el = event.target;
+        const plasc = placeholderRef.current!;
         el.style.height = 'auto';
-        if (el.scrollHeight > 200) el.style.height = '200px';
-        else el.style.height = `${el.scrollHeight}px`;
+        plasc.style.height = 'auto';
+        if (el.scrollHeight > 200) {
+            el.style.height = '200px';
+            plasc.style.height = '200px';
+        } else {
+            el.style.height = `${el.scrollHeight}px`;
+            plasc.style.height = `${el.scrollHeight}px`;
+        }
     };
 
     const addEmoji = (emoji: BaseEmoji) => {
@@ -72,31 +80,34 @@ const MessageInput = () => {
     };
 
     return (
-        <div className={styles.root}>
-            <div className={styles.content}>
-                <svg
-                    className={styles.icon}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    height="24"
-                    width="24"
-                >
-                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-                    <path d="M0 0h24v24H0z" fill="none" />
-                </svg>
-                <form className={styles.form} onSubmit={handleSubmit}>
-                    <textarea
-                        placeholder="Type your message here..."
-                        rows={1}
-                        ref={textboxRef}
-                        onKeyDown={handleKeyDown}
-                        onChange={handleChange}
-                        className={styles.textbox}
-                    />
-                </form>
-                <EmojiPicker addEmoji={addEmoji} />
+        <>
+            <div className={styles.root}>
+                <div className={styles.content}>
+                    <svg
+                        className={styles.icon}
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        height="24"
+                        width="24"
+                    >
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                        <path d="M0 0h24v24H0z" fill="none" />
+                    </svg>
+                    <form className={styles.form} onSubmit={handleSubmit}>
+                        <textarea
+                            placeholder="Type your message here..."
+                            rows={1}
+                            ref={textboxRef}
+                            onKeyDown={handleKeyDown}
+                            onChange={handleChange}
+                            className={styles.textbox}
+                        />
+                    </form>
+                    <EmojiPicker addEmoji={addEmoji} />
+                </div>
             </div>
-        </div>
+            <div className={styles.rootPlaceholder} ref={placeholderRef} />
+        </>
     );
 };
 
