@@ -41,4 +41,6 @@
 
 .content {
     color: var(--text-primary);
+    overflow: hidden;
+    white-space: pre-wrap;
 }
