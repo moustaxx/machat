@@ -1,17 +1,19 @@
-import React, { createContext, useMemo, useCallback, useState } from 'react';
+import React, { createContext, useMemo, useCallback, useState, useLayoutEffect } from 'react';
 
 type TSettings = {
     nickname: string | null;
+    isLightTheme: boolean;
 };
 
 type TSettingsContext = {
     settings: TSettings;
-    setSettings: (newValue: TSettings) => void;
+    setSettings: (newValue: Partial<TSettings>) => void;
 };
 
 const defaultState: TSettingsContext = {
     settings: {
         nickname: null,
+        isLightTheme: false,
     },
     setSettings: () => { },
 };
@@ -33,7 +35,7 @@ const getSettings = (): TSettings => {
 const SettingsProvider: React.FC = ({ children }) => {
     const [settings, setSettingsState] = useState(getSettings);
 
-    const setSettings = useCallback((newValue: TSettings) => {
+    const setSettings: TSettingsContext['setSettings'] = useCallback((newValue) => {
         const newSettings = { ...settings, ...newValue };
 
         saveSettings(newSettings);
@@ -44,6 +46,13 @@ const SettingsProvider: React.FC = ({ children }) => {
         settings,
         setSettings,
     }), [settings, setSettings]);
+
+    const { isLightTheme } = settings;
+    useLayoutEffect(() => {
+        const htmlRoot = document.documentElement;
+        if (isLightTheme) htmlRoot.className = 'lightMode';
+        else htmlRoot.className = '';
+    }, [isLightTheme]);
 
     return (
         <SettingsContext.Provider

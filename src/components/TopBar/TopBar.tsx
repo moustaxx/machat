@@ -16,7 +16,7 @@ type TProps = {
 const TopBar = ({
     disableRedirectOnLogoClick = false,
 }: TProps) => {
-    const { settings } = useContext(SettingsContext);
+    const { settings, setSettings } = useContext(SettingsContext);
     const [isMenuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
     const dropDownRef = useRef<HTMLButtonElement | null>(null);
@@ -29,20 +29,14 @@ const TopBar = ({
         setMenuOpen(false);
     });
 
-    const [isDarkMode, setDarkMode] = useState(true);
-    const { setSettings } = useContext(SettingsContext);
 
     const handleDropDownClick = () => {
         setMenuOpen(!isMenuOpen);
     };
 
     const switchDarkMode = () => {
-        setDarkMode(!isDarkMode);
-        if (isDarkMode) {
-            document.documentElement.className = 'lightMode';
-        } else {
-            document.documentElement.className = '';
-        }
+        console.log('switchDarkMode');
+        setSettings({ isLightTheme: !settings.isLightTheme });
     };
 
     const handleLogout = () => {
@@ -85,7 +79,7 @@ const TopBar = ({
                         label="Dark mode"
                         icon={<MdLightbulbOutline />}
                         onClick={switchDarkMode}
-                        isSwitchToggled={isDarkMode}
+                        isSwitchToggled={!settings.isLightTheme}
                     />
                     <MenuItem
                         label="Log out"
