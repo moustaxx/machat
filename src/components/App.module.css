@@ -3,3 +3,8 @@
     height: 100%;
     display: flex;
 }
+
+.noOutline button:focus,
+.noOutline a:focus {
+    outline: 0;
+}

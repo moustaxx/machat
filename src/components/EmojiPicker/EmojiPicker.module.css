@@ -17,9 +17,7 @@
 }
 
 .emojiPickerBtn {
-    background-color: inherit;
-    border: 0;
-    outline: 0;
+    composes: cleanButton from global;
 }
 
 .emojiPickerIcon {

@@ -1,5 +1,6 @@
-import React, { useContext, lazy, Suspense } from 'react';
+import React, { useContext, lazy, Suspense, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import clsx from 'clsx';
 
 import styles from './App.module.css';
 import { SettingsContext } from '../contexts/SettingsContext';
@@ -19,9 +20,19 @@ const protectedRoute = (
 
 const App = () => {
     const { nickname } = useContext(SettingsContext).settings;
+    const [isOutlineOn, setOutlineStatus] = useState(false);
+
+    const addOutlineOnTab = (event: React.KeyboardEvent) => {
+        if (event.key === 'Tab') setOutlineStatus(true);
+    };
 
     return (
-        <div className={styles.root}>
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        <div
+            className={clsx(styles.root, !isOutlineOn && styles.noOutline)}
+            onKeyDown={(addOutlineOnTab)}
+            onClick={() => setOutlineStatus(false)}
+        >
             <Suspense fallback={<Loading />}>
                 <Routes>
                     <Route
