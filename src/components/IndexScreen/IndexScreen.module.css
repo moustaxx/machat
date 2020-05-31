@@ -98,11 +98,7 @@
     margin: 24px 0;
     box-sizing: border-box;
     font-size: 1rem;
-    outline: 0;
-    border: 1px solid transparent;
+    border: 0;
     border-radius: 6px;
     transition: .2s border-color;
-}
-.textBox:focus {
-    border: 1px solid var(--bg-main);
 }
