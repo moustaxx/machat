@@ -1,6 +1,7 @@
 import React, { useContext, useState, useRef } from 'react';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
+import { GoMarkGithub } from 'react-icons/go';
 
 import styles from './IndexScreen.module.css';
 import logo from './chat-icon-white.png';
@@ -25,6 +26,19 @@ const IndexScreen = () => {
         setSettings({ nickname });
         navigate('/app');
     };
+
+    const footer = (
+        <div className={styles.footer}>
+            Made by&nbsp;
+            <a className={styles.link} href="https://github.com/moustaxx">moustaxx</a>
+            <br />
+            Source code available at&nbsp;&nbsp;
+            <a className={styles.link} href="https://github.com/moustaxx/machat">
+                <GoMarkGithub className={styles.githubIcon} />
+                &nbsp;GitHub
+            </a>
+        </div>
+    );
 
     return (
         <div className={styles.root}>
@@ -63,6 +77,7 @@ const IndexScreen = () => {
                                     onClick={handleClickGetIn}
                                 >Get in
                                 </button>
+                                {footer}
                             </div>
                         )
                     }
