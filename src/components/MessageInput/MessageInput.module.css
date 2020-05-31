@@ -18,11 +18,14 @@
 .form {
     width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .textbox {
     width: 100%;
     height: 100%;
+    min-height: 54px;
     padding: 16px 16px;
     box-sizing: border-box;
     font-size: 1rem;
