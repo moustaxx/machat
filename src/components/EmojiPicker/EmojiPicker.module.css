@@ -12,6 +12,8 @@
     right: 8px;
     width: 100%;
     max-width: 320px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .emojiPickerBtn {
@@ -31,3 +33,6 @@
     fill: var(--text-primary);
 }
 
+.loading {
+    font-size: 1.25rem;
+}

@@ -19,6 +19,7 @@ import TopBar from '../TopBar';
 import Message from '../Message';
 import MessageInput from '../MessageInput';
 import MessageSkeleton from '../Message/MessageSkeleton';
+import Loading from '../Loading';
 
 const MessageBox = () => {
     const {
@@ -145,7 +146,7 @@ const MessageBox = () => {
         });
     };
 
-    if (error) return <div className={styles.loading}>Oh no... {error.message}</div>;
+    if (error) return <div className={styles.error}>Oh no... {error.message}</div>;
 
     return (
         <div className={styles.root}>
@@ -155,7 +156,7 @@ const MessageBox = () => {
                 ref={messageBoxRef}
                 onScroll={saveScrollPosition}
             >
-                {!isComponentReady || loading ? <div className={styles.loading}>Loading...</div> : (
+                {!isComponentReady || loading ? <Loading /> : (
                     <div className={styles.messagesWrapper}>
                         {hasMessages && isNoMore === false && (
                             <InView

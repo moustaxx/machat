@@ -21,7 +21,7 @@
     padding-bottom: 0;
 }
 
-.loading {
+.error {
     height: 100%;
     width: 100%;
     display: flex;

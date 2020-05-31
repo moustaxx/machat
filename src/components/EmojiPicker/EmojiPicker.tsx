@@ -4,6 +4,7 @@ import { BaseEmoji } from 'emoji-mart';
 import './emoji-mart.css';
 import styles from './EmojiPicker.module.css';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
+import Loading from '../Loading';
 
 const Picker = lazy(async () => {
     const module = await import('emoji-mart');
@@ -53,7 +54,7 @@ const EmojiPicker = ({ addEmoji }: TEmojiPickerProps) => {
             </button>
             {isPickerOpen && (
                 <div className={styles.pickerWrapper} ref={pickerRef}>
-                    <Suspense fallback={<p>Loading...</p>}>
+                    <Suspense fallback={<Loading className={styles.loading} />}>
                         <Picker
                             set="twitter"
                             title=""
