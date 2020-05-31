@@ -8,7 +8,6 @@ type TButton = React.DOMAttributes<HTMLButtonElement>;
 
 type TProps = {
     onClick?: TButton['onClick'],
-    onKeyDown?: TButton['onKeyDown'],
     className?: string,
     label: string,
     icon?: React.ReactNode,
@@ -19,7 +18,6 @@ type TProps = {
 const MenuItem = ({
     className,
     onClick,
-    onKeyDown,
     isSwitchToggled = false,
     label,
     icon,
@@ -29,7 +27,6 @@ const MenuItem = ({
         <button
             className={clsx(styles.root, className)}
             onClick={onClick}
-            onKeyDown={onKeyDown}
             type="button"
         >
             {icon}

@@ -36,7 +36,6 @@ const EmojiPicker = ({ addEmoji }: TEmojiPickerProps) => {
                 ref={emojiPickerBtnRef}
                 className={styles.emojiPickerBtn}
                 onClick={handleIconClick}
-                onKeyDown={handleIconClick}
             >
                 <svg
                     className={styles.emojiPickerIcon}

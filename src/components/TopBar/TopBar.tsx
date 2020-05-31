@@ -54,7 +54,6 @@ const TopBar = ({
                 <button
                     className={styles.dropDown}
                     onClick={handleDropDownClick}
-                    onKeyDown={handleDropDownClick}
                     ref={dropDownRef}
                     type="button"
                 >
