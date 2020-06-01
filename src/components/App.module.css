@@ -5,6 +5,8 @@
 }
 
 .noOutline button:focus,
+.noOutline input:focus,
+.noOutline textarea:focus,
 .noOutline a:focus {
     outline: 0;
 }
