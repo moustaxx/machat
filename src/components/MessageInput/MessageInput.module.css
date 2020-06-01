@@ -18,6 +18,10 @@
     border: 0;
 }
 
+.textboxSending {
+    cursor: wait;
+}
+
 .icon {
     fill: var(--text-accent);
     margin-left: 24px;

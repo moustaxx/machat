@@ -3,6 +3,7 @@ import { gql, useMutation } from '@apollo/client';
 import { BaseEmoji } from 'emoji-mart';
 import TextareaAutosize from 'react-textarea-autosize';
 import { MdSend } from 'react-icons/md';
+import clsx from 'clsx';
 
 import styles from './MessageInput.module.css';
 import { SettingsContext } from '../../contexts/SettingsContext';
@@ -28,13 +29,12 @@ const sendMessageMutation = gql`
 
 const MessageInput = () => {
     const textboxRef = useRef<HTMLTextAreaElement>(null);
-    const [sendMessage] = useMutation(sendMessageMutation, {
-        ignoreResults: true,
-    });
+    const [sendMessage, { loading: isSending }] = useMutation(sendMessageMutation);
     const { nickname } = useContext(SettingsContext).settings;
+
     const handleSubmit = (event?: React.FormEvent<HTMLFormElement>) => {
         if (event) event.preventDefault();
-        if (!textboxRef.current) return;
+        if (!textboxRef.current || isSending) return;
 
         sendMessage({
             variables: {
@@ -74,7 +74,7 @@ const MessageInput = () => {
                 maxRows={6}
                 ref={textboxRef}
                 onKeyDown={handleKeyDown}
-                className={styles.textbox}
+                className={clsx(styles.textbox, isSending && styles.textboxSending)}
             />
             <EmojiPicker addEmoji={addEmoji} />
         </form>
