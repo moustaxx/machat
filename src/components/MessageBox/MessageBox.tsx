@@ -181,8 +181,8 @@ const MessageBox = () => {
                         <div ref={bottomHelper} />
                     </div>
                 )}
-                <MessageInput />
             </div>
+            <MessageInput />
         </div>
     );
 };

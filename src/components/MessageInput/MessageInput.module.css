@@ -1,46 +1,20 @@
-.rootPlaceholder {
-    min-height: 54px;
-    display: block;
-    flex-shrink: 0;
-    padding: 8px;
-    padding-top: 0;
-    left: 0;
-    right: 16px; /* scrollbar width */
-}
-
 .root {
-    composes: rootPlaceholder;
-    position: fixed;
-    bottom: 0;
-}
-
-.content {
     width: 100%;
-    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    box-sizing: border-box;
     background-color: var(--bg-light);
-    display: flex;
-    align-items: center;
     box-shadow: var(--shadow-2);
-}
-
-.form {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
 }
 
 .textbox {
     width: 100%;
-    min-height: 54px;
     padding: 16px 16px;
-    box-sizing: border-box;
-    font-size: 1rem;
-    font-family: inherit;
+    font: inherit;
     background-color: transparent;
     color: var(--text-primary);
     resize: none;
-    outline: 0;
     border: 0;
 }
 
