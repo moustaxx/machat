@@ -38,7 +38,9 @@ const MessageBox = () => {
 
     const msgs = data?.messages.slice().reverse();
     const isNoMore = data ? data.messages_aggregate.aggregate.count <= msgs!.length : null;
-    const newestMsgCursor = !msgs ? null : msgs[msgs.length - 1].created_at;
+    const newestMsgCursor = data?.messages.find(
+        (m) => !m.id.includes('OPTIMISTIC_'),
+    )?.created_at;
 
     // Subscribe to new messages
     useEffect(() => {
