@@ -70,7 +70,7 @@ const MessageBox = () => {
         return unsubscribe;
     }, [isComponentReady, newestMsgCursor, subscribeToMore]);
 
-    const scrollToBottom = (behavior: 'smooth' | 'auto' = 'smooth') => {
+    const scrollToBottom = (behavior: 'smooth' | 'auto' = 'auto') => {
         if (!bottomHelper.current) return;
         bottomHelper.current.scrollIntoView({
             behavior,
@@ -100,7 +100,7 @@ const MessageBox = () => {
     useLayoutEffect(() => {
         if (isComponentReady && hasMessages && messageBoxRef.current) {
             saveScrollPosition({ currentTarget: messageBoxRef.current } as any);
-            scrollToBottom('auto');
+            scrollToBottom();
         }
     }, [isComponentReady, hasMessages]);
 
