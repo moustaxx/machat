@@ -24,12 +24,13 @@ export const getMessages = gql`
 `;
 
 export const subGetMessages = gql`
-    subscription MessageBox_subscribeToMessages {
+    subscription MessageBox_subscribeToMessages($afterCursor: timestamptz!) {
         messages(
-            limit: 1
+            limit: 30
             order_by: { created_at: desc }
             where: {
                 conversation_id: { _eq: "b6a9e90f-a668-463c-ae48-32221002116c" }
+                created_at: { _gt: $afterCursor }
             }
         ) {
             id

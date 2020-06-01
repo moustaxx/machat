@@ -38,25 +38,26 @@ const MessageBox = () => {
 
     const msgs = data?.messages.slice().reverse();
     const isNoMore = data ? data.messages_aggregate.aggregate.count <= msgs!.length : null;
+    const newestMsgCursor = !msgs ? null : msgs[msgs.length - 1].created_at;
 
     // Subscribe to new messages
     useEffect(() => {
-        if (!isComponentReady) return;
+        if (!isComponentReady || !newestMsgCursor) return;
 
         const unsubscribe = subscribeToMore({
             document: subGetMessages,
+            variables: {
+                afterCursor: newestMsgCursor,
+            },
             updateQuery: (prevData, { subscriptionData: { data: newData } }) => {
-                if (!prevData || !newData) return prevData;
-
-                const msgExists = prevData.messages.find(
-                    (msg) => msg.id === newData.messages[0].id,
-                );
-                if (msgExists) return prevData;
+                if (!prevData || !newData?.messages[0]) return prevData;
+                const prevDataMsgCount = prevData.messages_aggregate.aggregate.count;
+                const nextDataMsgCount = newData.messages.length;
 
                 return {
                     messages_aggregate: {
                         aggregate: {
-                            count: prevData.messages_aggregate.aggregate.count + 1,
+                            count: prevDataMsgCount + nextDataMsgCount,
                         },
                     },
                     messages: [...newData.messages, ...prevData.messages],
@@ -65,7 +66,7 @@ const MessageBox = () => {
         });
         // eslint-disable-next-line consistent-return
         return unsubscribe;
-    }, [isComponentReady, subscribeToMore]);
+    }, [isComponentReady, newestMsgCursor, subscribeToMore]);
 
     const scrollToBottom = (behavior: 'smooth' | 'auto' = 'smooth') => {
         if (!bottomHelper.current) return;
