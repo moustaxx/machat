@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useApolloClient } from '@apollo/client';
-import { MdLightbulbOutline, MdPowerSettingsNew } from 'react-icons/md';
+import { MdLightbulbOutline, MdPowerSettingsNew, MdArrowDropDown } from 'react-icons/md';
 
 import styles from './TopBar.module.css';
 import { SettingsContext } from '../../contexts/SettingsContext';
@@ -59,14 +59,7 @@ const TopBar = ({
                 >
                     <div className={styles.avatar}>{settings.nickname[0]}</div>
                     <span>{settings.nickname}</span>
-                    <svg
-                        className={styles.dropDownArrow}
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-                        <path d="M7 10l5 5 5-5z" />
-                    </svg>
+                    <MdArrowDropDown size={30} aria-hidden />
                 </button>
             )
 

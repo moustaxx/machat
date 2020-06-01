@@ -2,6 +2,7 @@ import React, { useRef, useContext } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { BaseEmoji } from 'emoji-mart';
 import TextareaAutosize from 'react-textarea-autosize';
+import { MdSend } from 'react-icons/md';
 
 import styles from './MessageInput.module.css';
 import { SettingsContext } from '../../contexts/SettingsContext';
@@ -66,16 +67,7 @@ const MessageInput = () => {
 
     return (
         <form className={styles.root} onSubmit={handleSubmit}>
-            <svg
-                className={styles.icon}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                height="24"
-                width="24"
-            >
-                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-                <path d="M0 0h24v24H0z" fill="none" />
-            </svg>
+            <MdSend className={styles.icon} size={24} aria-hidden />
             <TextareaAutosize
                 placeholder="Type your message here..."
                 minRows={1}

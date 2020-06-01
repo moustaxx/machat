@@ -40,12 +40,6 @@
     border-color: var(--primary-button-active);
 }
 
-.dropDownArrow {
-    width: 30px;
-    height: 30px;
-    fill: currentColor;
-}
-
 .avatar {
     width: 35px;
     height: 35px;
