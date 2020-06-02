@@ -8,6 +8,7 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    scrollbar-color: var(--border-color) var(--bg-main);
 }
 
 #root {
@@ -77,4 +78,28 @@ body {
     --secondary-button: hsl(0, 0%, 100%);
     --secondary-button-hover: hsl(0, 0%, 93%);
     --secondary-button-active: hsl(0, 0%, 85%);
+}
+
+::-webkit-scrollbar {
+    height: 12px;
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    border-left: 1px solid hsl(0, 0%, 100%, 0.05);
+}
+:root.lightMode ::-webkit-scrollbar-track {
+    border-left: 1px solid hsl(0, 0%, 0%, 0.05);
+
+}
+
+::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    background-color: var(--border-color);
+    border: 1px solid transparent;
+    border-left-width: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-disabled);
 }
