@@ -42,6 +42,7 @@
     transition: .2s background-color;
     text-transform: uppercase;
     font-weight: bold;
+    color: white;
 }
 .btn:hover {
     background-color: var(--primary-button-hover);

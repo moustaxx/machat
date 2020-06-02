@@ -110,6 +110,9 @@
     line-height: 1.5em;
     color: var(--text-secondary);
 }
+:global :root.lightMode :local(.footer) {
+    color: var(--text-secondary-invert);
+}
 
 .link {
     color: hsl(0, 0%, 100%);
