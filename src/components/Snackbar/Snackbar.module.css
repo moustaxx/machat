@@ -1,0 +1,18 @@
+.root {
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    background: var(--text-accent);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0 16px;
+}
+.btn {
+    composes: cleanButton from global;
+    cursor: pointer;
+}
+.btn:hover {
+    text-decoration: underline;
+}
