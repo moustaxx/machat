@@ -3,6 +3,7 @@ import React, { createContext, useMemo, useCallback, useState, useLayoutEffect }
 type TSettings = {
     nickname: string | null;
     isLightTheme: boolean;
+    showDesktopNotifications: boolean;
 };
 
 type TSettingsContext = {
@@ -14,6 +15,7 @@ const defaultState: TSettingsContext = {
     settings: {
         nickname: null,
         isLightTheme: false,
+        showDesktopNotifications: true,
     },
     setSettings: () => { },
 };

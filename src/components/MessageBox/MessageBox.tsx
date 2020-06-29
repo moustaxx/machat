@@ -3,10 +3,12 @@ import React, {
     useEffect,
     useLayoutEffect,
     useState,
+    useContext,
 } from 'react';
 import { useQuery } from '@apollo/client';
 import InView from 'react-intersection-observer';
 
+import { DateTime } from 'luxon';
 import styles from './MessageBox.module.css';
 import {
     getMessages,
@@ -16,12 +18,14 @@ import {
 } from './MessageBox.graphql';
 
 import useHeadTitleNotification from '../../hooks/useHeadTitleNotification';
+import sendDesktopNotification from '../../utils/sendDesktopNotification';
 import TopBar from '../TopBar';
 import Message from '../Message';
 import MessageInput from '../MessageInput';
 import MessageSkeleton from '../Message/MessageSkeleton';
 import Loading from '../Loading';
 import Snackbar from '../Snackbar';
+import { SettingsContext } from '../../contexts/SettingsContext';
 
 const MessageBox = () => {
     const {
@@ -38,6 +42,8 @@ const MessageBox = () => {
     const lastDistanceFromBottom = useRef<{ topEdge: number; bottomEdge: number } | null>(null);
     const prevMessageListState = useRef<{ firstMsgID: string, msgCount: number } | null>(null);
     const isTextboxFocused = useRef(false);
+
+    const { settings } = useContext(SettingsContext);
 
     const [unreadCount, setUnreadCount] = useState(0);
 
@@ -72,7 +78,16 @@ const MessageBox = () => {
                 // Not good solution - no notification if someone
                 // send you a message when you are typing into text box
                 if (!isTextboxFocused.current) setUnreadCount((prev) => prev + nextDataMsgCount);
-                console.log('isTextboxFocused.current:', isTextboxFocused.current);
+
+                if (settings.showDesktopNotifications && document.visibilityState === 'hidden') {
+                    newData.messages.forEach((msg) => {
+                        sendDesktopNotification({
+                            title: `${msg.nickname} sent new message:`,
+                            body: msg.content,
+                            timestamp: DateTime.fromISO(msg.created_at).toMillis(),
+                        });
+                    });
+                }
 
                 return {
                     messages_aggregate: {
@@ -85,7 +100,13 @@ const MessageBox = () => {
             },
         });
         return unsubscribe;
-    }, [isComponentReady, newestMsgCursor, subscribeToMore, setUnreadCount]);
+    }, [
+        isComponentReady,
+        newestMsgCursor,
+        settings.showDesktopNotifications,
+        subscribeToMore,
+        setUnreadCount,
+    ]);
 
     const scrollToBottom = (behavior: 'smooth' | 'auto' = 'auto') => {
         if (!bottomHelper.current) return;
