@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import emoji from 'react-easy-emoji';
 
 import styles from './Message.module.css';
@@ -33,4 +33,4 @@ const Message = ({ nickname, content, createdAt }: IMessageProps) => {
     );
 };
 
-export default Message;
+export default memo(Message);
