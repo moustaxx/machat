@@ -43,7 +43,12 @@ type TSendMutationVariables = {
     nickname: string;
 };
 
-const MessageInput = () => {
+type TProps = {
+    onFocus?: () => void;
+    onBlur?: () => void;
+};
+
+const MessageInput = ({ onFocus, onBlur }: TProps) => {
     const textboxRef = useRef<HTMLTextAreaElement>(null);
     const [sendMessage, {
         loading: isSending,
@@ -123,6 +128,8 @@ const MessageInput = () => {
                 minRows={1}
                 maxRows={6}
                 ref={textboxRef}
+                onFocus={onFocus}
+                onBlur={onBlur}
                 onKeyDown={handleKeyDown}
                 className={clsx(styles.textbox, isSending && styles.textboxSending)}
             />

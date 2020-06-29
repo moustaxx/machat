@@ -15,11 +15,13 @@ import {
     TGetMessages,
 } from './MessageBox.graphql';
 
+import useHeadTitleNotification from '../../hooks/useHeadTitleNotification';
 import TopBar from '../TopBar';
 import Message from '../Message';
 import MessageInput from '../MessageInput';
 import MessageSkeleton from '../Message/MessageSkeleton';
 import Loading from '../Loading';
+import Snackbar from '../Snackbar';
 
 const MessageBox = () => {
     const {
@@ -35,6 +37,17 @@ const MessageBox = () => {
     const bottomHelper = useRef<HTMLDivElement | null>(null);
     const lastDistanceFromBottom = useRef<{ topEdge: number; bottomEdge: number } | null>(null);
     const prevMessageListState = useRef<{ firstMsgID: string, msgCount: number } | null>(null);
+    const isTextboxFocused = useRef(false);
+
+    const [unreadCount, setUnreadCount] = useState(0);
+
+    useHeadTitleNotification(
+        unreadCount === 0
+            ? null
+            : `${unreadCount} unread message${unreadCount !== 1 ? 's' : ''}`,
+    );
+
+    const markAsRead = () => setUnreadCount(0);
 
     const msgs = data?.messages.slice().reverse();
     const isNoMore = data ? data.messages_aggregate.aggregate.count <= msgs!.length : null;
@@ -56,6 +69,11 @@ const MessageBox = () => {
                 const prevDataMsgCount = prevData.messages_aggregate.aggregate.count;
                 const nextDataMsgCount = newData.messages.length;
 
+                // Not good solution - no notification if someone
+                // send you a message when you are typing into text box
+                if (!isTextboxFocused.current) setUnreadCount((prev) => prev + nextDataMsgCount);
+                console.log('isTextboxFocused.current:', isTextboxFocused.current);
+
                 return {
                     messages_aggregate: {
                         aggregate: {
@@ -66,9 +84,8 @@ const MessageBox = () => {
                 };
             },
         });
-        // eslint-disable-next-line consistent-return
         return unsubscribe;
-    }, [isComponentReady, newestMsgCursor, subscribeToMore]);
+    }, [isComponentReady, newestMsgCursor, subscribeToMore, setUnreadCount]);
 
     const scrollToBottom = (behavior: 'smooth' | 'auto' = 'auto') => {
         if (!bottomHelper.current) return;
@@ -83,6 +100,11 @@ const MessageBox = () => {
         const topEdge = target.scrollHeight - target.scrollTop;
         const bottomEdge = topEdge - target.clientHeight;
         lastDistanceFromBottom.current = { topEdge, bottomEdge };
+    };
+
+    const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+        saveScrollPosition(event);
+        if (unreadCount !== 0 && lastDistanceFromBottom.current!.bottomEdge < 1) markAsRead();
     };
 
     // Save info about last displayed messages
@@ -126,7 +148,7 @@ const MessageBox = () => {
             messageBoxRef.current.scrollTop = scrollHeight - distanceFromBottom.topEdge;
         } else {
             // change on the bottom
-            if (distanceFromBottom.bottomEdge < 1) { // eslint-disable-line no-lonely-if
+            if (distanceFromBottom.bottomEdge < 1 && document.visibilityState === 'visible') { // eslint-disable-line no-lonely-if
                 scrollToBottom();
             }
         }
@@ -157,8 +179,15 @@ const MessageBox = () => {
             <div
                 className={styles.container}
                 ref={messageBoxRef}
-                onScroll={saveScrollPosition}
+                onScroll={handleScroll}
             >
+                {unreadCount ? (
+                    <Snackbar
+                        message={`${unreadCount} unread message${unreadCount !== 1 ? 's' : ''}`}
+                        buttonOnClick={markAsRead}
+                        buttonText="Mark as read"
+                    />
+                ) : null}
                 {!isComponentReady || loading ? <Loading /> : (
                     <div className={styles.messagesWrapper}>
                         {hasMessages && isNoMore === false && (
@@ -185,7 +214,10 @@ const MessageBox = () => {
                     </div>
                 )}
             </div>
-            <MessageInput />
+            <MessageInput
+                onFocus={() => { isTextboxFocused.current = true; }}
+                onBlur={() => { isTextboxFocused.current = false; }}
+            />
         </div>
     );
 };
