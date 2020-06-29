@@ -30,7 +30,7 @@ const MenuItem = ({
             type="button"
         >
             {icon}
-            <span>{label}</span>
+            <span className={styles.label}>{label}</span>
             {isSwitch && (
                 <Switch
                     className={styles.switch}
