@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { GoMarkGithub } from 'react-icons/go';
 
 import styles from './IndexScreen.module.css';
-import logo from './chat-icon-white.png';
-import people from './people.png';
+import logo from '../../assets/chat-icon-white.png';
+import people from '../../assets/people.png';
 import { SettingsContext } from '../../contexts/SettingsContext';
 
 const IndexScreen = () => {
