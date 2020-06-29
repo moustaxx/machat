@@ -1,7 +1,12 @@
 import React, { useContext, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useApolloClient } from '@apollo/client';
-import { MdLightbulbOutline, MdPowerSettingsNew, MdArrowDropDown } from 'react-icons/md';
+import {
+    MdLightbulbOutline,
+    MdPowerSettingsNew,
+    MdArrowDropDown,
+    MdNotifications,
+} from 'react-icons/md';
 
 import styles from './TopBar.module.css';
 import { SettingsContext } from '../../contexts/SettingsContext';
@@ -35,8 +40,13 @@ const TopBar = ({
     };
 
     const switchDarkMode = () => {
-        console.log('switchDarkMode');
         setSettings({ isLightTheme: !settings.isLightTheme });
+    };
+
+    const switchNotificationOption = () => {
+        setSettings({
+            showDesktopNotifications: !settings.showDesktopNotifications,
+        });
     };
 
     const handleLogout = () => {
@@ -72,6 +82,13 @@ const TopBar = ({
                         icon={<MdLightbulbOutline />}
                         onClick={switchDarkMode}
                         isSwitchToggled={!settings.isLightTheme}
+                    />
+                    <MenuItem
+                        isSwitch
+                        label="Notifications"
+                        icon={<MdNotifications />}
+                        onClick={switchNotificationOption}
+                        isSwitchToggled={settings.showDesktopNotifications}
                     />
                     <MenuItem
                         label="Log out"
