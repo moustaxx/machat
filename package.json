@@ -4,14 +4,17 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "start": "react-scripts start",
+        "start": "yarn relay && react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx"
+        "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx",
+        "update-schema": "get-graphql-schema https://machat-server.herokuapp.com/v1/relay > schema.graphql",
+        "relay": "relay-compiler --language typescript --schema schema.graphql --src ./src/"
     },
     "resolutions": {
-        "@apollo/link-ws/**/@apollo/client": "3.0.0-beta.50"
+        "@apollo/link-ws/**/@apollo/client": "3.0.0-beta.50",
+        "relay-compiler-webpack-plugin/**/graphql": "^15.0.0"
     },
     "dependencies": {
         "@apollo/client": "3.0.0-beta.50",
@@ -22,14 +25,16 @@
         "graphql": "^15.0.0",
         "history": "^5.0.0",
         "luxon": "^1.24.1",
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1",
+        "react": "experimental",
+        "react-dom": "experimental",
         "react-easy-emoji": "^1.4.0",
         "react-icons": "^3.10.0",
         "react-intersection-observer": "^8.26.2",
-        "react-router-dom": "^6.0.0-beta.0",
+        "react-relay": "experimental",
+        "react-router-dom": "experimental",
         "react-scripts": "moustaxx/react-scripts",
         "react-textarea-autosize": "^8.0.1",
+        "relay-runtime": "^9.1.0",
         "subscriptions-transport-ws": "^0.9.16",
         "typescript": "~3.9.2"
     },
@@ -38,7 +43,14 @@
         "@types/node": "^14.0.1",
         "@types/react": "^16.9.0",
         "@types/react-dom": "^16.9.0",
-        "eslint-config-airbnb-typescript": "^8.0.2"
+        "@types/react-relay": "^7.0.8",
+        "@types/relay-runtime": "^9.1.0",
+        "babel-plugin-relay": "^9.1.0",
+        "eslint-config-airbnb-typescript": "^8.0.2",
+        "get-graphql-schema": "^2.1.2",
+        "relay-compiler": "^9.1.0",
+        "relay-compiler-language-typescript": "^12.0.2",
+        "relay-compiler-webpack-plugin": "^8.0.2"
     },
     "browserslist": {
         "production": [

@@ -17,7 +17,11 @@
         "noEmit": true,
         "jsx": "react",
         "allowJs": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "types": [
+            "react/experimental",
+            "react-dom/experimental"
+        ]
     },
     "include": [
         "src"
