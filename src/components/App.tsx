@@ -6,7 +6,7 @@ import styles from './App.module.css';
 import { SettingsContext } from '../contexts/SettingsContext';
 import Loading from './Loading';
 
-const MessageBox = lazy(() => import('./MessageBox'));
+const Conversation = lazy(() => import('./Conversation'));
 const IndexScreen = lazy(() => import('./IndexScreen'));
 const PageNotFound = lazy(() => import('./PageNotFound'));
 
@@ -48,7 +48,7 @@ const App = () => {
                     />
                     <Route
                         path="app"
-                        element={protectedRoute(<MessageBox />, nickname)}
+                        element={protectedRoute(<Conversation />, nickname)}
                     />
                     <Route
                         path="404"

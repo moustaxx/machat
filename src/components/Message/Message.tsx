@@ -1,16 +1,33 @@
-import React, { memo } from 'react';
+import React from 'react';
+import { graphql, useFragment } from 'react-relay/hooks';
 import emoji from 'react-easy-emoji';
 
-import styles from './Message.module.css';
+import { Message_data$key } from './__generated__/Message_data.graphql';
 import Time from '../Time';
 
+import styles from './Message.module.css';
+
 interface IMessageProps {
-    nickname: string;
-    content: string;
-    createdAt: string;
+    message: Message_data$key;
 }
 
-const Message = ({ nickname, content, createdAt }: IMessageProps) => {
+const Message = ({ message }: IMessageProps) => {
+    const {
+        nickname,
+        content,
+        createdAt,
+    } = useFragment(
+        graphql`
+            fragment Message_data on messages {
+                id
+                nickname
+                content
+                createdAt: created_at
+            }
+        `,
+        message,
+    );
+
     return (
         <div className={styles.root}>
             <div className={styles.avatar}>{nickname[0]}</div>
@@ -18,7 +35,7 @@ const Message = ({ nickname, content, createdAt }: IMessageProps) => {
                 <div className={styles.firstRow}>
                     <div className={styles.nickname}>{nickname}</div>
                     <Time
-                        time={createdAt}
+                        time={createdAt as string}
                         className={styles.createdAt}
                     />
                 </div>
@@ -33,4 +50,4 @@ const Message = ({ nickname, content, createdAt }: IMessageProps) => {
     );
 };
 
-export default memo(Message);
+export default Message;
