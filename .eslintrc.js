@@ -6,6 +6,9 @@ module.exports = {
         ecmaFeatures: { jsx: true },
         sourceType: 'module',
     },
+    ignorePatterns: [
+        '/**/__generated__/*',
+    ],
     rules: {
         '@typescript-eslint/indent': ['warn', 4, { SwitchCase: 1 }],
         '@typescript-eslint/no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }],
