@@ -4,10 +4,10 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "start": "yarn relay && react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
+        "start": "craco start",
+        "build": "craco build",
+        "test": "craco test",
+        "eject": "craco eject",
         "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx",
         "update-schema": "get-graphql-schema https://machat-server.herokuapp.com/v1/relay > schema.graphql",
         "relay": "relay-compiler --language typescript --schema schema.graphql --src ./src/"
@@ -19,6 +19,7 @@
     "dependencies": {
         "@apollo/client": "3.0.0-beta.50",
         "@apollo/link-ws": "2.0.0-beta.3",
+        "@craco/craco": "^5.6.4",
         "@types/emoji-mart": "^3.0.2",
         "clsx": "^1.1.0",
         "emoji-mart": "^3.0.0",
@@ -53,6 +54,7 @@
         "relay-compiler-webpack-plugin": "^8.0.2",
         "vscode-apollo-relay": "^1.5.0"
     },
+    "cracoConfig": "craco.config.js",
     "browserslist": {
         "production": [
             ">0.2%",
