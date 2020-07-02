@@ -32,6 +32,11 @@ const MessagesInbox = ({ messagesInbox }: TProps) => {
                     last: $count,
                     before: $cursor,
                     order_by: { created_at: asc },
+                    where: {
+                        conversation_id: {
+                            _eq: "b6a9e90f-a668-463c-ae48-32221002116c",
+                        }
+                    }
                 )
                 @connection(key: "MessagesFragment__messages_connection") {
                     edges {
