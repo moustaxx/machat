@@ -5,6 +5,7 @@ import Message from '../Message';
 
 import { MessagesInbox_messages$key } from './__generated__/MessagesInbox_messages.graphql';
 import styles from './MessagesInbox.module.css';
+import useMessagesInboxNewMsgSubscription from './useMessagesInboxNewMsgSubscription';
 
 type TProps = {
     messagesInbox: MessagesInbox_messages$key;
@@ -40,6 +41,7 @@ const MessagesInbox = ({ messagesInbox }: TProps) => {
                 )
                 @connection(key: "MessagesFragment__messages_connection") {
                     edges {
+                        cursor
                         node {
                             id
                             ...Message_data
@@ -51,6 +53,9 @@ const MessagesInbox = ({ messagesInbox }: TProps) => {
         messagesInbox,
     );
     const messages = data.messages_connection.edges;
+    const afterLastCachedMsg = messages[messages.length - 1]?.cursor;
+
+    useMessagesInboxNewMsgSubscription(afterLastCachedMsg);
 
     const handleLoadMoreMsgs = () => {
         loadPrevious(30);
