@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { graphql, usePaginationFragment } from 'react-relay/hooks';
 
 import Message from '../Message';
@@ -10,11 +10,6 @@ import MessagesInboxScrollHelper from './MessagesInboxScrollHelper';
 
 type TProps = {
     messagesInbox: MessagesInbox_messages$key;
-};
-
-const SuspenseTest = () => {
-    console.log('SuspenseTest');
-    return <div>Test Loading...</div>;
 };
 
 const MessagesInbox = ({ messagesInbox }: TProps) => {
@@ -70,14 +65,12 @@ const MessagesInbox = ({ messagesInbox }: TProps) => {
         >
             <button onClick={handleLoadMoreMsgs} type="button">Load more</button>
             {isLoadingPrevious && <span>isLoadingNext</span>}
-            <Suspense fallback={<SuspenseTest />}>
-                {messages?.map(({ node }) => (
-                    <Message
-                        key={node.id}
-                        message={node}
-                    />
-                ))}
-            </Suspense>
+            {messages?.map(({ node }) => (
+                <Message
+                    key={node.id}
+                    message={node}
+                />
+            ))}
         </MessagesInboxScrollHelper>
     );
 };
