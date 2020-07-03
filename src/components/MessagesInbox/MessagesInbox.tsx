@@ -4,8 +4,9 @@ import { graphql, usePaginationFragment } from 'react-relay/hooks';
 import Message from '../Message';
 
 import { MessagesInbox_messages$key } from './__generated__/MessagesInbox_messages.graphql';
-import styles from './MessagesInbox.module.css';
+// import styles from './MessagesInbox.module.css';
 import useMessagesInboxNewMsgSubscription from './useMessagesInboxNewMsgSubscription';
+import MessagesInboxScrollHelper from './MessagesInboxScrollHelper';
 
 type TProps = {
     messagesInbox: MessagesInbox_messages$key;
@@ -52,30 +53,32 @@ const MessagesInbox = ({ messagesInbox }: TProps) => {
         `,
         messagesInbox,
     );
-    const messages = data.messages_connection.edges;
-    const afterLastCachedMsg = messages[messages.length - 1]?.cursor;
 
-    useMessagesInboxNewMsgSubscription(afterLastCachedMsg);
+    const messages = data.messages_connection.edges;
+    const lastMessage = messages[messages.length - 1];
+
+    useMessagesInboxNewMsgSubscription(lastMessage.cursor);
 
     const handleLoadMoreMsgs = () => {
         loadPrevious(30);
     };
 
     return (
-        <div className={styles.root}>
-            <div className={styles.messagesWrapper}>
-                <button onClick={handleLoadMoreMsgs} type="button">Load more</button>
-                {isLoadingPrevious && <span>isLoadingNext</span>}
-                <Suspense fallback={<SuspenseTest />}>
-                    {messages?.map(({ node }) => (
-                        <Message
-                            key={node.id}
-                            message={node}
-                        />
-                    ))}
-                </Suspense>
-            </div>
-        </div>
+        <MessagesInboxScrollHelper
+            firstItemID={messages[0].node.id}
+            lastItemID={lastMessage.node.id}
+        >
+            <button onClick={handleLoadMoreMsgs} type="button">Load more</button>
+            {isLoadingPrevious && <span>isLoadingNext</span>}
+            <Suspense fallback={<SuspenseTest />}>
+                {messages?.map(({ node }) => (
+                    <Message
+                        key={node.id}
+                        message={node}
+                    />
+                ))}
+            </Suspense>
+        </MessagesInboxScrollHelper>
     );
 };
 
