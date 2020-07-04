@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
-import ApolloProvider from './providers/ApolloProvider';
 import RelayProvider from './providers/RelayProvider';
 import SettingsProvider from './contexts/SettingsContext';
 import App from './components/App';
@@ -15,13 +14,11 @@ if (!root) throw new Error('no root');
 
 createRoot(root).render(
     <BrowserRouter>
-        <ApolloProvider>
-            <RelayProvider>
-                <SettingsProvider>
-                    <App />
-                </SettingsProvider>
-            </RelayProvider>
-        </ApolloProvider>
+        <RelayProvider>
+            <SettingsProvider>
+                <App />
+            </SettingsProvider>
+        </RelayProvider>
     </BrowserRouter>,
 );
 
