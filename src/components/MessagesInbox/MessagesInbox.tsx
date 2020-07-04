@@ -7,6 +7,7 @@ import { MessagesInbox_messages$key } from './__generated__/MessagesInbox_messag
 // import styles from './MessagesInbox.module.css';
 import useMessagesInboxNewMsgSubscription from './useMessagesInboxNewMsgSubscription';
 import MessagesInboxScrollHelper from './MessagesInboxScrollHelper';
+import useNewMessageNotification from './useNewMessageNotification';
 
 type TProps = {
     messagesInbox: MessagesInbox_messages$key;
@@ -55,6 +56,7 @@ const MessagesInbox = ({ messagesInbox }: TProps) => {
     lastCursor.current = lastMessage.cursor || lastCursor.current;
 
     useMessagesInboxNewMsgSubscription(lastCursor.current);
+    useNewMessageNotification();
 
     const handleLoadMoreMsgs = () => loadPrevious(30);
 
