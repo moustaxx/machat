@@ -1,0 +1,650 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""
+columns and relationships of "conversations"
+"""
+type conversations implements Node {
+  created_at: timestamptz!
+  id: ID!
+
+  """An array relationship"""
+  messages(
+    """distinct select on columns"""
+    distinct_on: [messages_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [messages_order_by!]
+
+    """filter the rows returned"""
+    where: messages_bool_exp
+  ): [messages!]!
+
+  """An aggregated array relationship"""
+  messages_aggregate(
+    """distinct select on columns"""
+    distinct_on: [messages_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [messages_order_by!]
+
+    """filter the rows returned"""
+    where: messages_bool_exp
+  ): messages_aggregate!
+
+  """An array relationship connection"""
+  messages_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [messages_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [messages_order_by!]
+
+    """filter the rows returned"""
+    where: messages_bool_exp
+  ): messagesConnection!
+  name: String!
+}
+
+"""
+Boolean expression to filter rows from the table "conversations". All fields are combined with a logical 'AND'.
+"""
+input conversations_bool_exp {
+  _and: [conversations_bool_exp]
+  _not: conversations_bool_exp
+  _or: [conversations_bool_exp]
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  messages: messages_bool_exp
+  name: String_comparison_exp
+}
+
+"""
+ordering options when selecting data from "conversations"
+"""
+input conversations_order_by {
+  created_at: order_by
+  id: order_by
+  messages_aggregate: messages_aggregate_order_by
+  name: order_by
+}
+
+"""
+primary key columns input for table: "conversations"
+"""
+input conversations_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "conversations"
+"""
+enum conversations_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  name
+}
+
+"""
+A Relay Connection object on "conversations"
+"""
+type conversationsConnection {
+  edges: [conversationsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type conversationsEdge {
+  cursor: String!
+  node: conversations!
+}
+
+input hasura_auth_args {
+  cleartext_password: String
+  nickname: String
+}
+
+"""
+columns and relationships of "hasura_user"
+"""
+type hasura_user implements Node {
+  id: ID!
+  jwt_token: String
+}
+
+"""
+Boolean expression to filter rows from the table "hasura_user". All fields are combined with a logical 'AND'.
+"""
+input hasura_user_bool_exp {
+  _and: [hasura_user_bool_exp]
+  _not: hasura_user_bool_exp
+  _or: [hasura_user_bool_exp]
+  jwt_token: String_comparison_exp
+}
+
+"""
+ordering options when selecting data from "hasura_user"
+"""
+input hasura_user_order_by {
+  jwt_token: order_by
+}
+
+"""
+primary key columns input for table: "hasura_user"
+"""
+input hasura_user_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "hasura_user"
+"""
+enum hasura_user_select_column {
+  """column name"""
+  jwt_token
+}
+
+"""
+A Relay Connection object on "hasura_user"
+"""
+type hasura_userConnection {
+  edges: [hasura_userEdge!]!
+  pageInfo: PageInfo!
+}
+
+type hasura_userEdge {
+  cursor: String!
+  node: hasura_user!
+}
+
+"""
+columns and relationships of "messages"
+"""
+type messages implements Node {
+  content: String!
+
+  """An object relationship"""
+  conversation: conversations!
+  conversation_id: uuid!
+  created_at: timestamptz!
+  id: ID!
+  nickname: String!
+}
+
+"""
+aggregated selection of "messages"
+"""
+type messages_aggregate {
+  aggregate: messages_aggregate_fields
+  nodes: [messages!]!
+}
+
+"""
+aggregate fields of "messages"
+"""
+type messages_aggregate_fields {
+  count(columns: [messages_select_column!], distinct: Boolean): Int
+  max: messages_max_fields
+  min: messages_min_fields
+}
+
+"""
+order by aggregate values of table "messages"
+"""
+input messages_aggregate_order_by {
+  count: order_by
+  max: messages_max_order_by
+  min: messages_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "messages"
+"""
+input messages_arr_rel_insert_input {
+  data: [messages_insert_input!]!
+}
+
+"""
+Boolean expression to filter rows from the table "messages". All fields are combined with a logical 'AND'.
+"""
+input messages_bool_exp {
+  _and: [messages_bool_exp]
+  _not: messages_bool_exp
+  _or: [messages_bool_exp]
+  content: String_comparison_exp
+  conversation: conversations_bool_exp
+  conversation_id: uuid_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  nickname: String_comparison_exp
+}
+
+"""
+input type for inserting data into table "messages"
+"""
+input messages_insert_input {
+  content: String
+  conversation_id: uuid
+  nickname: String
+}
+
+"""aggregate max on columns"""
+type messages_max_fields {
+  content: String
+  conversation_id: uuid
+  created_at: timestamptz
+  id: uuid
+  nickname: String
+}
+
+"""
+order by max() on columns of table "messages"
+"""
+input messages_max_order_by {
+  content: order_by
+  conversation_id: order_by
+  created_at: order_by
+  id: order_by
+  nickname: order_by
+}
+
+"""aggregate min on columns"""
+type messages_min_fields {
+  content: String
+  conversation_id: uuid
+  created_at: timestamptz
+  id: uuid
+  nickname: String
+}
+
+"""
+order by min() on columns of table "messages"
+"""
+input messages_min_order_by {
+  content: order_by
+  conversation_id: order_by
+  created_at: order_by
+  id: order_by
+  nickname: order_by
+}
+
+"""
+response of any mutation on the table "messages"
+"""
+type messages_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [messages!]!
+}
+
+"""
+input type for inserting object relation for remote table "messages"
+"""
+input messages_obj_rel_insert_input {
+  data: messages_insert_input!
+}
+
+"""
+ordering options when selecting data from "messages"
+"""
+input messages_order_by {
+  content: order_by
+  conversation: conversations_order_by
+  conversation_id: order_by
+  created_at: order_by
+  id: order_by
+  nickname: order_by
+}
+
+"""
+primary key columns input for table: "messages"
+"""
+input messages_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "messages"
+"""
+enum messages_select_column {
+  """column name"""
+  content
+
+  """column name"""
+  conversation_id
+
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  nickname
+}
+
+"""
+A Relay Connection object on "messages"
+"""
+type messagesConnection {
+  edges: [messagesEdge!]!
+  pageInfo: PageInfo!
+}
+
+type messagesEdge {
+  cursor: String!
+  node: messages!
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  insert data into the table: "messages"
+  """
+  insert_messages(
+    """the rows to be inserted"""
+    objects: [messages_insert_input!]!
+  ): messages_mutation_response
+
+  """
+  insert a single row into the table: "messages"
+  """
+  insert_messages_one(
+    """the row to be inserted"""
+    object: messages_insert_input!
+  ): messages
+}
+
+"""An object with globally unique ID"""
+interface Node {
+  """A globally unique identifier"""
+  id: ID!
+}
+
+"""column ordering options"""
+enum order_by {
+  """in the ascending order, nulls last"""
+  asc
+
+  """in the ascending order, nulls first"""
+  asc_nulls_first
+
+  """in the ascending order, nulls last"""
+  asc_nulls_last
+
+  """in the descending order, nulls first"""
+  desc
+
+  """in the descending order, nulls first"""
+  desc_nulls_first
+
+  """in the descending order, nulls last"""
+  desc_nulls_last
+}
+
+type PageInfo {
+  endCursor: String!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String!
+}
+
+"""query root"""
+type query_root {
+  """
+  fetch data from the table: "conversations"
+  """
+  conversations_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [conversations_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [conversations_order_by!]
+
+    """filter the rows returned"""
+    where: conversations_bool_exp
+  ): conversationsConnection!
+
+  """
+  execute function "hasura_auth" which returns "hasura_user"
+  """
+  hasura_auth_connection(
+    """
+    input parameters for function "hasura_auth"
+    """
+    args: hasura_auth_args!
+
+    """distinct select on columns"""
+    distinct_on: [hasura_user_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [hasura_user_order_by!]
+
+    """filter the rows returned"""
+    where: hasura_user_bool_exp
+  ): hasura_userConnection!
+
+  """
+  fetch data from the table: "hasura_user"
+  """
+  hasura_user_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [hasura_user_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [hasura_user_order_by!]
+
+    """filter the rows returned"""
+    where: hasura_user_bool_exp
+  ): hasura_userConnection!
+
+  """
+  fetch data from the table: "messages"
+  """
+  messages_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [messages_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [messages_order_by!]
+
+    """filter the rows returned"""
+    where: messages_bool_exp
+  ): messagesConnection!
+  node(
+    """A globally unique id"""
+    id: ID!
+  ): Node
+}
+
+"""
+expression to compare columns of type String. All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  _ilike: String
+  _in: [String!]
+  _is_null: Boolean
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  _nilike: String
+  _nin: [String!]
+  _nlike: String
+  _nsimilar: String
+  _similar: String
+}
+
+"""subscription root"""
+type subscription_root {
+  """
+  fetch data from the table: "conversations"
+  """
+  conversations_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [conversations_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [conversations_order_by!]
+
+    """filter the rows returned"""
+    where: conversations_bool_exp
+  ): conversationsConnection!
+
+  """
+  execute function "hasura_auth" which returns "hasura_user"
+  """
+  hasura_auth_connection(
+    """
+    input parameters for function "hasura_auth"
+    """
+    args: hasura_auth_args!
+
+    """distinct select on columns"""
+    distinct_on: [hasura_user_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [hasura_user_order_by!]
+
+    """filter the rows returned"""
+    where: hasura_user_bool_exp
+  ): hasura_userConnection!
+
+  """
+  fetch data from the table: "hasura_user"
+  """
+  hasura_user_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [hasura_user_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [hasura_user_order_by!]
+
+    """filter the rows returned"""
+    where: hasura_user_bool_exp
+  ): hasura_userConnection!
+
+  """
+  fetch data from the table: "messages"
+  """
+  messages_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [messages_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [messages_order_by!]
+
+    """filter the rows returned"""
+    where: messages_bool_exp
+  ): messagesConnection!
+  node(
+    """A globally unique id"""
+    id: ID!
+  ): Node
+}
+
+scalar timestamptz
+
+"""
+expression to compare columns of type timestamptz. All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
+
+scalar uuid
+
+"""
+expression to compare columns of type uuid. All fields are combined with logical 'AND'.
+"""
+input uuid_comparison_exp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _is_null: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
+}
+
