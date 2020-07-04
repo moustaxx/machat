@@ -1,6 +1,7 @@
 import React, { useContext, useState, useRef } from 'react';
+import { commitLocalUpdate, RecordSourceSelectorProxy } from 'relay-runtime';
+import { useRelayEnvironment } from 'react-relay/hooks';
 import { Link } from 'react-router-dom';
-import { useApolloClient } from '@apollo/client';
 import {
     MdLightbulbOutline,
     MdPowerSettingsNew,
@@ -25,7 +26,7 @@ const TopBar = ({
     const [isMenuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
     const dropDownRef = useRef<HTMLButtonElement | null>(null);
-    const client = useApolloClient();
+    const environment = useRelayEnvironment();
 
     useOnClickOutside(menuRef, (event) => {
         const path = event.composedPath();
@@ -51,7 +52,9 @@ const TopBar = ({
 
     const handleLogout = () => {
         setSettings({ nickname: null });
-        client.clearStore();
+        commitLocalUpdate(environment, (store) => {
+            (store as RecordSourceSelectorProxy).invalidateStore();
+        });
     };
 
     return (
