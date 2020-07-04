@@ -9,7 +9,7 @@
         "test": "craco test",
         "eject": "craco eject",
         "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx",
-        "update-schema": "get-graphql-schema https://machat-server.herokuapp.com/v1/relay > schema.graphql",
+        "update-schema": "get-graphql-schema https://machat-server.herokuapp.com/v1beta1/relay > schema.graphql",
         "relay": "relay-compiler --language typescript --schema schema.graphql --src ./src/"
     },
     "resolutions": {
