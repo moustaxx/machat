@@ -34,10 +34,14 @@ const Message = ({ message }: IMessageProps) => {
             <div className={styles.container}>
                 <div className={styles.firstRow}>
                     <div className={styles.nickname}>{nickname}</div>
-                    <Time
-                        time={createdAt as string}
-                        className={styles.createdAt}
-                    />
+                    {createdAt === 'OPTIMISTIC' ? (
+                        <div className={styles.createdAt}>Sending...</div>
+                    ) : (
+                        <Time
+                            time={createdAt as string}
+                            className={styles.createdAt}
+                        />
+                    )}
                 </div>
                 <div className={styles.content}>{emoji(content, {
                     baseUrl: 'https://twemoji.maxcdn.com/2/svg/',

@@ -52,16 +52,26 @@ const useMessagesInboxNewMsgSubscription = (after: string) => {
             if (!connectionRecord) return;
 
             const payload = store.getRootField('messages_connection');
-            const serverEdges = payload.getLinkedRecords('edges');
+            const payloadEdges = payload.getLinkedRecords('edges');
+            const connectionEdges = connectionRecord.getLinkedRecords('edges')?.reverse();
 
-            serverEdges.forEach((edge) => {
+            payloadEdges.forEach((payloadEdge) => {
+                const resNode = payloadEdge.getLinkedRecord('node');
+                const resNodeID = resNode.getValue('id');
+
+                const existingItem = connectionEdges?.find((cachedEdge) => {
+                    const cachedNode = cachedEdge.getLinkedRecord('node');
+                    const cachedNodeID = cachedNode?.getValue('id');
+                    return cachedNodeID === resNodeID;
+                });
+                if (existingItem) return;
+
                 const newEdge = ConnectionHandler.buildConnectionEdge(
                     store,
                     connectionRecord,
-                    edge,
+                    payloadEdge,
                 );
                 if (!newEdge) return;
-
                 ConnectionHandler.insertEdgeAfter(connectionRecord, newEdge);
             });
         },

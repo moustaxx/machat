@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { graphql, usePaginationFragment } from 'react-relay/hooks';
 
 import Message from '../Message';
@@ -48,15 +48,15 @@ const MessagesInbox = ({ messagesInbox }: TProps) => {
         `,
         messagesInbox,
     );
-
     const messages = data.messages_connection.edges;
     const lastMessage = messages[messages.length - 1];
 
-    useMessagesInboxNewMsgSubscription(lastMessage.cursor);
+    const lastCursor = useRef<string>(lastMessage.cursor);
+    lastCursor.current = lastMessage.cursor || lastCursor.current;
 
-    const handleLoadMoreMsgs = () => {
-        loadPrevious(30);
-    };
+    useMessagesInboxNewMsgSubscription(lastCursor.current);
+
+    const handleLoadMoreMsgs = () => loadPrevious(30);
 
     return (
         <MessagesInboxScrollHelper
