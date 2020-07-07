@@ -1,6 +1,8 @@
-import React, { useRef, useCallback, useLayoutEffect, useEffect } from 'react';
+import React, { useRef, useCallback, useLayoutEffect, useEffect, useContext } from 'react';
 
 import styles from './MessagesInbox.module.css';
+import Snackbar from '../Snackbar';
+import { SnackbarContext } from '../../contexts/SnackbarContext';
 
 type TProps = {
     firstItemID: string;
@@ -59,12 +61,21 @@ const MessagesInboxScrollHelper: React.FC<TProps> = ({ children, firstItemID, la
         }
     }, [firstItemID, lastItemID, scrollToBottom]);
 
+    const { snackbarData } = useContext(SnackbarContext);
+
     return (
         <div
             className={styles.root}
             ref={containerRef}
             onScroll={handleScroll}
         >
+            {snackbarData.message ? (
+                <Snackbar
+                    message={snackbarData.message}
+                    buttonOnClick={snackbarData.buttonOnClick}
+                    buttonText={snackbarData.buttonText}
+                />
+            ) : null}
             <div className={styles.messagesWrapper}>
                 {children}
                 <div ref={bottomHelperRef} />

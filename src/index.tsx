@@ -7,6 +7,7 @@ import * as serviceWorker from './serviceWorker';
 
 import RelayProvider from './providers/RelayProvider';
 import SettingsProvider from './contexts/SettingsContext';
+import SnackbarProvider from './contexts/SnackbarContext';
 import App from './components/App';
 
 const root = document.getElementById('root');
@@ -16,7 +17,9 @@ createRoot(root).render(
     <BrowserRouter>
         <RelayProvider>
             <SettingsProvider>
-                <App />
+                <SnackbarProvider>
+                    <App />
+                </SnackbarProvider>
             </SettingsProvider>
         </RelayProvider>
     </BrowserRouter>,
