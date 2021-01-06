@@ -1,5 +1,5 @@
 module.exports = {
-    extends: ['react-app', 'eslint-config-airbnb-typescript'],
+    extends: ['eslint-config-airbnb-typescript'],
     parserOptions: {
         project: './tsconfig.json',
         ecmaVersion: 2020,
@@ -28,6 +28,7 @@ module.exports = {
         'react/jsx-props-no-spreading': 0,
         'react/jsx-one-expression-per-line': 0,
         'react/no-children-prop': 0,
+        'react/require-default-props': 0,
         'react/prop-types': 0,
     },
 };
