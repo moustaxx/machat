@@ -13,9 +13,13 @@
         "relay": "relay-compiler --language typescript --schema schema.graphql --src ./src/"
     },
     "resolutions": {
-        "relay-compiler-webpack-plugin/**/graphql": "^15.0.0"
+        "relay-compiler-webpack-plugin/graphql": "^15.0.0",
+        "eslint-config-airbnb-typescript/@typescript-eslint/parser": "^4.11.1",
+        "eslint-config-airbnb-typescript/eslint-config-airbnb": "*",
+        "eslint-config-airbnb-typescript/eslint-config-airbnb-base": "*"
     },
     "dependencies": {
+        "@babel/runtime": "^7.12.5",
         "@craco/craco": "^5.6.4",
         "@types/emoji-mart": "^3.0.2",
         "clsx": "^1.1.0",
@@ -33,18 +37,28 @@
         "react-scripts": "moustaxx/react-scripts",
         "react-textarea-autosize": "^8.0.1",
         "relay-runtime": "^9.1.0",
+        "scheduler": "^0.20.1",
         "subscriptions-transport-ws": "^0.9.16",
         "typescript": "~3.9.2"
     },
     "devDependencies": {
+        "@types/eslint": "^7",
         "@types/luxon": "^1.24.0",
         "@types/node": "^14.0.1",
         "@types/react": "^16.9.0",
         "@types/react-dom": "^16.9.0",
         "@types/react-relay": "^7.0.8",
         "@types/relay-runtime": "^9.1.0",
+        "@types/scheduler": "^0",
+        "@typescript-eslint/eslint-plugin": "^4.12.0",
+        "@typescript-eslint/parser": "^4.12.0",
         "babel-plugin-relay": "^9.1.0",
+        "eslint": "^7.17.0",
         "eslint-config-airbnb-typescript": "^8.0.2",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-react": "^7.22.0",
+        "eslint-plugin-react-hooks": "^4.2.0",
         "get-graphql-schema": "^2.1.2",
         "relay-compiler": "^9.1.0",
         "relay-compiler-language-typescript": "^12.0.2",

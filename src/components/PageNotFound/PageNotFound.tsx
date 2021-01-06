@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
 import styles from './PageNotFound.module.css';
