@@ -24,6 +24,10 @@
         ]
     },
     "include": [
-        "src"
+        "src",
+        "apollo.config.js",
+        "webpack.config.js",
+        ".eslintrc.js",
+        ".babelrc.js"
     ]
 }

@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const RelayCompilerWebpackPlugin = require('relay-compiler-webpack-plugin');
@@ -12,7 +11,11 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 process.env.NODE_ENV = process.env.NODE_ENV ?? 'production';
 const isDev = process.env.NODE_ENV !== 'production';
 
-/** @type {webpack.Configuration & { devServer: import('webpack-dev-server').Configuration }} */
+/**
+ * @type {import('webpack').Configuration & {
+ *  devServer: import('webpack-dev-server').Configuration
+ * }}
+*/
 const config = {
     target: 'browserslist',
     mode: isDev ? 'development' : 'production',
