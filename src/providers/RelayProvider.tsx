@@ -53,7 +53,6 @@ const subscriptionClient = new SubscriptionClient(
     {
         reconnect: true,
         connectionCallback: (error, res) => {
-            if (!error) return;
             console.error('WebSocket Error:', error, res);
         },
     },

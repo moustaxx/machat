@@ -67,7 +67,7 @@ const MessagesInbox = ({ messagesInbox }: TProps) => {
         >
             <button onClick={handleLoadMoreMsgs} type="button">Load more</button>
             {isLoadingPrevious && <span>isLoadingNext</span>}
-            {messages?.map(({ node }) => (
+            {messages.map(({ node }) => (
                 <Message
                     key={node.id}
                     message={node}

@@ -10,10 +10,7 @@ type TState = {
 };
 
 export default class ErrorBoundary extends React.Component<TProps, TState> {
-    constructor(props: TProps) {
-        super(props);
-        this.state = { error: null };
-    }
+    state: TState = { error: null };
 
     static getDerivedStateFromError(error: Error) {
         return { error };

@@ -4,9 +4,8 @@ import clsx from 'clsx';
 import styles from './Switch.module.css';
 
 type TProps = {
-    isActive: boolean,
-    className?: string,
-
+    isActive: boolean;
+    className?: string;
 };
 
 const Switch = ({ isActive, className }: TProps) => {

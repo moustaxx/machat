@@ -47,7 +47,7 @@ const useNewMessageNotification = () => {
                 && document.visibilityState === 'hidden'
                 && isFirstSubscriptionPassed.current
             ) {
-                sendDesktopNotification({
+                void sendDesktopNotification({
                     title: `${msg.nickname} sent new message:`,
                     body: msg.content,
                     timestamp: DateTime.fromISO(msg.createdAt as string).toMillis(),

@@ -15,7 +15,7 @@ const useParseDate = (dateISO: string) => {
         }
         if (dateTime.diffNow('day').days > -2) {
             return [
-                `${dateTime.toRelativeCalendar()}, ${dateTime.toLocaleString(DateTime.TIME_SIMPLE)}`,
+                `${dateTime.toRelativeCalendar() ?? '??'}, ${dateTime.toLocaleString(DateTime.TIME_SIMPLE)}`,
                 suggestedInterval,
             ];
         }

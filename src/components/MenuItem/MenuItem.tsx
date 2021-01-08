@@ -7,12 +7,12 @@ import Switch from '../Switch';
 type TButton = React.DOMAttributes<HTMLButtonElement>;
 
 type TProps = {
-    onClick?: TButton['onClick'],
-    className?: string,
-    label: string,
-    icon?: React.ReactNode,
-    isSwitch?: boolean,
-    isSwitchToggled?: boolean,
+    onClick?: TButton['onClick'];
+    className?: string;
+    label: string;
+    icon?: React.ReactNode;
+    isSwitch?: boolean;
+    isSwitchToggled?: boolean;
 };
 
 const MenuItem = ({

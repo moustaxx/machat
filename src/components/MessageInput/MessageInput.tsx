@@ -80,8 +80,8 @@ const MessageInput = ({ onFocus, onBlur }: TProps) => {
                     content,
                 },
             },
-            optimisticUpdater: updater as SelectorStoreUpdater<object>,
-            updater: updater as SelectorStoreUpdater<object>,
+            optimisticUpdater: updater as SelectorStoreUpdater<Record<string, unknown>>,
+            updater: updater as SelectorStoreUpdater<Record<string, unknown>>,
         });
         textboxRef.current.form?.reset();
     };

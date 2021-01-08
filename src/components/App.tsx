@@ -6,9 +6,9 @@ import styles from './App.module.css';
 import { SettingsContext } from '../contexts/SettingsContext';
 import Loading from './Loading';
 
-const Conversation = lazy(() => import('./Conversation'));
-const IndexScreen = lazy(() => import('./IndexScreen'));
-const PageNotFound = lazy(() => import('./PageNotFound'));
+const Conversation = lazy(async () => import('./Conversation'));
+const IndexScreen = lazy(async () => import('./IndexScreen'));
+const PageNotFound = lazy(async () => import('./PageNotFound'));
 
 const protectedRoute = (
     component: JSX.Element,
@@ -30,7 +30,7 @@ const App = () => {
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
             className={clsx(styles.root, !isOutlineOn && styles.noOutline)}
-            onKeyDown={(addOutlineOnTab)}
+            onKeyDown={addOutlineOnTab}
             onClick={() => setOutlineStatus(false)}
         >
             <Suspense fallback={<Loading />}>

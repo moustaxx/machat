@@ -27,11 +27,11 @@ const saveSettings = (settings: TSettings) => localStorage.setItem(
     JSON.stringify(settings),
 );
 
-const getSettings = (): TSettings => {
+const getSettings = () => {
     const data = localStorage.getItem('settings');
     if (!data) return defaultState.settings;
 
-    return JSON.parse(data);
+    return JSON.parse(data) as TSettings;
 };
 
 const SettingsProvider: React.FC = ({ children }) => {

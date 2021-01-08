@@ -12,7 +12,7 @@ const useHeadTitleNotification = (notification: string | null) => {
     useEffect(() => {
         if (!notification) return;
 
-        audio.play();
+        void audio.play();
 
         let isNotifyTitle = false;
         const interval = window.setInterval(() => {
