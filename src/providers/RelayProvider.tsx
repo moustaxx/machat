@@ -51,7 +51,8 @@ const subscriptionClient = new SubscriptionClient(
     'wss://machat-server.herokuapp.com/v1beta1/relay',
     {
         reconnect: true,
-        connectionCallback: (error, res) => {
+        connectionCallback: (error: Error[] | undefined, res) => {
+            if (!error) return;
             console.error('WebSocket Error:', error, res);
         },
     },
