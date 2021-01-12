@@ -1,4 +1,3 @@
-import React from 'react';
 import { unstable_createRoot as createRoot } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 

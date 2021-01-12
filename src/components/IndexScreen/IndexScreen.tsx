@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from 'react';
+import { useContext, useState, useRef } from 'react';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
 import { GoMarkGithub } from 'react-icons/go';

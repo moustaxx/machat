@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useCallback, useState, useLayoutEffect } from 'react';
+import { createContext, useMemo, useCallback, useState, useLayoutEffect } from 'react';
 
 type TSettings = {
     nickname: string | null;

@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react';
+import { useRef, useContext } from 'react';
 import { BaseEmoji } from 'emoji-mart';
 import TextareaAutosize from 'react-textarea-autosize';
 import { MdSend } from 'react-icons/md';

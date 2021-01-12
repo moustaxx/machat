@@ -1,4 +1,4 @@
-import React, { useContext, lazy, Suspense, useState } from 'react';
+import { useContext, lazy, Suspense, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import clsx from 'clsx';
 

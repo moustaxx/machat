@@ -7,6 +7,7 @@ const reactRules = {
     'react/jsx-props-no-spreading': 0,
     'react/no-children-prop': 0,
     'react/prop-types': 0,
+    'react/react-in-jsx-scope': 0,
     'react/require-default-props': 0,
     'react/state-in-constructor': ['warn', 'never'],
 };

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLazyLoadQuery, graphql } from 'react-relay/hooks';
 
 import { ConversationDataQuery } from './__generated__/ConversationDataQuery.graphql';

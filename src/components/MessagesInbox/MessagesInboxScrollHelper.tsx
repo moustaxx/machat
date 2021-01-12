@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useLayoutEffect, useEffect, useContext } from 'react';
+import { useRef, useCallback, useLayoutEffect, useEffect, useContext } from 'react';
 
 import styles from './MessagesInbox.module.css';
 import Snackbar from '../Snackbar';

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { graphql, usePaginationFragment } from 'react-relay/hooks';
 
 import Message from '../Message';

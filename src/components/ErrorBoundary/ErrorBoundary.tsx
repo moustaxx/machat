@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 
 type TProps = {
     children: React.ReactNode;
@@ -9,7 +9,7 @@ type TState = {
     error: Error | null;
 };
 
-export default class ErrorBoundary extends React.Component<TProps, TState> {
+export default class ErrorBoundary extends Component<TProps, TState> {
     state: TState = { error: null };
 
     static getDerivedStateFromError(error: Error) {
