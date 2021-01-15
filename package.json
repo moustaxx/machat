@@ -7,7 +7,7 @@
         "start": "cross-env NODE_ENV=development webpack serve --config=./webpack.config.js",
         "build": "rimraf ./build && webpack --config=./webpack.config.js",
         "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx",
-        "update-schema": "get-graphql-schema https://machat-server.herokuapp.com/v1beta1/relay > schema.graphql",
+        "update-schema": "get-graphql-schema http://localhost:4000/graphql > schema.graphql",
         "relay": "relay-compiler --language typescript --schema schema.graphql --src ./src/"
     },
     "resolutions": {

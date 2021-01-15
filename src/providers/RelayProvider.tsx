@@ -13,7 +13,7 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
 
 const fetchFunction: FetchFunction = async (operation, variables) => {
     try {
-        const response = await fetch('https://machat-server.herokuapp.com/v1beta1/relay', {
+        const response = await fetch('http://localhost:4000/graphql', {
             method: 'POST',
             credentials: 'include',
             keepalive: true,
@@ -48,7 +48,7 @@ const fetchFunction: FetchFunction = async (operation, variables) => {
 };
 
 const subscriptionClient = new SubscriptionClient(
-    'wss://machat-server.herokuapp.com/v1beta1/relay',
+    'ws://localhost:4000/graphql',
     {
         reconnect: true,
         connectionCallback: (error: Error[] | undefined, res) => {
