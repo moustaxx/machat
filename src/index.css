@@ -1,4 +1,4 @@
-@import-normalize;
+@import '~@csstools/normalize.css';
 
 body {
     font-family: 'Roboto', sans-serif;
