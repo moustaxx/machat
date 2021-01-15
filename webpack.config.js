@@ -8,7 +8,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 
-process.env.NODE_ENV = process.env.NODE_ENV ?? 'production';
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 const isDev = process.env.NODE_ENV !== 'production';
 
 /**

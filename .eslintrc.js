@@ -64,6 +64,9 @@ module.exports = {
         files: ['**/*.js'],
         rules: {
             'import/no-extraneous-dependencies': 0,
+            '@typescript-eslint/ban-ts-comment': 0,
+            '@typescript-eslint/no-unsafe-call': 0,
+            '@typescript-eslint/no-unsafe-member-access': 0,
             '@typescript-eslint/no-var-requires': 0,
         },
     }],
