@@ -1,0 +1,17 @@
+.root {
+    max-width: 300px;
+    width: 100%;
+    height: 44px;
+    padding: 24px;
+    margin: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    border: 1px solid hsl(0deg 0% 100% / 14%);
+    border-radius: 6px;
+    transition: .2s border-color;
+    background-color: hsl(0deg 0% 100% / 11%);
+    color: white;
+}
+.root:focus {
+    border: 1px solid hsl(0deg 0% 100% / 60%);
+}

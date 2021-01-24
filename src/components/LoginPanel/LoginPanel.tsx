@@ -20,10 +20,19 @@ const LoginPanel = () => {
     return (
         <form className={styles.root} onSubmit={handleLoginSubmit}>
             <h1 className={styles.heading}>Log in</h1>
+            <TextBox
+                ref={usernameRef}
                 minLength={4}
                 maxLength={20}
                 required
-                placeholder="Your nickname here..."
+                placeholder="Username"
+            />
+            <TextBox
+                ref={passwordRef}
+                minLength={6}
+                required
+                type="password"
+                placeholder="Password"
             />
             <div className={styles.btnWrapper}>
                 <Button
