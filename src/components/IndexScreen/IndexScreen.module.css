@@ -15,9 +15,21 @@
 
 .logo {
     height: 150px;
+    width: 165px;
+    margin-top: 20%;
 }
 
-.split {
+.split1 {
+    width: 50%;
+    padding: 32px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: var(--welcome-screen-bg);
+}
+
+.split2 {
     width: 50%;
     padding: 32px;
     box-sizing: border-box;
@@ -27,20 +39,16 @@
     flex-direction: column;
 }
 
-.splitColorized {
-    background: var(--welcome-screen-bg);
-}
-
 .people {
     max-width: 600px;
     box-sizing: border-box;
 }
 
 @media screen and (max-width: 1200px) {
-    .split {
+    .split1 {
         width: 100%;
     }
-    .split:last-child {
+    .split2 {
         display: none;
     }
 }

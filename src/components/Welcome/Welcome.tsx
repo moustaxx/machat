@@ -4,10 +4,10 @@ import styles from './Welcome.module.css';
 import Button from '../Button';
 
 type TProps = {
-    handleClickGetIn: () => void;
+    setPanel: (name: 'welcome' | 'login' | 'register') => void;
 };
 
-const Welcome = ({ handleClickGetIn }: TProps) => {
+const Welcome = ({ setPanel }: TProps) => {
     const footer = (
         <div className={styles.footer}>
             Made by&nbsp;
@@ -32,11 +32,13 @@ const Welcome = ({ handleClickGetIn }: TProps) => {
                 <Button
                     mode="light"
                     className={styles.btn}
+                    onClick={() => setPanel('register')}
                 >Sign up
                 </Button>
                 <Button
                     mode="light"
                     className={styles.btn}
+                    onClick={() => setPanel('login')}
                 >Log in
                 </Button>
             </div>

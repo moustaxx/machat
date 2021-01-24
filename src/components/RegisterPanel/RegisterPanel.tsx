@@ -2,9 +2,9 @@ import { useRef } from 'react';
 // import { useContext, useRef } from 'react';
 import { graphql, useMutation } from 'react-relay/hooks';
 import { useNavigate } from 'react-router-dom';
-import { LoginPanelMutation } from './__generated__/LoginPanelMutation.graphql';
+import { RegisterPanelMutation } from './__generated__/RegisterPanelMutation.graphql';
 
-import styles from './LoginPanel.module.css';
+import styles from './RegisterPanel.module.css';
 import TextBox from '../TextBox';
 import Button from '../Button';
 // import { SettingsContext } from '../../contexts/SettingsContext';
@@ -13,29 +13,32 @@ type TProps = {
     setPanel: (name: 'welcome' | 'login' | 'register') => void;
 };
 
-const LoginPanel = ({ setPanel }: TProps) => {
+const RegisterPanel = ({ setPanel }: TProps) => {
     const navigate = useNavigate();
     // const { setSettings } = useContext(SettingsContext);
+    const emailRef = useRef<HTMLInputElement>(null);
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-    const [login, isSending] = useMutation<LoginPanelMutation>(graphql`
-        mutation LoginPanelMutation(
+    const [register, isSending] = useMutation<RegisterPanelMutation>(graphql`
+        mutation RegisterPanelMutation(
             $username: String!
             $password: String!
+            $email: String!
         ) {
-            login(username: $username, password: $password) {
+            register(username: $username, password: $password, email: $email) {
                 id
             }
         }
     `);
 
-    const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleRegisterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        const email = emailRef.current?.value;
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
-        if (!username || !password) return;
-        login({
-            variables: { username, password },
+        if (!email || !username || !password) return;
+        register({
+            variables: { email, username, password },
             // onCompleted: (res) => {
             //     setSettings(res);
             // },
@@ -44,8 +47,15 @@ const LoginPanel = ({ setPanel }: TProps) => {
     };
 
     return (
-        <form className={styles.root} onSubmit={handleLoginSubmit}>
-            <h1 className={styles.heading}>Log in</h1>
+        <form className={styles.root} onSubmit={handleRegisterSubmit}>
+            <h1 className={styles.heading}>Sign up</h1>
+            <TextBox
+                ref={emailRef}
+                minLength={4}
+                maxLength={20}
+                required
+                placeholder="Email"
+            />
             <TextBox
                 ref={usernameRef}
                 minLength={4}
@@ -71,7 +81,7 @@ const LoginPanel = ({ setPanel }: TProps) => {
                     type="submit"
                     mode="light"
                     className={styles.btn}
-                >Log in
+                >Sign up
                 </Button>
             </div>
             {!isSending || <div className={styles.sending}>Sending...</div>}
@@ -79,4 +89,4 @@ const LoginPanel = ({ setPanel }: TProps) => {
     );
 };
 
-export default LoginPanel;
+export default RegisterPanel;
