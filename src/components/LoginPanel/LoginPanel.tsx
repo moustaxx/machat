@@ -2,8 +2,7 @@ import { useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './LoginPanel.module.css';
-import lightWideButton from '../../sharedCssModules/lightWideButton.module.css';
-import { SettingsContext } from '../../contexts/SettingsContext';
+import Button from '../Button';
 
 const LoginPanel = () => {
     const navigate = useNavigate();
@@ -20,20 +19,25 @@ const LoginPanel = () => {
 
     return (
         <form className={styles.root} onSubmit={handleLoginSubmit}>
-            <h1 className={styles.heading}>Type your nickname</h1>
-            <input
-                className={styles.textBox}
-                ref={nicknameRef}
+            <h1 className={styles.heading}>Log in</h1>
                 minLength={4}
                 maxLength={20}
                 required
                 placeholder="Your nickname here..."
             />
-            <button
+            <div className={styles.btnWrapper}>
+                <Button
+                    mode="light"
+                    className={styles.btn}
+                >Go back
+                </Button>
+                <Button
                 type="submit"
-                className={lightWideButton.root}
+                    mode="light"
+                    className={styles.btn}
             >Log in
-            </button>
+                </Button>
+            </div>
         </form>
     );
 };

@@ -42,13 +42,17 @@ body {
     --border-color: hsl(30, 1%, 33%);
     --welcome-screen-bg: hsl(246, 32%, 35%);
 
-    --primary-button: hsl(227, 58%, 65%);
-    --primary-button-hover: hsl(227, 58%, 60%);
-    --primary-button-active: hsl(227, 58%, 55%);
+    --colorized-button: hsl(210deg 79% 41%);
+    --colorized-button-hover: hsl(210deg 79% 36%);
+    --colorized-button-active: hsl(210deg 79% 32%);
 
-    --secondary-button: hsl(0, 0%, 100%);
-    --secondary-button-hover: hsl(0, 0%, 93%);
-    --secondary-button-active: hsl(0, 0%, 85%);
+    --light-button: hsl(0deg 0% 88%);
+    --light-button-hover: hsl(0deg 0% 75%);
+    --light-button-active: hsl(0deg 0% 65%);
+
+    --dark-button: hsl(0deg 0% 0% / 50%);
+    --dark-button-hover: hsl(0deg 0% 0% / 55%);
+    --dark-button-active: hsl(0deg 0% 0% / 65%);
 
     --shadow-1: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
     --shadow-2: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
@@ -71,13 +75,13 @@ body {
     --border-color: hsla(0, 14%, 7%, 0.12);
     --welcome-screen-bg: hsl(246, 32%, 35%);
 
-    --primary-button: hsl(227, 58%, 65%);
-    --primary-button-hover: hsl(227, 58%, 60%);
-    --primary-button-active: hsl(227, 58%, 55%);
+    --colorized-button: hsl(210deg 79% 41%);
+    --colorized-button-hover: hsl(210deg 79% 36%);
+    --colorized-button-active: hsl(210deg 79% 32%);
 
-    --secondary-button: hsl(0, 0%, 100%);
-    --secondary-button-hover: hsl(0, 0%, 93%);
-    --secondary-button-active: hsl(0, 0%, 85%);
+    --light-button: hsl(0deg 0% 88%);
+    --light-button-hover: hsl(0deg 0% 75%);
+    --light-button-active: hsl(0deg 0% 65%);
 }
 
 ::-webkit-scrollbar {

@@ -1,7 +1,7 @@
 import { GoMarkGithub } from 'react-icons/go';
 
 import styles from './Welcome.module.css';
-import lightWideButton from '../../sharedCssModules/lightWideButton.module.css';
+import Button from '../Button';
 
 type TProps = {
     handleClickGetIn: () => void;
@@ -28,12 +28,18 @@ const Welcome = ({ handleClickGetIn }: TProps) => {
                 MaChat is the place where you can easily comunicate
                 with your friends and many more! All for free!
             </p>
-            <button
-                type="button"
-                className={lightWideButton.root}
-                onClick={handleClickGetIn}
-            >Get in
-            </button>
+            <div className={styles.btnWrapper}>
+                <Button
+                    mode="light"
+                    className={styles.btn}
+                >Sign up
+                </Button>
+                <Button
+                    mode="light"
+                    className={styles.btn}
+                >Log in
+                </Button>
+            </div>
             {footer}
         </div>
     );

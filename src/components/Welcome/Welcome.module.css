@@ -44,3 +44,12 @@
 :global :root.lightMode :local(.paragraph) {
     color: var(--text-secondary-invert);
 }
+
+.btnWrapper {
+    display: flex;
+}
+
+.btn {
+    width: 128px;
+    margin: 0 4px;
+}
