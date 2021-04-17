@@ -4,217 +4,67 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
-input BoolFieldUpdateOperationsInput {
-  set: Boolean
-}
-
 input BoolFilter {
   equals: Boolean
   not: NestedBoolFilter
 }
 
-type Conversation {
-  id: Int!
-  name: String!
-  messages(first: Int, last: Int, before: MessageWhereUniqueInput, after: MessageWhereUniqueInput): [Message!]!
-  createdAt: DateTime!
-  participants(first: Int, last: Int, before: PersonWhereUniqueInput, after: PersonWhereUniqueInput): [Person!]!
-}
-
 type ConversationConnection {
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-Edge-Types
-  """
-  edges: [ConversationEdge!]!
+  """A list of edges."""
+  edges: [ConversationEdge]
 
-  """
-  https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
-  """
+  """Information to aid in pagination."""
   pageInfo: PageInfo!
-}
 
-input ConversationCreateInput {
-  createdAt: DateTime
-  name: String!
-  messages: MessageCreateManyWithoutConversationInput
-  lastRead: LastReadCreateManyWithoutConversationInput
-  participants: PersonCreateManyWithoutConversationsInput
-}
-
-input ConversationCreateManyWithoutParticipantsInput {
-  create: [ConversationCreateWithoutParticipantsInput!]
-  connect: [ConversationWhereUniqueInput!]
-  connectOrCreate: [ConversationCreateOrConnectWithoutparticipantsInput!]
-}
-
-input ConversationCreateOneWithoutLastReadInput {
-  create: ConversationCreateWithoutLastReadInput
-  connect: ConversationWhereUniqueInput
-  connectOrCreate: ConversationCreateOrConnectWithoutlastReadInput
-}
-
-input ConversationCreateOneWithoutMessagesInput {
-  create: ConversationCreateWithoutMessagesInput
-  connect: ConversationWhereUniqueInput
-  connectOrCreate: ConversationCreateOrConnectWithoutmessagesInput
-}
-
-input ConversationCreateOrConnectWithoutlastReadInput {
-  where: ConversationWhereUniqueInput!
-  create: ConversationCreateWithoutLastReadInput!
-}
-
-input ConversationCreateOrConnectWithoutmessagesInput {
-  where: ConversationWhereUniqueInput!
-  create: ConversationCreateWithoutMessagesInput!
-}
-
-input ConversationCreateOrConnectWithoutparticipantsInput {
-  where: ConversationWhereUniqueInput!
-  create: ConversationCreateWithoutParticipantsInput!
-}
-
-input ConversationCreateWithoutLastReadInput {
-  createdAt: DateTime
-  name: String!
-  messages: MessageCreateManyWithoutConversationInput
-  participants: PersonCreateManyWithoutConversationsInput
-}
-
-input ConversationCreateWithoutMessagesInput {
-  createdAt: DateTime
-  name: String!
-  lastRead: LastReadCreateManyWithoutConversationInput
-  participants: PersonCreateManyWithoutConversationsInput
-}
-
-input ConversationCreateWithoutParticipantsInput {
-  createdAt: DateTime
-  name: String!
-  messages: MessageCreateManyWithoutConversationInput
-  lastRead: LastReadCreateManyWithoutConversationInput
+  """Identifies the total count of items in the connection."""
+  totalCount: Float!
 }
 
 type ConversationEdge {
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Cursor"""
-  cursor: String!
+  """The item at the end of the edge."""
+  node: ConversationType!
 
-  """https://facebook.github.io/relay/graphql/connections.htm#sec-Node"""
-  node: Conversation!
+  """A cursor for use in pagination."""
+  cursor: String!
 }
 
-input ConversationScalarWhereInput {
-  AND: [ConversationScalarWhereInput!]
-  OR: [ConversationScalarWhereInput!]
-  NOT: [ConversationScalarWhereInput!]
+input ConversationListRelationFilter {
+  every: ConversationWhereInput
+  some: ConversationWhereInput
+  none: ConversationWhereInput
+}
+
+input ConversationRelationFilter {
+  is: ConversationWhereInput
+  isNot: ConversationWhereInput
+}
+
+type ConversationType implements Node {
+  """The global ID of the object."""
+  id: ID!
+  createdAt: DateTime!
+  name: String!
+  participants(first: Int, after: String, last: Int, before: String): PersonConnection!
+  messages(first: Int, after: String, last: Int, before: String): MessageConnection!
+  lastRead(where: LastReadWhereInput, orderBy: [LastReadOrderByInput!], cursor: LastReadWhereUniqueInput, take: Int, skip: Int, distinct: [LastReadScalarFieldEnum!]): [LastReadType!]!
+}
+
+input ConversationWhereInput {
+  AND: [ConversationWhereInput!]
+  OR: [ConversationWhereInput!]
+  NOT: [ConversationWhereInput!]
   createdAt: DateTimeFilter
   id: IntFilter
   name: StringFilter
-}
-
-input ConversationUpdateInput {
-  createdAt: DateTimeFieldUpdateOperationsInput
-  name: StringFieldUpdateOperationsInput
-  messages: MessageUpdateManyWithoutConversationInput
-  lastRead: LastReadUpdateManyWithoutConversationInput
-  participants: PersonUpdateManyWithoutConversationsInput
-}
-
-input ConversationUpdateManyMutationInput {
-  createdAt: DateTimeFieldUpdateOperationsInput
-  name: StringFieldUpdateOperationsInput
-}
-
-input ConversationUpdateManyWithoutParticipantsInput {
-  create: [ConversationCreateWithoutParticipantsInput!]
-  connect: [ConversationWhereUniqueInput!]
-  set: [ConversationWhereUniqueInput!]
-  disconnect: [ConversationWhereUniqueInput!]
-  delete: [ConversationWhereUniqueInput!]
-  update: [ConversationUpdateWithWhereUniqueWithoutParticipantsInput!]
-  updateMany: [ConversationUpdateManyWithWhereWithoutParticipantsInput!]
-  deleteMany: [ConversationScalarWhereInput!]
-  upsert: [ConversationUpsertWithWhereUniqueWithoutParticipantsInput!]
-  connectOrCreate: [ConversationCreateOrConnectWithoutparticipantsInput!]
-}
-
-input ConversationUpdateManyWithWhereWithoutParticipantsInput {
-  where: ConversationScalarWhereInput!
-  data: ConversationUpdateManyMutationInput!
-}
-
-input ConversationUpdateOneRequiredWithoutLastReadInput {
-  create: ConversationCreateWithoutLastReadInput
-  connect: ConversationWhereUniqueInput
-  update: ConversationUpdateWithoutLastReadInput
-  upsert: ConversationUpsertWithoutLastReadInput
-  connectOrCreate: ConversationCreateOrConnectWithoutlastReadInput
-}
-
-input ConversationUpdateOneRequiredWithoutMessagesInput {
-  create: ConversationCreateWithoutMessagesInput
-  connect: ConversationWhereUniqueInput
-  update: ConversationUpdateWithoutMessagesInput
-  upsert: ConversationUpsertWithoutMessagesInput
-  connectOrCreate: ConversationCreateOrConnectWithoutmessagesInput
-}
-
-input ConversationUpdateWithoutLastReadInput {
-  createdAt: DateTimeFieldUpdateOperationsInput
-  name: StringFieldUpdateOperationsInput
-  messages: MessageUpdateManyWithoutConversationInput
-  participants: PersonUpdateManyWithoutConversationsInput
-}
-
-input ConversationUpdateWithoutMessagesInput {
-  createdAt: DateTimeFieldUpdateOperationsInput
-  name: StringFieldUpdateOperationsInput
-  lastRead: LastReadUpdateManyWithoutConversationInput
-  participants: PersonUpdateManyWithoutConversationsInput
-}
-
-input ConversationUpdateWithoutParticipantsInput {
-  createdAt: DateTimeFieldUpdateOperationsInput
-  name: StringFieldUpdateOperationsInput
-  messages: MessageUpdateManyWithoutConversationInput
-  lastRead: LastReadUpdateManyWithoutConversationInput
-}
-
-input ConversationUpdateWithWhereUniqueWithoutParticipantsInput {
-  where: ConversationWhereUniqueInput!
-  data: ConversationUpdateWithoutParticipantsInput!
-}
-
-input ConversationUpsertWithoutLastReadInput {
-  update: ConversationUpdateWithoutLastReadInput!
-  create: ConversationCreateWithoutLastReadInput!
-}
-
-input ConversationUpsertWithoutMessagesInput {
-  update: ConversationUpdateWithoutMessagesInput!
-  create: ConversationCreateWithoutMessagesInput!
-}
-
-input ConversationUpsertWithWhereUniqueWithoutParticipantsInput {
-  where: ConversationWhereUniqueInput!
-  update: ConversationUpdateWithoutParticipantsInput!
-  create: ConversationCreateWithoutParticipantsInput!
-}
-
-input ConversationWhereUniqueInput {
-  id: Int
+  messages: MessageListRelationFilter
+  lastRead: LastReadListRelationFilter
+  participants: PersonListRelationFilter
 }
 
 """
-A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
-`date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
-8601 standard for representation of dates and times using the Gregorian calendar.
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
-
-input DateTimeFieldUpdateOperationsInput {
-  set: DateTime
-}
 
 input DateTimeFilter {
   equals: DateTime
@@ -249,277 +99,115 @@ input IntFilter {
   not: NestedIntFilter
 }
 
-input IntNullableFilter {
-  equals: Int
-  in: [Int!]
-  notIn: [Int!]
-  lt: Int
-  lte: Int
-  gt: Int
-  gte: Int
-  not: NestedIntNullableFilter
+input LastReadListRelationFilter {
+  every: LastReadWhereInput
+  some: LastReadWhereInput
+  none: LastReadWhereInput
 }
 
-type LastRead {
-  lastRead: DateTime!
-  conversation: Conversation!
-  conversationID: Int!
+input LastReadOrderByInput {
+  lastRead: SortOrder
+  personID: SortOrder
+  conversationID: SortOrder
+}
+
+input LastReadPersonIDConversationIDCompoundUniqueInput {
   personID: Int!
-  person: Person!
+  conversationID: Int!
 }
 
-input LastReadCreateManyWithoutConversationInput {
-  create: [LastReadCreateWithoutConversationInput!]
-  connect: [LastReadWhereUniqueInput!]
-  connectOrCreate: [LastReadCreateOrConnectWithoutconversationInput!]
+enum LastReadScalarFieldEnum {
+  lastRead
+  personID
+  conversationID
 }
 
-input LastReadCreateManyWithoutPersonInput {
-  create: [LastReadCreateWithoutPersonInput!]
-  connect: [LastReadWhereUniqueInput!]
-  connectOrCreate: [LastReadCreateOrConnectWithoutpersonInput!]
-}
-
-input LastReadCreateOrConnectWithoutconversationInput {
-  where: LastReadWhereUniqueInput!
-  create: LastReadCreateWithoutConversationInput!
-}
-
-input LastReadCreateOrConnectWithoutpersonInput {
-  where: LastReadWhereUniqueInput!
-  create: LastReadCreateWithoutPersonInput!
-}
-
-input LastReadCreateWithoutConversationInput {
+type LastReadType {
   lastRead: DateTime!
-  person: PersonCreateOneWithoutLastReadInput!
+  personID: Int!
+  conversationID: Int!
+  person: PersonType!
+  conversation: ConversationType!
 }
 
-input LastReadCreateWithoutPersonInput {
-  lastRead: DateTime!
-  conversation: ConversationCreateOneWithoutLastReadInput!
-}
-
-input LastReadScalarWhereInput {
-  AND: [LastReadScalarWhereInput!]
-  OR: [LastReadScalarWhereInput!]
-  NOT: [LastReadScalarWhereInput!]
+input LastReadWhereInput {
+  AND: [LastReadWhereInput!]
+  OR: [LastReadWhereInput!]
+  NOT: [LastReadWhereInput!]
   lastRead: DateTimeFilter
   personID: IntFilter
   conversationID: IntFilter
-}
-
-input LastReadUpdateManyMutationInput {
-  lastRead: DateTimeFieldUpdateOperationsInput
-}
-
-input LastReadUpdateManyWithoutConversationInput {
-  create: [LastReadCreateWithoutConversationInput!]
-  connect: [LastReadWhereUniqueInput!]
-  set: [LastReadWhereUniqueInput!]
-  disconnect: [LastReadWhereUniqueInput!]
-  delete: [LastReadWhereUniqueInput!]
-  update: [LastReadUpdateWithWhereUniqueWithoutConversationInput!]
-  updateMany: [LastReadUpdateManyWithWhereWithoutConversationInput!]
-  deleteMany: [LastReadScalarWhereInput!]
-  upsert: [LastReadUpsertWithWhereUniqueWithoutConversationInput!]
-  connectOrCreate: [LastReadCreateOrConnectWithoutconversationInput!]
-}
-
-input LastReadUpdateManyWithoutPersonInput {
-  create: [LastReadCreateWithoutPersonInput!]
-  connect: [LastReadWhereUniqueInput!]
-  set: [LastReadWhereUniqueInput!]
-  disconnect: [LastReadWhereUniqueInput!]
-  delete: [LastReadWhereUniqueInput!]
-  update: [LastReadUpdateWithWhereUniqueWithoutPersonInput!]
-  updateMany: [LastReadUpdateManyWithWhereWithoutPersonInput!]
-  deleteMany: [LastReadScalarWhereInput!]
-  upsert: [LastReadUpsertWithWhereUniqueWithoutPersonInput!]
-  connectOrCreate: [LastReadCreateOrConnectWithoutpersonInput!]
-}
-
-input LastReadUpdateManyWithWhereWithoutConversationInput {
-  where: LastReadScalarWhereInput!
-  data: LastReadUpdateManyMutationInput!
-}
-
-input LastReadUpdateManyWithWhereWithoutPersonInput {
-  where: LastReadScalarWhereInput!
-  data: LastReadUpdateManyMutationInput!
-}
-
-input LastReadUpdateWithoutConversationInput {
-  lastRead: DateTimeFieldUpdateOperationsInput
-  person: PersonUpdateOneRequiredWithoutLastReadInput
-}
-
-input LastReadUpdateWithoutPersonInput {
-  lastRead: DateTimeFieldUpdateOperationsInput
-  conversation: ConversationUpdateOneRequiredWithoutLastReadInput
-}
-
-input LastReadUpdateWithWhereUniqueWithoutConversationInput {
-  where: LastReadWhereUniqueInput!
-  data: LastReadUpdateWithoutConversationInput!
-}
-
-input LastReadUpdateWithWhereUniqueWithoutPersonInput {
-  where: LastReadWhereUniqueInput!
-  data: LastReadUpdateWithoutPersonInput!
-}
-
-input LastReadUpsertWithWhereUniqueWithoutConversationInput {
-  where: LastReadWhereUniqueInput!
-  update: LastReadUpdateWithoutConversationInput!
-  create: LastReadCreateWithoutConversationInput!
-}
-
-input LastReadUpsertWithWhereUniqueWithoutPersonInput {
-  where: LastReadWhereUniqueInput!
-  update: LastReadUpdateWithoutPersonInput!
-  create: LastReadCreateWithoutPersonInput!
+  person: PersonRelationFilter
+  conversation: ConversationRelationFilter
 }
 
 input LastReadWhereUniqueInput {
-  personID_conversationID: PersonIDConversationIDCompoundUniqueInput
+  personID_conversationID: LastReadPersonIDConversationIDCompoundUniqueInput
 }
 
-type Message {
-  id: Int!
+type MessageConnection {
+  """A list of edges."""
+  edges: [MessageEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Identifies the total count of items in the connection."""
+  totalCount: Float!
+}
+
+type MessageEdge {
+  """The item at the end of the edge."""
+  node: MessageType!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+input MessageListRelationFilter {
+  every: MessageWhereInput
+  some: MessageWhereInput
+  none: MessageWhereInput
+}
+
+input MessageOrderByInput {
+  content: SortOrder
+  authorID: SortOrder
+  conversationID: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+}
+
+enum MessageScalarFieldEnum {
+  content
+  authorID
+  conversationID
+  createdAt
+  id
+}
+
+type MessageType implements Node {
+  """The global ID of the object."""
+  id: ID!
   content: String!
-  conversation: Conversation!
+  authorID: Int!
   conversationID: Int!
-  authorID: Int
-  author: Person
   createdAt: DateTime!
+  author: PersonType!
+  conversation: ConversationType!
 }
 
-input MessageCreateManyWithoutAuthorInput {
-  create: [MessageCreateWithoutAuthorInput!]
-  connect: [MessageWhereUniqueInput!]
-  connectOrCreate: [MessageCreateOrConnectWithoutauthorInput!]
-}
-
-input MessageCreateManyWithoutConversationInput {
-  create: [MessageCreateWithoutConversationInput!]
-  connect: [MessageWhereUniqueInput!]
-  connectOrCreate: [MessageCreateOrConnectWithoutconversationInput!]
-}
-
-input MessageCreateOrConnectWithoutauthorInput {
-  where: MessageWhereUniqueInput!
-  create: MessageCreateWithoutAuthorInput!
-}
-
-input MessageCreateOrConnectWithoutconversationInput {
-  where: MessageWhereUniqueInput!
-  create: MessageCreateWithoutConversationInput!
-}
-
-input MessageCreateWithoutAuthorInput {
-  content: String!
-  createdAt: DateTime
-  conversation: ConversationCreateOneWithoutMessagesInput!
-}
-
-input MessageCreateWithoutConversationInput {
-  content: String!
-  createdAt: DateTime
-  author: PersonCreateOneWithoutMessagesInput
-}
-
-input MessageScalarWhereInput {
-  AND: [MessageScalarWhereInput!]
-  OR: [MessageScalarWhereInput!]
-  NOT: [MessageScalarWhereInput!]
+input MessageWhereInput {
+  AND: [MessageWhereInput!]
+  OR: [MessageWhereInput!]
+  NOT: [MessageWhereInput!]
   content: StringFilter
-  authorID: IntNullableFilter
+  authorID: IntFilter
   conversationID: IntFilter
   createdAt: DateTimeFilter
   id: IntFilter
-}
-
-input MessageUpdateInput {
-  content: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  author: PersonUpdateOneWithoutMessagesInput
-  conversation: ConversationUpdateOneRequiredWithoutMessagesInput
-}
-
-input MessageUpdateManyMutationInput {
-  content: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-}
-
-input MessageUpdateManyWithoutAuthorInput {
-  create: [MessageCreateWithoutAuthorInput!]
-  connect: [MessageWhereUniqueInput!]
-  set: [MessageWhereUniqueInput!]
-  disconnect: [MessageWhereUniqueInput!]
-  delete: [MessageWhereUniqueInput!]
-  update: [MessageUpdateWithWhereUniqueWithoutAuthorInput!]
-  updateMany: [MessageUpdateManyWithWhereWithoutAuthorInput!]
-  deleteMany: [MessageScalarWhereInput!]
-  upsert: [MessageUpsertWithWhereUniqueWithoutAuthorInput!]
-  connectOrCreate: [MessageCreateOrConnectWithoutauthorInput!]
-}
-
-input MessageUpdateManyWithoutConversationInput {
-  create: [MessageCreateWithoutConversationInput!]
-  connect: [MessageWhereUniqueInput!]
-  set: [MessageWhereUniqueInput!]
-  disconnect: [MessageWhereUniqueInput!]
-  delete: [MessageWhereUniqueInput!]
-  update: [MessageUpdateWithWhereUniqueWithoutConversationInput!]
-  updateMany: [MessageUpdateManyWithWhereWithoutConversationInput!]
-  deleteMany: [MessageScalarWhereInput!]
-  upsert: [MessageUpsertWithWhereUniqueWithoutConversationInput!]
-  connectOrCreate: [MessageCreateOrConnectWithoutconversationInput!]
-}
-
-input MessageUpdateManyWithWhereWithoutAuthorInput {
-  where: MessageScalarWhereInput!
-  data: MessageUpdateManyMutationInput!
-}
-
-input MessageUpdateManyWithWhereWithoutConversationInput {
-  where: MessageScalarWhereInput!
-  data: MessageUpdateManyMutationInput!
-}
-
-input MessageUpdateWithoutAuthorInput {
-  content: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  conversation: ConversationUpdateOneRequiredWithoutMessagesInput
-}
-
-input MessageUpdateWithoutConversationInput {
-  content: StringFieldUpdateOperationsInput
-  createdAt: DateTimeFieldUpdateOperationsInput
-  author: PersonUpdateOneWithoutMessagesInput
-}
-
-input MessageUpdateWithWhereUniqueWithoutAuthorInput {
-  where: MessageWhereUniqueInput!
-  data: MessageUpdateWithoutAuthorInput!
-}
-
-input MessageUpdateWithWhereUniqueWithoutConversationInput {
-  where: MessageWhereUniqueInput!
-  data: MessageUpdateWithoutConversationInput!
-}
-
-input MessageUpsertWithWhereUniqueWithoutAuthorInput {
-  where: MessageWhereUniqueInput!
-  update: MessageUpdateWithoutAuthorInput!
-  create: MessageCreateWithoutAuthorInput!
-}
-
-input MessageUpsertWithWhereUniqueWithoutConversationInput {
-  where: MessageWhereUniqueInput!
-  update: MessageUpdateWithoutConversationInput!
-  create: MessageCreateWithoutConversationInput!
+  author: PersonRelationFilter
+  conversation: ConversationRelationFilter
 }
 
 input MessageWhereUniqueInput {
@@ -527,19 +215,14 @@ input MessageWhereUniqueInput {
 }
 
 type Mutation {
-  deleteOneMessage(where: MessageWhereUniqueInput!): Message
-  updateOneMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
-  deleteOnePerson(where: PersonWhereUniqueInput!): Person
-  createOneConversation(data: ConversationCreateInput!): Conversation!
-  deleteOneConversation(where: ConversationWhereUniqueInput!): Conversation
-  updateOneConversation(data: ConversationUpdateInput!, where: ConversationWhereUniqueInput!): Conversation
-  addPersonToConversation(personId: Int!, conversationId: Int!): Conversation!
-  removePersonFromConversation(personId: Int!, conversationId: Int!): Conversation!
-  createMessage(content: String!, conversationId: Int!): Message!
-  markConvAsRead(conversationId: Int!): LastRead!
-  login(username: String!, password: String!): Person!
-  logout: Person!
-  register(email: String!, username: String!, password: String!): Person!
+  createMessage(content: String!, conversationId: Int!): MessageType!
+  login(username: String!, password: String!): PersonType!
+  logout: PersonType!
+  register(email: String!, username: String!, password: String!): PersonType!
+  markConvAsRead(conversationId: Int!): LastReadType!
+  addPersonToConversation(conversationId: Int!, personId: Int!): ConversationType!
+  createConversation(name: String!, participantIDs: [Int!]!): ConversationType!
+  removePersonFromConversation(conversationId: Int!, personId: Int!): ConversationType!
 }
 
 input NestedBoolFilter {
@@ -580,17 +263,6 @@ input NestedIntFilter {
   not: NestedIntFilter
 }
 
-input NestedIntNullableFilter {
-  equals: Int
-  in: [Int!]
-  notIn: [Int!]
-  lt: Int
-  lte: Int
-  gt: Int
-  gte: Int
-  not: NestedIntNullableFilter
-}
-
 input NestedStringFilter {
   equals: String
   in: [String!]
@@ -605,133 +277,66 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
-input NullableDateTimeFieldUpdateOperationsInput {
-  set: DateTime
+"""An object with a global ID."""
+interface Node {
+  """The global ID of the object."""
+  id: ID!
 }
 
-"""
-PageInfo cursor, as defined in https://facebook.github.io/relay/graphql/connections.htm#sec-undefined.PageInfo
-"""
 type PageInfo {
-  """
-  Used to indicate whether more edges exist following the set defined by the clients arguments.
-  """
   hasNextPage: Boolean!
-
-  """
-  Used to indicate whether more edges exist prior to the set defined by the clients arguments.
-  """
   hasPreviousPage: Boolean!
-
-  """
-  The cursor corresponding to the first nodes in edges. Null if the connection is empty.
-  """
   startCursor: String
-
-  """
-  The cursor corresponding to the last nodes in edges. Null if the connection is empty.
-  """
   endCursor: String
 }
 
-type Person {
-  id: Int!
-  username: String!
+type PersonConnection {
+  """A list of edges."""
+  edges: [PersonEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Identifies the total count of items in the connection."""
+  totalCount: Float!
+}
+
+type PersonEdge {
+  """The item at the end of the edge."""
+  node: PersonType!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+input PersonListRelationFilter {
+  every: PersonWhereInput
+  some: PersonWhereInput
+  none: PersonWhereInput
+}
+
+input PersonRelationFilter {
+  is: PersonWhereInput
+  isNot: PersonWhereInput
+}
+
+type PersonType implements Node {
+  """The global ID of the object."""
+  id: ID!
+  isActive: Boolean!
+  createdAt: DateTime!
   email: String!
   isAdmin: Boolean!
-  createdAt: DateTime!
-  lastSeen: DateTime
-  isActive: Boolean!
-  conversations(
-    """Returns the first n elements from the list."""
-    first: Int
-
-    """Returns the elements in the list that come after the specified cursor"""
-    after: String
-
-    """Returns the last n elements from the list."""
-    last: Int
-
-    """Returns the elements in the list that come before the specified cursor"""
-    before: String
-  ): ConversationConnection!
-}
-
-input PersonCreateManyWithoutConversationsInput {
-  create: [PersonCreateWithoutConversationsInput!]
-  connect: [PersonWhereUniqueInput!]
-  connectOrCreate: [PersonCreateOrConnectWithoutconversationsInput!]
-}
-
-input PersonCreateOneWithoutLastReadInput {
-  create: PersonCreateWithoutLastReadInput
-  connect: PersonWhereUniqueInput
-  connectOrCreate: PersonCreateOrConnectWithoutlastReadInput
-}
-
-input PersonCreateOneWithoutMessagesInput {
-  create: PersonCreateWithoutMessagesInput
-  connect: PersonWhereUniqueInput
-  connectOrCreate: PersonCreateOrConnectWithoutmessagesInput
-}
-
-input PersonCreateOrConnectWithoutconversationsInput {
-  where: PersonWhereUniqueInput!
-  create: PersonCreateWithoutConversationsInput!
-}
-
-input PersonCreateOrConnectWithoutlastReadInput {
-  where: PersonWhereUniqueInput!
-  create: PersonCreateWithoutLastReadInput!
-}
-
-input PersonCreateOrConnectWithoutmessagesInput {
-  where: PersonWhereUniqueInput!
-  create: PersonCreateWithoutMessagesInput!
-}
-
-input PersonCreateWithoutConversationsInput {
-  createdAt: DateTime
-  email: String!
-  isAdmin: Boolean
   lastSeen: DateTime
   username: String!
-  hash: String!
-  messages: MessageCreateManyWithoutAuthorInput
-  lastRead: LastReadCreateManyWithoutPersonInput
+  messages(where: MessageWhereInput, orderBy: [MessageOrderByInput!], cursor: MessageWhereUniqueInput, take: Int, skip: Int, distinct: [MessageScalarFieldEnum!]): [MessageType!]!
+  conversations(first: Int, after: String, last: Int, before: String): ConversationConnection!
 }
 
-input PersonCreateWithoutLastReadInput {
-  createdAt: DateTime
-  email: String!
-  isAdmin: Boolean
-  lastSeen: DateTime
-  username: String!
-  hash: String!
-  messages: MessageCreateManyWithoutAuthorInput
-  conversations: ConversationCreateManyWithoutParticipantsInput
-}
-
-input PersonCreateWithoutMessagesInput {
-  createdAt: DateTime
-  email: String!
-  isAdmin: Boolean
-  lastSeen: DateTime
-  username: String!
-  hash: String!
-  lastRead: LastReadCreateManyWithoutPersonInput
-  conversations: ConversationCreateManyWithoutParticipantsInput
-}
-
-input PersonIDConversationIDCompoundUniqueInput {
-  personID: Int!
-  conversationID: Int!
-}
-
-input PersonScalarWhereInput {
-  AND: [PersonScalarWhereInput!]
-  OR: [PersonScalarWhereInput!]
-  NOT: [PersonScalarWhereInput!]
+input PersonWhereInput {
+  AND: [PersonWhereInput!]
+  OR: [PersonWhereInput!]
+  NOT: [PersonWhereInput!]
   createdAt: DateTimeFilter
   email: StringFilter
   id: IntFilter
@@ -739,105 +344,9 @@ input PersonScalarWhereInput {
   lastSeen: DateTimeNullableFilter
   username: StringFilter
   hash: StringFilter
-}
-
-input PersonUpdateManyMutationInput {
-  createdAt: DateTimeFieldUpdateOperationsInput
-  email: StringFieldUpdateOperationsInput
-  isAdmin: BoolFieldUpdateOperationsInput
-  lastSeen: NullableDateTimeFieldUpdateOperationsInput
-  username: StringFieldUpdateOperationsInput
-  hash: StringFieldUpdateOperationsInput
-}
-
-input PersonUpdateManyWithoutConversationsInput {
-  create: [PersonCreateWithoutConversationsInput!]
-  connect: [PersonWhereUniqueInput!]
-  set: [PersonWhereUniqueInput!]
-  disconnect: [PersonWhereUniqueInput!]
-  delete: [PersonWhereUniqueInput!]
-  update: [PersonUpdateWithWhereUniqueWithoutConversationsInput!]
-  updateMany: [PersonUpdateManyWithWhereWithoutConversationsInput!]
-  deleteMany: [PersonScalarWhereInput!]
-  upsert: [PersonUpsertWithWhereUniqueWithoutConversationsInput!]
-  connectOrCreate: [PersonCreateOrConnectWithoutconversationsInput!]
-}
-
-input PersonUpdateManyWithWhereWithoutConversationsInput {
-  where: PersonScalarWhereInput!
-  data: PersonUpdateManyMutationInput!
-}
-
-input PersonUpdateOneRequiredWithoutLastReadInput {
-  create: PersonCreateWithoutLastReadInput
-  connect: PersonWhereUniqueInput
-  update: PersonUpdateWithoutLastReadInput
-  upsert: PersonUpsertWithoutLastReadInput
-  connectOrCreate: PersonCreateOrConnectWithoutlastReadInput
-}
-
-input PersonUpdateOneWithoutMessagesInput {
-  create: PersonCreateWithoutMessagesInput
-  connect: PersonWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: PersonUpdateWithoutMessagesInput
-  upsert: PersonUpsertWithoutMessagesInput
-  connectOrCreate: PersonCreateOrConnectWithoutmessagesInput
-}
-
-input PersonUpdateWithoutConversationsInput {
-  createdAt: DateTimeFieldUpdateOperationsInput
-  email: StringFieldUpdateOperationsInput
-  isAdmin: BoolFieldUpdateOperationsInput
-  lastSeen: NullableDateTimeFieldUpdateOperationsInput
-  username: StringFieldUpdateOperationsInput
-  hash: StringFieldUpdateOperationsInput
-  messages: MessageUpdateManyWithoutAuthorInput
-  lastRead: LastReadUpdateManyWithoutPersonInput
-}
-
-input PersonUpdateWithoutLastReadInput {
-  createdAt: DateTimeFieldUpdateOperationsInput
-  email: StringFieldUpdateOperationsInput
-  isAdmin: BoolFieldUpdateOperationsInput
-  lastSeen: NullableDateTimeFieldUpdateOperationsInput
-  username: StringFieldUpdateOperationsInput
-  hash: StringFieldUpdateOperationsInput
-  messages: MessageUpdateManyWithoutAuthorInput
-  conversations: ConversationUpdateManyWithoutParticipantsInput
-}
-
-input PersonUpdateWithoutMessagesInput {
-  createdAt: DateTimeFieldUpdateOperationsInput
-  email: StringFieldUpdateOperationsInput
-  isAdmin: BoolFieldUpdateOperationsInput
-  lastSeen: NullableDateTimeFieldUpdateOperationsInput
-  username: StringFieldUpdateOperationsInput
-  hash: StringFieldUpdateOperationsInput
-  lastRead: LastReadUpdateManyWithoutPersonInput
-  conversations: ConversationUpdateManyWithoutParticipantsInput
-}
-
-input PersonUpdateWithWhereUniqueWithoutConversationsInput {
-  where: PersonWhereUniqueInput!
-  data: PersonUpdateWithoutConversationsInput!
-}
-
-input PersonUpsertWithoutLastReadInput {
-  update: PersonUpdateWithoutLastReadInput!
-  create: PersonCreateWithoutLastReadInput!
-}
-
-input PersonUpsertWithoutMessagesInput {
-  update: PersonUpdateWithoutMessagesInput!
-  create: PersonCreateWithoutMessagesInput!
-}
-
-input PersonUpsertWithWhereUniqueWithoutConversationsInput {
-  where: PersonWhereUniqueInput!
-  update: PersonUpdateWithoutConversationsInput!
-  create: PersonCreateWithoutConversationsInput!
+  messages: MessageListRelationFilter
+  lastRead: LastReadListRelationFilter
+  conversations: ConversationListRelationFilter
 }
 
 input PersonWhereUniqueInput {
@@ -847,14 +356,20 @@ input PersonWhereUniqueInput {
 }
 
 type Query {
-  people(first: Int, last: Int, before: PersonWhereUniqueInput, after: PersonWhereUniqueInput): [Person!]!
-  conversations(first: Int, last: Int, before: ConversationWhereUniqueInput, after: ConversationWhereUniqueInput): [Conversation!]!
-  message(where: MessageWhereUniqueInput!): Message
-  messages(first: Int, last: Int, before: MessageWhereUniqueInput, after: MessageWhereUniqueInput): [Message!]!
-  conversation(whereId: Int!): Conversation!
-  me: Person!
-  person(where: PersonWhereUniqueInput!): Person!
-  sessionOwner: Person!
+  """Fetches an object given its global ID."""
+  node(
+    """The global ID of the object."""
+    id: ID!
+  ): Node
+
+  """Fetches objects given their global IDs."""
+  nodes(
+    """The global IDs of the objects."""
+    ids: [ID!]!
+  ): [Node]!
+  me: PersonType!
+  person(where: PersonWhereUniqueInput!): PersonType!
+  conversation(whereId: Int!): ConversationType!
 }
 
 enum QueryMode {
@@ -862,8 +377,9 @@ enum QueryMode {
   insensitive
 }
 
-input StringFieldUpdateOperationsInput {
-  set: String
+enum SortOrder {
+  asc
+  desc
 }
 
 input StringFilter {
@@ -882,7 +398,7 @@ input StringFilter {
 }
 
 type Subscription {
-  newMessages(conversationId: Int!): Message!
+  newMessages(conversationId: Int!): MessageType!
   personActiveStatus(userId: Int!): Boolean!
 }
 
