@@ -2,7 +2,7 @@ import { Component } from 'react';
 
 type TProps = {
     children: React.ReactNode;
-    fallback: React.ReactNode;
+    fallback: (error: Error) => React.ReactNode;
 };
 
 type TState = {
@@ -20,7 +20,7 @@ export default class ErrorBoundary extends Component<TProps, TState> {
         const { fallback, children } = this.props;
         const { error } = this.state;
 
-        if (error) return fallback;
+        if (error) return fallback(error);
         return children;
     }
 }
