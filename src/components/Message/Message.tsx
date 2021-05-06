@@ -12,16 +12,18 @@ interface IMessageProps {
 
 const Message = ({ message }: IMessageProps) => {
     const {
-        nickname,
+        author,
         content,
         createdAt,
     } = useFragment(
         graphql`
-            fragment Message_data on messages {
+            fragment Message_data on MessageType {
                 id
-                nickname
+                author {
+                    username
+                }
                 content
-                createdAt: created_at
+                createdAt
             }
         `,
         message,
@@ -29,10 +31,10 @@ const Message = ({ message }: IMessageProps) => {
 
     return (
         <div className={styles.root}>
-            <div className={styles.avatar}>{nickname[0]}</div>
+            <div className={styles.avatar}>{author.username[0]}</div>
             <div className={styles.container}>
                 <div className={styles.firstRow}>
-                    <div className={styles.nickname}>{nickname}</div>
+                    <div className={styles.username}>{author.username}</div>
                     {createdAt === 'OPTIMISTIC' ? (
                         <div className={styles.createdAt}>Sending...</div>
                     ) : (

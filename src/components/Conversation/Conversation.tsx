@@ -1,25 +1,28 @@
 import { useLazyLoadQuery, graphql } from 'react-relay/hooks';
 
-import { ConversationDataQuery } from './__generated__/ConversationDataQuery.graphql';
+import { ConversationQuery } from './__generated__/ConversationQuery.graphql';
 import styles from './Conversation.module.css';
 import MessagesInbox from '../MessagesInbox';
-import TopBar from '../TopBar';
 import MessageInput from '../MessageInput';
 
-const Conversation = () => {
-    const data = useLazyLoadQuery<ConversationDataQuery>(
+type TProps = {
+    conversationID: number;
+};
+
+const Conversation = ({ conversationID }: TProps) => {
+    const data = useLazyLoadQuery<ConversationQuery>(
         graphql`
-            query ConversationDataQuery {
-                ...MessagesInbox_messages
+            query ConversationQuery($conversationID: Int!) {
+                conversation(whereId: $conversationID) {
+                    ...MessagesInbox_messages
+                }
             }
         `,
-        {},
+        { conversationID },
     );
-
     return (
         <div className={styles.root}>
-            <TopBar disableRedirectOnLogoClick />
-            <MessagesInbox messagesInbox={data} />
+            <MessagesInbox messagesInbox={data.conversation} />
             <MessageInput />
         </div>
     );

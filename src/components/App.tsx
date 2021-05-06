@@ -5,14 +5,15 @@ import clsx from 'clsx';
 import styles from './App.module.css';
 import { SettingsContext } from '../contexts/SettingsContext';
 import Loading from './Loading';
+import ErrorBoundary from './ErrorBoundary';
 
-const Conversation = lazy(async () => import('./Conversation'));
+const MainScreen = lazy(async () => import('./MainScreen'));
 const IndexScreen = lazy(async () => import('./IndexScreen'));
 const PageNotFound = lazy(async () => import('./PageNotFound'));
 
 const protectedRoute = (
     component: JSX.Element,
-    condition: string | boolean | null,
+    condition: boolean | null,
     fallback = '/',
 ) => {
     return condition ? component : <Navigate to={fallback} replace />;
@@ -43,12 +44,34 @@ const App = () => {
                         }
                     />
                     <Route
+                        path="conversation/:conversationID"
+                        element={<MainScreen />}
+                    />
+                    <Route
                         path="welcome"
                         element={<IndexScreen />}
                     />
                     <Route
                         path="app"
-                        element={protectedRoute(<Conversation />, nickname)}
+                        element={protectedRoute(
+                            (
+                                <ErrorBoundary fallback={(error) => {
+                                    if (error.name === 'FORBIDDEN') {
+                                        return <Navigate to="/404" replace />;
+                                    }
+                                    return (
+                                        <div>
+                                            <h1>Error</h1>
+                                            <p>{error.message}</p>
+                                        </div>
+                                    );
+                                }}
+                                >
+                                    <MainScreen />
+                                </ErrorBoundary>
+                            ),
+                            isLoggedIn,
+                        )}
                     />
                     <Route
                         path="404"
