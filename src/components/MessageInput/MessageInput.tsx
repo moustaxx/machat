@@ -1,17 +1,19 @@
-import { useRef, useContext } from 'react';
+import { useContext, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import { useMutation, graphql } from 'react-relay/hooks';
 import { BaseEmoji } from 'emoji-mart';
 import TextareaAutosize from 'react-textarea-autosize';
 import { MdSend } from 'react-icons/md';
 import clsx from 'clsx';
-import { useMutation, graphql } from 'react-relay/hooks';
 import { ConnectionHandler, SelectorStoreUpdater } from 'relay-runtime';
 
 import styles from './MessageInput.module.css';
 import { SettingsContext } from '../../contexts/SettingsContext';
+import { toGlobalId } from '../../utils/globalId';
 import EmojiPicker from '../EmojiPicker';
 import {
     MessageInputMutation,
-    MessageInputMutationRawResponse,
+    MessageInputMutationResponse,
 } from './__generated__/MessageInputMutation.graphql';
 
 
@@ -21,46 +23,40 @@ type TProps = {
 };
 
 const MessageInput = ({ onFocus, onBlur }: TProps) => {
+    const { settings } = useContext(SettingsContext);
     const textboxRef = useRef<HTMLTextAreaElement>(null);
+    const conversationID = Number(useParams().conversationID) || null;
+
     const [sendMessage, isSending] = useMutation<MessageInputMutation>(graphql`
         mutation MessageInputMutation(
+            $conversationID: Int!
             $content: String!
-            $nickname: String!
-        ) @raw_response_type {
-            insert_messages_one(
-                object: {
-                    conversation_id: "b6a9e90f-a668-463c-ae48-32221002116c"
-                    nickname: $nickname
+        ) @raw_response_type { # use raw type to generate ts types
+            createMessage(
+                conversationId: $conversationID
                     content: $content
-                }
             ) {
                 ...Message_data
             }
         }
     `);
-    const { nickname } = useContext(SettingsContext).settings;
 
     const handleSubmit = (event?: React.FormEvent<HTMLFormElement>) => {
         if (event) event.preventDefault();
-        if (!textboxRef.current || isSending || !nickname) return;
+        if (!textboxRef.current || isSending || !conversationID || !settings.userData) return;
         const content = textboxRef.current.value;
 
-        const updater: SelectorStoreUpdater<MessageInputMutationRawResponse> = (store) => {
+        const updater: SelectorStoreUpdater<MessageInputMutationResponse> = (store) => {
+            const conversation = store.get(toGlobalId('ConversationType', conversationID));
+            if (!conversation) return;
+
             const connectionRecord = ConnectionHandler.getConnection(
-                store.getRoot(),
-                'MessagesFragment__messages_connection',
-                {
-                    order_by: { created_at: 'asc' },
-                    where: {
-                        conversation_id: {
-                            _eq: 'b6a9e90f-a668-463c-ae48-32221002116c',
-                        },
-                    },
-                },
+                conversation,
+                'MessagesFragment__messages',
             );
             if (!connectionRecord) return;
 
-            const payload = store.getRootField('insert_messages_one');
+            const payload = store.getRootField('createMessage');
             const newEdge = ConnectionHandler.createEdge(
                 store,
                 connectionRecord,
@@ -71,17 +67,20 @@ const MessageInput = ({ onFocus, onBlur }: TProps) => {
         };
 
         sendMessage({
-            variables: { content, nickname },
+            variables: { content, conversationID },
             optimisticResponse: {
-                insert_messages_one: {
+                createMessage: {
                     id: new Date().toISOString(),
                     createdAt: 'OPTIMISTIC',
-                    nickname,
                     content,
+                    author: {
+                        id: settings.userData.id,
+                        username: settings.userData.username,
+                    },
                 },
             },
-            optimisticUpdater: updater as SelectorStoreUpdater<Record<string, unknown>>,
-            updater: updater as SelectorStoreUpdater<Record<string, unknown>>,
+            optimisticUpdater: updater,
+            updater,
         });
         textboxRef.current.form?.reset();
     };
