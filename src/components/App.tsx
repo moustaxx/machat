@@ -19,7 +19,7 @@ const protectedRoute = (
 };
 
 const App = () => {
-    const { nickname } = useContext(SettingsContext).settings;
+    const { isLoggedIn } = useContext(SettingsContext).settings;
     const [isOutlineOn, setOutlineStatus] = useState(false);
 
     const addOutlineOnTab = (event: React.KeyboardEvent) => {
@@ -37,7 +37,7 @@ const App = () => {
                 <Routes>
                     <Route
                         path="/"
-                        element={nickname
+                        element={isLoggedIn
                             ? <Navigate to="/app" replace />
                             : <Navigate to="/welcome" replace />
                         }

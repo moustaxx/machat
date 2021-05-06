@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-// import { useContext, useRef } from 'react';
+import { useRef, useContext, useState } from 'react';
 import { graphql, useMutation } from 'react-relay/hooks';
 import { useNavigate } from 'react-router-dom';
 import { RegisterPanelMutation } from './__generated__/RegisterPanelMutation.graphql';
@@ -7,7 +6,7 @@ import { RegisterPanelMutation } from './__generated__/RegisterPanelMutation.gra
 import styles from './RegisterPanel.module.css';
 import TextBox from '../TextBox';
 import Button from '../Button';
-// import { SettingsContext } from '../../contexts/SettingsContext';
+import { SettingsContext } from '../../contexts/SettingsContext';
 
 type TProps = {
     setPanel: (name: 'welcome' | 'login' | 'register') => void;
@@ -15,7 +14,8 @@ type TProps = {
 
 const RegisterPanel = ({ setPanel }: TProps) => {
     const navigate = useNavigate();
-    // const { setSettings } = useContext(SettingsContext);
+    const [loginError, setLoginError] = useState<string | null>(null);
+    const { setSettings } = useContext(SettingsContext);
     const emailRef = useRef<HTMLInputElement>(null);
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -27,23 +27,27 @@ const RegisterPanel = ({ setPanel }: TProps) => {
         ) {
             register(username: $username, password: $password, email: $email) {
                 id
+                username
+                email
             }
         }
     `);
 
     const handleRegisterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoginError(null);
         const email = emailRef.current?.value;
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
         if (!email || !username || !password) return;
         register({
             variables: { email, username, password },
-            // onCompleted: (res) => {
-            //     setSettings(res);
-            // },
+            onError: (error) => setLoginError(error.message),
+            onCompleted: (res) => {
+                setSettings({ userData: res.register });
+                navigate('/app');
+            },
         });
-        navigate('/app');
     };
 
     return (
@@ -84,7 +88,8 @@ const RegisterPanel = ({ setPanel }: TProps) => {
                 >Sign up
                 </Button>
             </div>
-            {!isSending || <div className={styles.sending}>Sending...</div>}
+            {!isSending || <div className={styles.sending}>Loading...</div>}
+            {!loginError || <div className={styles.sending}>{loginError}</div>}
         </form>
     );
 };

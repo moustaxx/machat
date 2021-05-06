@@ -1,7 +1,9 @@
 import { createContext, useMemo, useCallback, useState, useLayoutEffect } from 'react';
+import { LoginPanelMutationResponse } from '../components/LoginPanel/__generated__/LoginPanelMutation.graphql';
 
 type TSettings = {
-    nickname: string | null;
+    userData?: LoginPanelMutationResponse['login'] | null;
+    isLoggedIn: boolean;
     isLightTheme: boolean;
     showDesktopNotifications: boolean;
 };
@@ -13,7 +15,8 @@ type TSettingsContext = {
 
 const defaultState: TSettingsContext = {
     settings: {
-        nickname: null,
+        userData: null,
+        isLoggedIn: false,
         isLightTheme: false,
         showDesktopNotifications: true,
     },
@@ -38,7 +41,10 @@ const SettingsProvider: React.FC = ({ children }) => {
     const [settings, setSettingsState] = useState(getSettings);
 
     const setSettings: TSettingsContext['setSettings'] = useCallback((newValue) => {
-        const newSettings = { ...settings, ...newValue };
+        const newUserData = newValue.userData;
+        const oldUserData = settings.userData;
+        const isLoggedIn = !!newUserData || (newUserData !== null && oldUserData !== null);
+        const newSettings = { ...settings, ...newValue, isLoggedIn };
 
         saveSettings(newSettings);
         setSettingsState(newSettings);

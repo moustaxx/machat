@@ -1,7 +1,7 @@
 import { useContext, useState, useRef } from 'react';
-import { commitLocalUpdate, RecordSourceSelectorProxy } from 'relay-runtime';
-import { useRelayEnvironment } from 'react-relay/hooks';
-import { Link } from 'react-router-dom';
+import { commitLocalUpdate, graphql, RecordSourceSelectorProxy } from 'relay-runtime';
+import { useMutation, useRelayEnvironment } from 'react-relay/hooks';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     MdLightbulbOutline,
     MdPowerSettingsNew,
@@ -9,6 +9,7 @@ import {
     MdNotifications,
 } from 'react-icons/md';
 
+import { TopBarLogoutMutation } from './__generated__/TopBarLogoutMutation.graphql';
 import styles from './TopBar.module.css';
 import { SettingsContext } from '../../contexts/SettingsContext';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
@@ -22,6 +23,7 @@ type TProps = {
 const TopBar = ({
     disableRedirectOnLogoClick = false,
 }: TProps) => {
+    const navigate = useNavigate();
     const { settings, setSettings } = useContext(SettingsContext);
     const [isMenuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
@@ -50,28 +52,36 @@ const TopBar = ({
         });
     };
 
+    const [logout] = useMutation<TopBarLogoutMutation>(graphql`
+        mutation TopBarLogoutMutation {
+            logout {
+                id
+                username
+                email
+            }
+        }
+    `);
+
     const handleLogout = () => {
-        setSettings({ nickname: null });
+        logout({ variables: {} });
+        setSettings({ userData: null });
         commitLocalUpdate(environment, (store) => {
             (store as RecordSourceSelectorProxy).invalidateStore();
         });
+        navigate('/welcome');
     };
 
     return (
         <div className={styles.root}>
-            {disableRedirectOnLogoClick
-                ? <span className={styles.link}>MaChat</span>
-                : <Link to="/" className={styles.link}>MaChat</Link>
-            }
-            {settings.nickname && (
+            {settings.userData?.username && (
                 <button
                     className={styles.dropDown}
                     onClick={handleDropDownClick}
                     ref={dropDownRef}
                     type="button"
                 >
-                    <div className={styles.avatar}>{settings.nickname[0]}</div>
-                    <span>{settings.nickname}</span>
+                    <div className={styles.avatar}>{settings.userData.username[0]}</div>
+                    <span>{settings.userData.username}</span>
                     <MdArrowDropDown size={30} aria-hidden />
                 </button>
             )

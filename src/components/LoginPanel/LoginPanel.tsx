@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-// import { useContext, useRef } from 'react';
+import { useRef, useContext, useState } from 'react';
 import { graphql, useMutation } from 'react-relay/hooks';
 import { useNavigate } from 'react-router-dom';
 import { LoginPanelMutation } from './__generated__/LoginPanelMutation.graphql';
@@ -7,7 +6,7 @@ import { LoginPanelMutation } from './__generated__/LoginPanelMutation.graphql';
 import styles from './LoginPanel.module.css';
 import TextBox from '../TextBox';
 import Button from '../Button';
-// import { SettingsContext } from '../../contexts/SettingsContext';
+import { SettingsContext } from '../../contexts/SettingsContext';
 
 type TProps = {
     setPanel: (name: 'welcome' | 'login' | 'register') => void;
@@ -15,7 +14,8 @@ type TProps = {
 
 const LoginPanel = ({ setPanel }: TProps) => {
     const navigate = useNavigate();
-    // const { setSettings } = useContext(SettingsContext);
+    const [loginError, setLoginError] = useState<string | null>(null);
+    const { setSettings } = useContext(SettingsContext);
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const [login, isSending] = useMutation<LoginPanelMutation>(graphql`
@@ -25,22 +25,26 @@ const LoginPanel = ({ setPanel }: TProps) => {
         ) {
             login(username: $username, password: $password) {
                 id
+                username
+                email
             }
         }
     `);
 
     const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoginError(null);
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
         if (!username || !password) return;
         login({
             variables: { username, password },
-            // onCompleted: (res) => {
-            //     setSettings(res);
-            // },
+            onError: (error) => setLoginError(error.message),
+            onCompleted: (res) => {
+                setSettings({ userData: res.login });
+                navigate('/app');
+            },
         });
-        navigate('/app');
     };
 
     return (
@@ -74,7 +78,8 @@ const LoginPanel = ({ setPanel }: TProps) => {
                 >Log in
                 </Button>
             </div>
-            {!isSending || <div className={styles.sending}>Sending...</div>}
+            {!isSending || <div className={styles.sending}>Loading...</div>}
+            {!loginError || <div className={styles.sending}>{loginError}</div>}
         </form>
     );
 };
