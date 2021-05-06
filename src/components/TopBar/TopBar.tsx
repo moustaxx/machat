@@ -16,13 +16,7 @@ import useOnClickOutside from '../../hooks/useOnClickOutside';
 import Menu from '../Menu';
 import MenuItem from '../MenuItem';
 
-type TProps = {
-    disableRedirectOnLogoClick?: boolean;
-};
-
-const TopBar = ({
-    disableRedirectOnLogoClick = false,
-}: TProps) => {
+const TopBar = () => {
     const navigate = useNavigate();
     const { settings, setSettings } = useContext(SettingsContext);
     const [isMenuOpen, setMenuOpen] = useState(false);
@@ -73,6 +67,7 @@ const TopBar = ({
 
     return (
         <div className={styles.root}>
+            <Link to="/app" className={styles.link}>MaChat</Link>
             {settings.userData?.username && (
                 <button
                     className={styles.dropDown}
