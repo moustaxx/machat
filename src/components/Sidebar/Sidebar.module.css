@@ -1,0 +1,11 @@
+.root {
+    width: 330px;
+    flex-shrink: 0;
+    background-color: var(--bg-dark);
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.heading {
+    padding: 8px 16px;
+}
