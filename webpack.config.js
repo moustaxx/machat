@@ -2,7 +2,6 @@ const path = require('path');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const RelayCompilerWebpackPlugin = require('relay-compiler-webpack-plugin');
 const RelayCompilerLanguageTypescript = require('relay-compiler-language-typescript').default;
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -108,18 +107,6 @@ const config = {
         }),
         new HtmlWebpackPlugin({
             template: './public/index.html',
-        }),
-        new ForkTsCheckerWebpackPlugin({
-            eslint: {
-                files: './src/**/*.{ts,tsx,js}',
-            },
-            typescript: {
-                mode: 'write-references',
-                diagnosticOptions: {
-                    semantic: true,
-                    syntactic: true,
-                },
-            },
         }),
         !isDev && new CopyWebpackPlugin({
             patterns: [
