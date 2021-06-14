@@ -1,7 +1,7 @@
 import { useFragment, graphql } from 'react-relay/hooks';
 
 import { SidebarConversationList_conversations$key } from './__generated__/SidebarConversationList_conversations.graphql';
-import styles from './SidebarConversationList.module.css';
+// import styles from './SidebarConversationList.module.css';
 import SidebarConversationListItem from '../SidebarConversationListItem';
 
 type TProps = {
@@ -33,7 +33,7 @@ const SidebarConversationList = ({ me }: TProps) => {
         me,
     );
     return (
-        <div className={styles.root}>
+        <div>
             {conversations.edges?.map((conv) => (
                 <SidebarConversationListItem
                     key={conv!.node.id}
