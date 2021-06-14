@@ -1,3 +1,4 @@
+const { DefinePlugin } = require('webpack');
 const path = require('path');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const RelayCompilerWebpackPlugin = require('relay-compiler-webpack-plugin');
@@ -107,6 +108,9 @@ const config = {
         }),
         new HtmlWebpackPlugin({
             template: './public/index.html',
+        }),
+        new DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         }),
         !isDev && new CopyWebpackPlugin({
             patterns: [
