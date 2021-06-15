@@ -1,0 +1,404 @@
+"""Exposes a URL that specifies the behaviour of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behaviour of this scalar."""
+  url: String!
+) on SCALAR
+
+input BoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+type ConversationConnection {
+  """A list of edges."""
+  edges: [ConversationEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Identifies the total count of items in the connection."""
+  totalCount: Float!
+}
+
+type ConversationEdge {
+  """The item at the end of the edge."""
+  node: ConversationType!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+input ConversationListRelationFilter {
+  every: ConversationWhereInput
+  some: ConversationWhereInput
+  none: ConversationWhereInput
+}
+
+input ConversationRelationFilter {
+  is: ConversationWhereInput
+  isNot: ConversationWhereInput
+}
+
+type ConversationType implements Node {
+  """The global ID of the object."""
+  id: ID!
+  createdAt: DateTime!
+  name: String!
+  participants(first: Int, after: String, last: Int, before: String): PersonConnection!
+  messages(first: Int, after: String, last: Int, before: String): MessageConnection!
+  lastRead(where: LastReadWhereInput, orderBy: [LastReadOrderByInput!], cursor: LastReadWhereUniqueInput, take: Int, skip: Int, distinct: [LastReadScalarFieldEnum!]): [LastReadType!]!
+}
+
+input ConversationWhereInput {
+  AND: [ConversationWhereInput!]
+  OR: [ConversationWhereInput!]
+  NOT: [ConversationWhereInput!]
+  createdAt: DateTimeFilter
+  id: IntFilter
+  name: StringFilter
+  messages: MessageListRelationFilter
+  lastRead: LastReadListRelationFilter
+  participants: PersonListRelationFilter
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input DateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input LastReadListRelationFilter {
+  every: LastReadWhereInput
+  some: LastReadWhereInput
+  none: LastReadWhereInput
+}
+
+input LastReadOrderByInput {
+  lastRead: SortOrder
+  personID: SortOrder
+  conversationID: SortOrder
+}
+
+input LastReadPersonIDConversationIDCompoundUniqueInput {
+  personID: Int!
+  conversationID: Int!
+}
+
+enum LastReadScalarFieldEnum {
+  lastRead
+  personID
+  conversationID
+}
+
+type LastReadType {
+  lastRead: DateTime!
+  personID: Int!
+  conversationID: Int!
+  person: PersonType!
+  conversation: ConversationType!
+}
+
+input LastReadWhereInput {
+  AND: [LastReadWhereInput!]
+  OR: [LastReadWhereInput!]
+  NOT: [LastReadWhereInput!]
+  lastRead: DateTimeFilter
+  personID: IntFilter
+  conversationID: IntFilter
+  person: PersonRelationFilter
+  conversation: ConversationRelationFilter
+}
+
+input LastReadWhereUniqueInput {
+  personID_conversationID: LastReadPersonIDConversationIDCompoundUniqueInput
+}
+
+type MessageConnection {
+  """A list of edges."""
+  edges: [MessageEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Identifies the total count of items in the connection."""
+  totalCount: Float!
+}
+
+type MessageEdge {
+  """The item at the end of the edge."""
+  node: MessageType!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+input MessageListRelationFilter {
+  every: MessageWhereInput
+  some: MessageWhereInput
+  none: MessageWhereInput
+}
+
+input MessageOrderByInput {
+  content: SortOrder
+  authorID: SortOrder
+  conversationID: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+}
+
+enum MessageScalarFieldEnum {
+  content
+  authorID
+  conversationID
+  createdAt
+  id
+}
+
+type MessageType implements Node {
+  """The global ID of the object."""
+  id: ID!
+  content: String!
+  authorID: Int!
+  conversationID: Int!
+  createdAt: DateTime!
+  author: PersonType!
+  conversation: ConversationType!
+}
+
+input MessageWhereInput {
+  AND: [MessageWhereInput!]
+  OR: [MessageWhereInput!]
+  NOT: [MessageWhereInput!]
+  content: StringFilter
+  authorID: IntFilter
+  conversationID: IntFilter
+  createdAt: DateTimeFilter
+  id: IntFilter
+  author: PersonRelationFilter
+  conversation: ConversationRelationFilter
+}
+
+input MessageWhereUniqueInput {
+  id: Int
+}
+
+type Mutation {
+  createMessage(content: String!, conversationId: Int!): MessageType!
+  login(username: String!, password: String!): PersonType!
+  logout: PersonType!
+  register(email: String!, username: String!, password: String!): PersonType!
+  markConvAsRead(conversationId: Int!): LastReadType!
+  addPersonToConversation(conversationId: Int!, personId: Int!): ConversationType!
+  createConversation(name: String!, participantIDs: [Int!]!): ConversationType!
+  removePersonFromConversation(conversationId: Int!, personId: Int!): ConversationType!
+}
+
+input NestedBoolFilter {
+  equals: Boolean
+  not: NestedBoolFilter
+}
+
+input NestedDateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeFilter
+}
+
+input NestedDateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: NestedDateTimeNullableFilter
+}
+
+input NestedIntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: NestedIntFilter
+}
+
+input NestedStringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringFilter
+}
+
+"""An object with a global ID."""
+interface Node {
+  """The global ID of the object."""
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type PersonConnection {
+  """A list of edges."""
+  edges: [PersonEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Identifies the total count of items in the connection."""
+  totalCount: Float!
+}
+
+type PersonEdge {
+  """The item at the end of the edge."""
+  node: PersonType!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+input PersonListRelationFilter {
+  every: PersonWhereInput
+  some: PersonWhereInput
+  none: PersonWhereInput
+}
+
+input PersonRelationFilter {
+  is: PersonWhereInput
+  isNot: PersonWhereInput
+}
+
+type PersonType implements Node {
+  """The global ID of the object."""
+  id: ID!
+  isActive: Boolean!
+  createdAt: DateTime!
+  email: String!
+  isAdmin: Boolean!
+  lastSeen: DateTime
+  username: String!
+  messages(where: MessageWhereInput, orderBy: [MessageOrderByInput!], cursor: MessageWhereUniqueInput, take: Int, skip: Int, distinct: [MessageScalarFieldEnum!]): [MessageType!]!
+  conversations(first: Int, after: String, last: Int, before: String): ConversationConnection!
+}
+
+input PersonWhereInput {
+  AND: [PersonWhereInput!]
+  OR: [PersonWhereInput!]
+  NOT: [PersonWhereInput!]
+  createdAt: DateTimeFilter
+  email: StringFilter
+  id: IntFilter
+  isAdmin: BoolFilter
+  lastSeen: DateTimeNullableFilter
+  username: StringFilter
+  hash: StringFilter
+  messages: MessageListRelationFilter
+  lastRead: LastReadListRelationFilter
+  conversations: ConversationListRelationFilter
+}
+
+input PersonWhereUniqueInput {
+  email: String
+  id: Int
+  username: String
+}
+
+type Query {
+  """Fetches an object given its global ID."""
+  node(
+    """The global ID of the object."""
+    id: ID!
+  ): Node
+
+  """Fetches objects given their global IDs."""
+  nodes(
+    """The global IDs of the objects."""
+    ids: [ID!]!
+  ): [Node]!
+  me: PersonType!
+  person(where: PersonWhereUniqueInput!): PersonType!
+  conversation(whereId: Int!): ConversationType!
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringFilter
+}
+
+type Subscription {
+  newMessages(conversationId: Int!): MessageType!
+  personActiveStatus(userId: Int!): Boolean!
+}
+

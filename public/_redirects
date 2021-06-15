@@ -1,5 +1,6 @@
 /                    /index.html             200!
 /welcome             /index.html             200!
 /app                 /index.html             200!
+/conversation/*      /index.html             200!
 /404                 /index.html             404!
 /*                   /404                    301

@@ -1,0 +1,27 @@
+.root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.heading {
+    margin-top: 1em;
+    font-size: 2.4rem;
+    text-align: center;
+    text-shadow: 1px 1px 4px #0000009e;
+}
+
+.btnWrapper {
+    display: flex;
+    margin: 4px 0;
+}
+
+.btn {
+    margin: 4px;
+}
+
+.sending {
+    margin-top: 8px;
+}

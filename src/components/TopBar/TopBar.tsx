@@ -1,6 +1,7 @@
-import React, { useContext, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { useApolloClient } from '@apollo/client';
+import { useContext, useState, useRef } from 'react';
+import { commitLocalUpdate, graphql, RecordSourceSelectorProxy } from 'relay-runtime';
+import { useMutation, useRelayEnvironment } from 'react-relay/hooks';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     MdLightbulbOutline,
     MdPowerSettingsNew,
@@ -8,24 +9,20 @@ import {
     MdNotifications,
 } from 'react-icons/md';
 
+import { TopBarLogoutMutation } from './__generated__/TopBarLogoutMutation.graphql';
 import styles from './TopBar.module.css';
 import { SettingsContext } from '../../contexts/SettingsContext';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 import Menu from '../Menu';
 import MenuItem from '../MenuItem';
 
-type TProps = {
-    disableRedirectOnLogoClick?: boolean;
-};
-
-const TopBar = ({
-    disableRedirectOnLogoClick = false,
-}: TProps) => {
+const TopBar = () => {
+    const navigate = useNavigate();
     const { settings, setSettings } = useContext(SettingsContext);
     const [isMenuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
     const dropDownRef = useRef<HTMLButtonElement | null>(null);
-    const client = useApolloClient();
+    const environment = useRelayEnvironment();
 
     useOnClickOutside(menuRef, (event) => {
         const path = event.composedPath();
@@ -49,26 +46,37 @@ const TopBar = ({
         });
     };
 
+    const [logout] = useMutation<TopBarLogoutMutation>(graphql`
+        mutation TopBarLogoutMutation {
+            logout {
+                id
+                username
+                email
+            }
+        }
+    `);
+
     const handleLogout = () => {
-        setSettings({ nickname: null });
-        client.clearStore();
+        logout({ variables: {} });
+        setSettings({ userData: null });
+        commitLocalUpdate(environment, (store) => {
+            (store as RecordSourceSelectorProxy).invalidateStore();
+        });
+        navigate('/welcome');
     };
 
     return (
         <div className={styles.root}>
-            {disableRedirectOnLogoClick
-                ? <span className={styles.link}>MaChat</span>
-                : <Link to="/" className={styles.link}>MaChat</Link>
-            }
-            {settings.nickname && (
+            <Link to="/app" className={styles.link}>MaChat</Link>
+            {settings.userData?.username && (
                 <button
                     className={styles.dropDown}
                     onClick={handleDropDownClick}
                     ref={dropDownRef}
                     type="button"
                 >
-                    <div className={styles.avatar}>{settings.nickname[0]}</div>
-                    <span>{settings.nickname}</span>
+                    <div className={styles.avatar}>{settings.userData.username[0]}</div>
+                    <span>{settings.userData.username}</span>
                     <MdArrowDropDown size={30} aria-hidden />
                 </button>
             )

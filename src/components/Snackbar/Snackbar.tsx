@@ -1,11 +1,9 @@
-import React from 'react';
-
 import styles from './Snackbar.module.css';
 
 type TProps = {
     message: string;
-    buttonText?: string;
-    buttonOnClick?: () => void;
+    buttonText?: string | null;
+    buttonOnClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void | null;
 };
 
 const Snackbar = ({ message, buttonText, buttonOnClick }: TProps) => {

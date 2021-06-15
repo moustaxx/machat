@@ -1,0 +1,28 @@
+.root {
+    height: 40px;
+    display: flex;
+    padding: 12px 16px;
+    color: inherit;
+    cursor: pointer;
+    text-decoration: inherit;
+    display: flex;
+    align-items: center;
+    transition: background-color .2s;
+}
+
+.root:hover {
+    background-color: var(--bg-main);
+}
+
+.picture {
+    width: 40px;
+    height: 40px;
+    background-color: var(--bg-light);
+    margin-right: 16px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}

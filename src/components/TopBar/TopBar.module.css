@@ -5,6 +5,7 @@
     z-index: 2;
     box-sizing: border-box;
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: space-between;
     background-color: var(--bg-dark);
@@ -37,7 +38,7 @@
     border-color: var(--border-color);
 }
 .dropDown:active {
-    border-color: var(--primary-button-active);
+    border-color: var(--colorized-button-active);
 }
 
 .avatar {

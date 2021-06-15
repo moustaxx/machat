@@ -1,47 +1,21 @@
-import React, { useRef, useContext } from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { useContext, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import { useMutation, graphql } from 'react-relay/hooks';
 import { BaseEmoji } from 'emoji-mart';
 import TextareaAutosize from 'react-textarea-autosize';
 import { MdSend } from 'react-icons/md';
 import clsx from 'clsx';
+import { ConnectionHandler, SelectorStoreUpdater } from 'relay-runtime';
 
 import styles from './MessageInput.module.css';
 import { SettingsContext } from '../../contexts/SettingsContext';
+import { toGlobalId } from '../../utils/globalId';
 import EmojiPicker from '../EmojiPicker';
-import { getMessages, TGetMessages } from '../MessageBox/MessageBox.graphql';
+import {
+    MessageInputMutation,
+    MessageInputMutationResponse,
+} from './__generated__/MessageInputMutation.graphql';
 
-const sendMessageMutation = gql`
-    mutation MessageInput_newMessage($content: String! $nickname: String!) {
-        response: insert_messages_one(
-            object: {
-                conversation_id: "b6a9e90f-a668-463c-ae48-32221002116c"
-                nickname: $nickname
-                content: $content
-            }
-        ) {
-            id
-            created_at
-            nickname
-            conversation_id
-            content
-        }
-    }
-`;
-
-type TSendMutation = {
-    response: {
-        id: string;
-        created_at: string;
-        nickname: string;
-        conversation_id: string;
-        content: string;
-    };
-};
-
-type TSendMutationVariables = {
-    content: string;
-    nickname: string;
-};
 
 type TProps = {
     onFocus?: () => void;
@@ -49,53 +23,64 @@ type TProps = {
 };
 
 const MessageInput = ({ onFocus, onBlur }: TProps) => {
+    const { settings } = useContext(SettingsContext);
     const textboxRef = useRef<HTMLTextAreaElement>(null);
-    const [sendMessage, {
-        loading: isSending,
-    }] = useMutation<TSendMutation, TSendMutationVariables>(sendMessageMutation);
-    const { nickname } = useContext(SettingsContext).settings;
+    const conversationID = Number(useParams().conversationID) || null;
+
+    const [sendMessage, isSending] = useMutation<MessageInputMutation>(graphql`
+        mutation MessageInputMutation(
+            $conversationID: Int!
+            $content: String!
+        ) @raw_response_type { # use raw type to generate ts types
+            createMessage(
+                conversationId: $conversationID
+                    content: $content
+            ) {
+                ...Message_data
+            }
+        }
+    `);
 
     const handleSubmit = (event?: React.FormEvent<HTMLFormElement>) => {
         if (event) event.preventDefault();
-        if (!textboxRef.current || isSending || !nickname) return;
+        if (!textboxRef.current || isSending || !conversationID || !settings.userData) return;
         const content = textboxRef.current.value;
-        const createdAt = new Date().toISOString();
+
+        const updater: SelectorStoreUpdater<MessageInputMutationResponse> = (store) => {
+            const conversation = store.get(toGlobalId('ConversationType', conversationID));
+            if (!conversation) return;
+
+            const connectionRecord = ConnectionHandler.getConnection(
+                conversation,
+                'MessagesFragment__messages',
+            );
+            if (!connectionRecord) return;
+
+            const payload = store.getRootField('createMessage');
+            const newEdge = ConnectionHandler.createEdge(
+                store,
+                connectionRecord,
+                payload,
+                'messagesEdge',
+            );
+            ConnectionHandler.insertEdgeAfter(connectionRecord, newEdge);
+        };
 
         sendMessage({
-            variables: {
-                content,
-                nickname,
-            },
+            variables: { content, conversationID },
             optimisticResponse: {
-                response: {
-                    id: `OPTIMISTIC_${createdAt}`,
-                    created_at: createdAt,
-                    nickname,
-                    conversation_id: 'b6a9e90f-a668-463c-ae48-32221002116c',
+                createMessage: {
+                    id: new Date().toISOString(),
+                    createdAt: 'OPTIMISTIC',
                     content,
+                    author: {
+                        id: settings.userData.id,
+                        username: settings.userData.username,
+                    },
                 },
             },
-            update: (proxy, { data: newData }) => {
-                const msg = newData?.response;
-                if (!msg?.id.includes('OPTIMISTIC_')) return;
-
-                const prevData = proxy.readQuery<TGetMessages>({ query: getMessages });
-                if (!prevData) return;
-
-                const prevDataMsgCount = prevData.messages_aggregate.aggregate.count;
-
-                proxy.writeQuery({
-                    query: getMessages,
-                    data: {
-                        messages_aggregate: {
-                            aggregate: {
-                                count: prevDataMsgCount + 1,
-                            },
-                        },
-                        messages: [msg, ...prevData.messages],
-                    },
-                });
-            },
+            optimisticUpdater: updater,
+            updater,
         });
         textboxRef.current.form?.reset();
     };

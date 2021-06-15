@@ -1,14 +1,18 @@
-@import-normalize;
+@import '~@csstools/normalize.css';
+
+html {
+    width: 100%;
+    height: 100%;
+}
 
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     background: var(--bg-main);
     color: var(--text-primary);
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    scrollbar-color: var(--border-color) var(--bg-main);
+    width: 100%;
+    height: 100%;
+    scrollbar-color: var(--scrollbar-thumb) var(--bg-main);
 }
 
 #root {
@@ -26,6 +30,8 @@ body {
 }
 
 :root {
+    color-scheme: dark;
+
     --bg-main: hsl(223, 8%, 23%);
     --bg-dark: hsl(223, 8%, 16%);
     --bg-light: hsl(223, 8%, 28%);
@@ -41,20 +47,28 @@ body {
 
     --border-color: hsl(30, 1%, 33%);
     --welcome-screen-bg: hsl(246, 32%, 35%);
-    
-    --primary-button: hsl(227, 58%, 65%);
-    --primary-button-hover: hsl(227, 58%, 60%);
-    --primary-button-active: hsl(227, 58%, 55%);
-    
-    --secondary-button: hsl(0, 0%, 100%);
-    --secondary-button-hover: hsl(0, 0%, 93%);
-    --secondary-button-active: hsl(0, 0%, 85%);
-    
+
+    --colorized-button: hsl(210deg 79% 41%);
+    --colorized-button-hover: hsl(210deg 79% 36%);
+    --colorized-button-active: hsl(210deg 79% 32%);
+
+    --light-button: hsl(0deg 0% 88%);
+    --light-button-hover: hsl(0deg 0% 75%);
+    --light-button-active: hsl(0deg 0% 65%);
+
+    --dark-button: hsl(0deg 0% 0% / 50%);
+    --dark-button-hover: hsl(0deg 0% 0% / 55%);
+    --dark-button-active: hsl(0deg 0% 0% / 65%);
+
+    --scrollbar-thumb: hsl(223deg 8% 30%);
+
     --shadow-1: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
     --shadow-2: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
 }
 
 .lightMode:root {
+    color-scheme: light;
+
     --bg-main: hsl(216, 20%, 95%);
     --bg-dark: hsl(0, 0%, 90%);
     --bg-light: hsl(0, 0%, 100%);
@@ -71,35 +85,11 @@ body {
     --border-color: hsla(0, 14%, 7%, 0.12);
     --welcome-screen-bg: hsl(246, 32%, 35%);
 
-    --primary-button: hsl(227, 58%, 65%);
-    --primary-button-hover: hsl(227, 58%, 60%);
-    --primary-button-active: hsl(227, 58%, 55%);
+    --colorized-button: hsl(210deg 79% 41%);
+    --colorized-button-hover: hsl(210deg 79% 36%);
+    --colorized-button-active: hsl(210deg 79% 32%);
 
-    --secondary-button: hsl(0, 0%, 100%);
-    --secondary-button-hover: hsl(0, 0%, 93%);
-    --secondary-button-active: hsl(0, 0%, 85%);
-}
-
-::-webkit-scrollbar {
-    height: 12px;
-    width: 12px;
-}
-
-::-webkit-scrollbar-track {
-    border-left: 1px solid hsl(0, 0%, 100%, 0.05);
-}
-:root.lightMode ::-webkit-scrollbar-track {
-    border-left: 1px solid hsl(0, 0%, 0%, 0.05);
-
-}
-
-::-webkit-scrollbar-thumb {
-    background-clip: padding-box;
-    background-color: var(--border-color);
-    border: 1px solid transparent;
-    border-left-width: 2px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: var(--text-disabled);
+    --light-button: hsl(0deg 0% 88%);
+    --light-button-hover: hsl(0deg 0% 75%);
+    --light-button-active: hsl(0deg 0% 65%);
 }

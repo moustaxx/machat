@@ -1,7 +1,9 @@
-import React, { createContext, useMemo, useCallback, useState, useLayoutEffect } from 'react';
+import { createContext, useMemo, useCallback, useState, useLayoutEffect } from 'react';
+import { LoginPanelMutationResponse } from '../components/LoginPanel/__generated__/LoginPanelMutation.graphql';
 
 type TSettings = {
-    nickname: string | null;
+    userData?: LoginPanelMutationResponse['login'] | null;
+    isLoggedIn: boolean;
     isLightTheme: boolean;
     showDesktopNotifications: boolean;
 };
@@ -13,7 +15,8 @@ type TSettingsContext = {
 
 const defaultState: TSettingsContext = {
     settings: {
-        nickname: null,
+        userData: null,
+        isLoggedIn: false,
         isLightTheme: false,
         showDesktopNotifications: true,
     },
@@ -27,18 +30,21 @@ const saveSettings = (settings: TSettings) => localStorage.setItem(
     JSON.stringify(settings),
 );
 
-const getSettings = (): TSettings => {
+const getSettings = () => {
     const data = localStorage.getItem('settings');
     if (!data) return defaultState.settings;
 
-    return JSON.parse(data);
+    return JSON.parse(data) as TSettings;
 };
 
 const SettingsProvider: React.FC = ({ children }) => {
     const [settings, setSettingsState] = useState(getSettings);
 
     const setSettings: TSettingsContext['setSettings'] = useCallback((newValue) => {
-        const newSettings = { ...settings, ...newValue };
+        const newUserData = newValue.userData;
+        const oldUserData = settings.userData;
+        const isLoggedIn = !!newUserData || (newUserData !== null && oldUserData !== null);
+        const newSettings = { ...settings, ...newValue, isLoggedIn };
 
         saveSettings(newSettings);
         setSettingsState(newSettings);

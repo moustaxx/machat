@@ -1,4 +1,4 @@
-import React, { lazy, useState, Suspense, useRef } from 'react';
+import { lazy, useState, Suspense, useRef } from 'react';
 import { BaseEmoji } from 'emoji-mart';
 
 import './emoji-mart.css';

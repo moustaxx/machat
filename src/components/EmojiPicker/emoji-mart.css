@@ -68,7 +68,7 @@
 }
 .emoji-mart-anchor-selected,
 .emoji-mart-anchor-selected:hover {
-    color: var(--primary-button-active);
+    color: var(--colorized-button-active);
 }
 
 .emoji-mart-anchor-selected .emoji-mart-anchor-bar {
@@ -79,7 +79,7 @@
     position: absolute;
     bottom: -3px; left: 0;
     width: 100%; height: 3px;
-    background-color: var(--primary-button-active);
+    background-color: var(--colorized-button-active);
 }
 
 .emoji-mart-anchors i {

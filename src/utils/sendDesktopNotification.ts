@@ -5,11 +5,16 @@ type TDesktopNotification = {
     options?: NotificationOptions;
 };
 
-const sendDesktopNotification = ({ title, body, timestamp, options }: TDesktopNotification) => {
+const sendDesktopNotification = async ({
+    title,
+    body,
+    timestamp,
+    options,
+}: TDesktopNotification) => {
     if (!('Notification' in window)) {
         return console.log('This browser does not support desktop notification');
     }
-    Notification.requestPermission();
+    await Notification.requestPermission();
     return new Notification(title, { body, timestamp, ...options });
 };
 

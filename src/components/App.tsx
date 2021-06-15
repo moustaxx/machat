@@ -1,25 +1,26 @@
-import React, { useContext, lazy, Suspense, useState } from 'react';
+import { useContext, lazy, Suspense, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import clsx from 'clsx';
 
 import styles from './App.module.css';
 import { SettingsContext } from '../contexts/SettingsContext';
 import Loading from './Loading';
+import ErrorBoundary from './ErrorBoundary';
 
-const MessageBox = lazy(() => import('./MessageBox'));
-const IndexScreen = lazy(() => import('./IndexScreen'));
-const PageNotFound = lazy(() => import('./PageNotFound'));
+const MainScreen = lazy(async () => import('./MainScreen'));
+const IndexScreen = lazy(async () => import('./IndexScreen'));
+const PageNotFound = lazy(async () => import('./PageNotFound'));
 
 const protectedRoute = (
     component: JSX.Element,
-    condition: string | boolean | null,
+    condition: boolean | null,
     fallback = '/',
 ) => {
     return condition ? component : <Navigate to={fallback} replace />;
 };
 
 const App = () => {
-    const { nickname } = useContext(SettingsContext).settings;
+    const { isLoggedIn } = useContext(SettingsContext).settings;
     const [isOutlineOn, setOutlineStatus] = useState(false);
 
     const addOutlineOnTab = (event: React.KeyboardEvent) => {
@@ -30,17 +31,21 @@ const App = () => {
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div
             className={clsx(styles.root, !isOutlineOn && styles.noOutline)}
-            onKeyDown={(addOutlineOnTab)}
+            onKeyDown={addOutlineOnTab}
             onClick={() => setOutlineStatus(false)}
         >
             <Suspense fallback={<Loading />}>
                 <Routes>
                     <Route
                         path="/"
-                        element={nickname
+                        element={isLoggedIn
                             ? <Navigate to="/app" replace />
                             : <Navigate to="/welcome" replace />
                         }
+                    />
+                    <Route
+                        path="conversation/:conversationID"
+                        element={<MainScreen />}
                     />
                     <Route
                         path="welcome"
@@ -48,7 +53,25 @@ const App = () => {
                     />
                     <Route
                         path="app"
-                        element={protectedRoute(<MessageBox />, nickname)}
+                        element={protectedRoute(
+                            (
+                                <ErrorBoundary fallback={(error) => {
+                                    if (error.name === 'FORBIDDEN') {
+                                        return <Navigate to="/404" replace />;
+                                    }
+                                    return (
+                                        <div>
+                                            <h1>Error</h1>
+                                            <p>{error.message}</p>
+                                        </div>
+                                    );
+                                }}
+                                >
+                                    <MainScreen />
+                                </ErrorBoundary>
+                            ),
+                            isLoggedIn,
+                        )}
                     />
                     <Route
                         path="404"
