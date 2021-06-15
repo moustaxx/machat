@@ -7,9 +7,15 @@ import { SnackbarContext } from '../../contexts/SnackbarContext';
 type TProps = {
     firstItemID: string;
     lastItemID: string;
+    messageBoxRef: React.MutableRefObject<HTMLDivElement | null>;
 };
 
-const MessagesInboxScrollHelper: React.FC<TProps> = ({ children, firstItemID, lastItemID }) => {
+const MessagesInboxScrollHelper: React.FC<TProps> = ({
+    children,
+    firstItemID,
+    lastItemID,
+    messageBoxRef,
+}) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const bottomHelperRef = useRef<HTMLDivElement | null>(null);
     const lastDistanceFromBottom = useRef<{ topEdge: number; bottomEdge: number } | null>(null);
@@ -76,7 +82,7 @@ const MessagesInboxScrollHelper: React.FC<TProps> = ({ children, firstItemID, la
                     buttonText={snackbarData.buttonText}
                 />
             ) : null}
-            <div className={styles.messagesWrapper}>
+            <div className={styles.messagesWrapper} ref={messageBoxRef}>
                 {children}
                 <div ref={bottomHelperRef} />
             </div>

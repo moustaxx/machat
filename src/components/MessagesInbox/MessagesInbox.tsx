@@ -1,10 +1,13 @@
+import { useRef } from 'react';
 import { graphql, usePaginationFragment } from 'react-relay/hooks';
+import InView from 'react-intersection-observer';
 
 import Message from '../Message';
 
 import { MessagesInbox_messages$key } from './__generated__/MessagesInbox_messages.graphql';
 import styles from './MessagesInbox.module.css';
 import MessagesInboxScrollHelper from './MessagesInboxScrollHelper';
+import MessageSkeleton from '../Message/MessageSkeleton';
 // import useMessagesInboxNewMsgSubscription from './useMessagesInboxNewMsgSubscription';
 // import useNewMessageNotification from './useNewMessageNotification';
 
@@ -13,9 +16,9 @@ type TProps = {
 };
 
 const MessagesInbox = ({ messagesInbox }: TProps) => {
+    const messageBoxRef = useRef<HTMLDivElement | null>(null);
     const {
         loadPrevious,
-        isLoadingPrevious,
         data,
     } = usePaginationFragment(
         graphql`
@@ -38,6 +41,7 @@ const MessagesInbox = ({ messagesInbox }: TProps) => {
                            ...Message_data
                         }
                     }
+                    totalCount
                 }
             }
         `,
@@ -66,9 +70,20 @@ const MessagesInbox = ({ messagesInbox }: TProps) => {
             <MessagesInboxScrollHelper
                 firstItemID={messages[0]!.node.id}
                 lastItemID={lastMessage.node.id}
+                messageBoxRef={messageBoxRef}
             >
-                <button onClick={handleLoadMoreMsgs} type="button">Load more</button>
-                {isLoadingPrevious && <span>isLoadingNext</span>}
+                {!(messages.length >= data.messages.totalCount) && (
+                    <InView
+                        as="div"
+                        root={messageBoxRef.current}
+                        rootMargin="400px"
+                        onChange={(inView) => inView && handleLoadMoreMsgs()}
+                    >
+                        <MessageSkeleton />
+                        <MessageSkeleton />
+                        <MessageSkeleton />
+                    </InView>
+                )}
                 {messages.map((msg) => (
                     <Message
                         key={msg!.node.id}
