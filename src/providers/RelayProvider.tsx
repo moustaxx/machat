@@ -26,7 +26,7 @@ class NamedError extends Error {
 
 const fetchFunction: FetchFunction = async (operation, variables) => {
     const response = await fetch(isProduction
-        ? 'https://machat-prisma.herokuapp.com/graphql'
+        ? 'https://machat-server.onrender.com/graphql'
         : 'http://localhost:4000/graphql', {
         method: 'POST',
         credentials: 'include',
