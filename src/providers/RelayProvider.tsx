@@ -13,6 +13,7 @@ import { RelayEnvironmentProvider } from 'react-relay/hooks';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 
 const isProduction = process.env.NODE_ENV === 'production';
+const gqlEndpointUrl = 'machat-server.onrender.com/graphql';
 
 class NamedError extends Error {
     code!: string;
@@ -26,7 +27,7 @@ class NamedError extends Error {
 
 const fetchFunction: FetchFunction = async (operation, variables) => {
     const response = await fetch(isProduction
-        ? 'https://machat-server.onrender.com/graphql'
+        ? `https://${gqlEndpointUrl}`
         : 'http://localhost:4000/graphql', {
         method: 'POST',
         credentials: 'include',
@@ -60,7 +61,7 @@ const fetchFunction: FetchFunction = async (operation, variables) => {
 };
 
 const subscriptionClient = new SubscriptionClient(
-    isProduction ? 'wss://machat-prisma.herokuapp.com/graphql' : 'ws://localhost:4000/graphql',
+    isProduction ? `wss://${gqlEndpointUrl}` : 'ws://localhost:4000/graphql',
     {
         // lazy: true, // set to true when not logged in
         reconnect: true,
